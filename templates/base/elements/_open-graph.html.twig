@@ -14,9 +14,9 @@
 
     {% if website is defined and website is not null %}
         {% if page.ImageThumbnail %}
-            <meta property="og:image" content="{{ website.protocol ~ website.domain ~ '/assets/images/medias/' ~ page.ImageThumbnail.directory }}"/>
+            <meta property="og:image" content="{{ website.protocol ~ website.domain ~ '/assets/images/medias/' ~ page.ImageThumbnail.name }}"/>
         {% elseif page.banner %}
-            <meta property="og:image" content="{{ website.protocol ~ website.domain ~ '/assets/images/medias/' ~ page.banner.directory }}"/>
+            <meta property="og:image" content="{{ website.protocol ~ website.domain ~ '/assets/images/medias/' ~ page.banner.name }}"/>
         {% else %}
             <meta property="og:image" content="{{ asset('assets/images/elements/brand.png') }}"/>
         {% endif %}

@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class PageService
 {
+    const PAGE_DEFAULT_TEMPLATE = 'page/page-default.html.twig';
+
     private ?\Symfony\Component\HttpFoundation\Request $request;
 
     public function __construct(
@@ -43,13 +45,10 @@ class PageService
 
     public function getPageElements(Page $page): array
     {
-        $template = $page->getTemplate();
-
-        if (null === $template) {
-            $template = 'page/page-default.html.twig';
-        }
+        $template = $page->getTemplate() ?: self::PAGE_DEFAULT_TEMPLATE;
 
         $pageElements = [];
+        $pageElementsFormatted = [];
 
         $pageElements['bannerTitle'] = $page->getBannerTitle();
         if (null !== $page->getBanner()) {
@@ -68,7 +67,6 @@ class PageService
         $pageElements['contentTertiary'] = $page->getContentTertiary();
         $pageElements['contentQuaternary'] = $page->getContentQuaternary();
 
-        $pageElementsFormatted = [];
         foreach ($pageElements as $key => $element) {
             if (null !== $element && '' !== $element && !is_numeric($element)) {
                 $pageElementsFormatted[$key] = $this->parseRelativeUrlWithLocale($element);
@@ -86,8 +84,6 @@ class PageService
 
     private function parseRelativeUrlWithLocale(string $content): string
     {
-        $locale = $this->request->getLocale();
-
         $crawler = new Crawler($content);
 
         $relativeLinks = $crawler->filterXPath('//a[starts-with(@href, "/")]')->each(function (Crawler $node) {
@@ -109,9 +105,9 @@ class PageService
 
                 if (empty($matches)) {
                     if ('' !== $classes) {
-                        $newElement = '<a href="/'.$locale.$relativeUrl.'" class="'.$classes.'">'.$urlParts['_text'].'</a>';
+                        $newElement = '<a href="/'.$relativeUrl.'" class="'.$classes.'">'.$urlParts['_text'].'</a>';
                     } else {
-                        $newElement = '<a href="/'.$locale.$relativeUrl.'">'.$urlParts['_text'].'</a>';
+                        $newElement = '<a href="/'.$relativeUrl.'">'.$urlParts['_text'].'</a>';
                     }
 
                     $content = str_replace($oldElement, $newElement, $content);
