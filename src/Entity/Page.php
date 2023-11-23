@@ -62,7 +62,7 @@ class Page
     private ?string $bannerTitle = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $slug = null;
+    private string $slug;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;

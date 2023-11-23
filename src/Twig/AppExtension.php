@@ -182,10 +182,14 @@ class AppExtension extends AbstractExtension
         return $url;
     }
 
+    /**
+     * @throws \Exception
+     */
     public function getCanonicalUrlWithLinkFunction(Page $page): object
     {
         // Get the hostname
         $hostname = $this->request->getHost();
+
         // Get the current website
         $website = $this->websiteService->getCurrentWebsite($hostname);
 
