@@ -61,7 +61,7 @@ class Page
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $bannerTitle = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
     #[ORM\Column]
@@ -311,12 +311,12 @@ class Page
         return $this;
     }
 
-    public function getSlug(): ?string
+    public function getSlug(): string
     {
         return $this->slug;
     }
 
-    public function setSlug(?string $slug): static
+    public function setSlug(string $slug): static
     {
         $this->slug = $slug;
 

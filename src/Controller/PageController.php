@@ -37,12 +37,15 @@ class PageController extends AbstractController
     {
         $page = $this->pageRepository->getPageBySlug($uri);
         $routes = $this->routeService->getRoutes();
-        $route = $this->redirectOnRoute($request, $routes);
 
         if (null !== $page) {
             if ($page->getDevCodeRouteName()) {
-                $route = $route[$page->getDevCodeRouteName()];
+                $route = $routes[$page->getDevCodeRouteName()];
 
+                // Check if the route's path does not contain '{uri}' or '{id}' placeholders.
+                // If true, it means the route does not require these dynamic parameters,
+                // and we can directly forward the request to the specified controller
+                // with the page details.
                 if (!mb_strstr($route->getPath(), '{uri}') && !mb_strstr($route->getPath(), '{id}')) {
                     return $this->forward($route->getDefaults()['_controller'], ['page' => $page]);
                 }
@@ -54,17 +57,18 @@ class PageController extends AbstractController
             }
 
             $elements = $this->pageService->getPageElements($page);
-
             $elements['children'] = $this->pageService->getChildrenFromPage($page);
             $elements['gallery'] = $this->pageGalleryService->getPageGalleryElements($page);
 
             return $this->render($elements['template'], $elements);
         }
 
-        if (null !== $route) {
+        // If the page is not found, we check if the request is a redirection to a specific route.
+        if ($route = $this->redirectOnRoute($request, $routes)) {
             return $this->forward($route->getDefaults()['_controller']);
         }
 
+        // If the page is not found, we display the 404 page.
         $page = $this->pageService->page404NotFound();
         $elements = $this->pageService->getPageElements($page);
         $response = $this->render($elements['template'], $elements);
