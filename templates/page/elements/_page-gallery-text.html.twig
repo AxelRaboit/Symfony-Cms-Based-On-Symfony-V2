@@ -1,0 +1,12 @@
+<div class="container gallery">
+    {% for item in gallery %}
+        <a class="gallery-link-item" href="/assets/images/medias/{{ item.elements.gallery.image.directory }}" data-lightbox="gallery">
+            {% if item.elements.imageElements.imageName is defined %}
+                {% if null != item.elements.imageElements.imageName %}
+                    <p class="image-name">{{ item.elements.imageElements.imageName }}</p>
+                {% endif %}
+            {% endif %}
+            <img src="/assets/images/medias/{{ item.elements.gallery.image.directory }}" alt="{{ item.elements.imageElements.imageAlt ? item.elements.imageElements.imageAlt : '' }}" />
+        </a>
+    {% endfor %}
+</div>

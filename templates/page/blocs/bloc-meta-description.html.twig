@@ -1,0 +1,9 @@
+{% if page is defined and pageElements is defined %}
+    {% if pageElements.metaDescription is not null and pageElements.metaDescription != '' %}
+        {{ pageElements.metaDescription }}
+    {% elseif pageElements.description is not null and pageElements.description != '' %}
+        {{ pageElements.description|htmlEntityDecodeAndTruncate() }}
+    {% else %}
+        {{ pageElements.contentPrimary|htmlEntityDecodeAndTruncate(150) }}
+    {% endif %}
+{% endif %}

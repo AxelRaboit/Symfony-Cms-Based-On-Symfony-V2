@@ -46,7 +46,7 @@ class PageService
         $template = $page->getTemplate();
 
         if (null === $template) {
-            $template = 'base/page_default.html.twig';
+            $template = 'base/page-default.html.twig';
         }
 
         $pageElements = [];

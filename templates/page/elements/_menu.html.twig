@@ -1,0 +1,86 @@
+<nav class="navbar main-navbar navbar-expand-lg">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fa-solid fa-bars menu-dropdown-button-icon"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <a href="/" class="text-decoration-none home-button d-flex align-items-center me-2">
+                    <i class="fa-solid fa-house"></i>
+                </a>
+                {% if menuItems is defined and menuItems|length > 0 %}
+                    {% for item in menuItems %}
+                        {% set children = item.children %}
+                        {% if children|length > 0 %}
+                            <div class="btn-group menu-dropdown-container-item">
+
+                                {% if item.current.page %}
+                                <a class="nav-link menu-item-link d-flex align-items-center" href="{{ absolute_url(path('page_index', {'slug' : item.current.page.slug})) }}">
+                                    {% endif %}
+                                    <button type="button" class="btn menu-dropdown-item menu-item-link">
+                                        {% if language == 'nl' %}
+                                            {% if item.current.name_nl is not null %}
+                                                {{ item.current.name_nl|upper }}
+                                            {% endif %}
+                                        {% elseif language == 'en' %}
+                                            {% if item.current.name_en is not null %}
+                                                {{ item.current.name_en|upper }}
+                                            {% endif %}
+                                        {% else %}
+                                            {{ item.current.name|upper }}
+                                        {% endif %}
+                                    </button>
+                                    {% if item.current.page %}
+                                </a>
+                                {% endif %}
+
+                                <button type="button" class="btn menu-dropdown-item dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span class="visually-hidden">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-nav">
+                                    {% for child in item.children %}
+                                        <li class="d-flex align-center">
+                                            {% if child.current.page %}
+                                                <a class="dropdown-item menu-item-link" href="{{ absolute_url(path('page_index', {'slug' : child.current.page.slug})) }}">
+                                                    {% if language == 'nl' %}
+                                                        {% if child.current.name_nl is not null %}
+                                                            {{ child.current.name_nl|upper }}
+                                                        {% endif %}
+                                                    {% elseif language == 'en' %}
+                                                        {% if child.current.name_en is not null %}
+                                                            {{ child.current.name_en|upper }}
+                                                        {% endif %}
+                                                    {% else %}
+                                                        {{ child.current.name|upper }}
+                                                    {% endif %}
+                                                </a>
+                                            {% else %}
+
+                                            {% endif %}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% else %}
+                            {% if item.children == [] %}
+                                <li class="nav-item menu-nav-item d-flex align-center">
+                                    {% if item.current.page %}
+                                        <a class="nav-link menu-item-link d-flex align-items-center" href="{{ absolute_url(path('page_index', {'slug' : item.current.page.slug})) }}">
+                                            {% if language == 'nl' %}
+                                                {{ item.current.name_nl|upper }}
+                                            {% elseif language == 'en' %}
+                                                {{ item.current.name_en|upper }}
+                                            {% else %}
+                                                {{ item.current.name|upper }}
+                                            {% endif %}
+                                        </a>
+                                    {% endif %}
+                                </li>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

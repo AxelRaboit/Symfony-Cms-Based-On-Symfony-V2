@@ -1,0 +1,30 @@
+{% if page is defined and page is not null %}
+    {% if website is defined and website is not null %}
+        <meta property="og:site_name" content="{{ website.name }}"/>
+        <meta property="og:type" content="page">
+        <meta property="og:title" content="{{ page.title }}"/>
+        <meta property="og:local" content="{{ app.request.locale }}-{{ app.request.locale == 'en' ? 'us' : app.request.locale }}">
+    {% endif %}
+
+    {% if page.canonicalUrl %}
+        <meta property="og:url" content="{{ getCanonicalUrl(page) }}"/>
+    {% else %}
+        <meta property="og:url" content="{{ getUrlAbsoluteFinal(page) }}"/>
+    {% endif %}
+
+    {% if website is defined and website is not null %}
+        {% if page.ImageThumbnail %}
+            <meta property="og:image" content="{{ website.protocol ~ website.domain ~ '/assets/images/medias/' ~ page.ImageThumbnail.directory }}"/>
+        {% elseif page.banner %}
+            <meta property="og:image" content="{{ website.protocol ~ website.domain ~ '/assets/images/medias/' ~ page.banner.directory }}"/>
+        {% else %}
+            <meta property="og:image" content="{{ asset('assets/images/elements/brand.png') }}"/>
+        {% endif %}
+    {% endif %}
+
+    {% if page.metaDescription %}
+        <meta property="og:description" content="{{ page.metaDescription }}"/>
+    {% elseif page.description %}
+        <meta property="og:description" content="{{ page.description }}"/>
+    {% endif %}
+{% endif %}

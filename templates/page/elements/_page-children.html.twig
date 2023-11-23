@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="row">
+        {% for child in children %}
+            <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="children-card">
+                    <a class="children-card__link" href="{{ absolute_url(path('page_index', {'slug' : child.page.slug})) }}">
+                        {% if child.page.imageThumbnail %}
+                            <img src="{{ image_directory ~ child.page.imageThumbnail.directory }}" alt="{{ child.page.imageThumbnail.alt ? child.page.imageThumbnail.alt : '' }}"/>
+                        {% elseif child.page.banner %}
+                            <img src="{{ image_directory ~ child.page.banner.directory }}" alt="{{ child.page.banner.alt ? child.page.banner.alt : '' }}"/>
+                        {% else %}
+                            <img src="{{ asset('assets/images/elements/no-image.png') }}" alt="no image">
+                        {% endif %}
+                    </a>
+                    <div class="children-card-infos">
+                        <h3 class="children-card-infos__title">{{ child.pageElements.title }}</h3>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% include 'page/blocs/bloc-meta-title.html.twig' %}
+{% endblock %}
+
+{% block metaDescription %}
+    {% include 'page/blocs/bloc-meta-description.html.twig' %}
+{% endblock %}
+
+{% block canonical %}
+    {{ page is defined and page is not null ? getCanonicalUrlWithLink(page) : '' }}
+{% endblock %}
+
+{% block body %}
+    <div class="page-detail">
+        {% if page is defined and page is not null %}
+            {% if page.banner is not null and page.banner != '' %}
+                {% include 'page/elements/_banner.html.twig' with {page: page} %}
+            {% endif %}
+
+            <div class="pt-3">
+                {% include 'page/elements/_page-name.html.twig' with {'page': page} %}
+
+                {% if page.description %}
+                    {% include 'page/elements/_page-description.html.twig' with {'page': page} %}
+                {% endif %}
+
+                <div class="container">
+                    {% if page.contentPrimary %}
+                        {% include 'page/elements/_page-content-primary.html.twig' with {'page': page} %}
+                    {% endif %}
+
+                    {% if children is defined %}
+                        {% include 'page/elements/_page-children.html.twig' with {'children': children} %}
+                    {% endif %}
+
+                    {% if gallery is defined %}
+                        {% include 'page/elements/_page-gallery-text.html.twig' with {'gallery': gallery} %}
+                    {% endif %}
+
+                    {% if page.contentSecondary %}
+                        {% include 'page/elements/_page-content-secondary.html.twig' with {'page': page} %}
+                    {% endif %}
+
+                    {% if page.contentTertiary %}
+                        {% include 'page/elements/_page-content-tertiary.html.twig' with {'page': page} %}
+                    {% endif %}
+
+                    {% if page.contentQuaternary %}
+                        {% include 'page/elements/_page-content-quaternary.html.twig' with {'page': page} %}
+                    {% endif %}
+                </div>
+            </div>
+        {% else %}
+            {% include 'page/page-404-not-found.html.twig' %}
+        {% endif %}
+    </div>
+{% endblock %}

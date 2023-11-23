@@ -1,5 +1,9 @@
 twig:
+    form_themes: ['bootstrap_5_layout.html.twig']
     default_path: '%kernel.project_dir%/templates'
+    globals:
+        image_directory: '%image_directory%'
+        websiteService: '@App\Service\WebsiteService'
 
 when@test:
     twig:

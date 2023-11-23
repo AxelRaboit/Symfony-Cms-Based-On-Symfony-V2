@@ -1,0 +1,18 @@
+.container-main-topbar {
+  min-height: 50px;
+  padding: 10px;
+
+  .flag {
+    width: auto;
+    height: 20px;
+    border: solid 1px $white;
+  }
+
+  .topbar-container-location a, .topbar-container-phone a {
+    color: $white;
+
+    &:hover {
+      color: $main-color-hover;
+    }
+  }
+}

@@ -1,9 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        <title>{% block title %}{% endblock %}</title>
+        <meta name="description" content="{% block metaDescription %}{% endblock %}">
+
+        {% set website = websiteService.getWebsite() %}
+
+        {# Open Graph #}
+        {% include 'base/elements/_open-graph.html.twig' with {'website': website } %}
+
+        {# Favicon #}
+        {% include 'base/elements/_favicon.html.twig' %}
+
+        {# ANIMATE CSS #}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+        {# AOS #}
+        <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {# LightGallery-js #}
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightgallery-js/1.4.0/css/lightgallery.min.css" integrity="sha512-kwJUhJJaTDzGp6VTPBbMQWBFUof6+pv0SM3s8fo+E6XnPmVmtfwENK0vHYup3tsYnqHgRDoBDTJWoq7rnQw2+g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        {% block canonical %}{% endblock %}
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -13,6 +30,40 @@
         {% endblock %}
     </head>
     <body>
+        {% if app.user and app.user.roles[0] == 'ROLE_BACKEND' %}
+            {% include 'page/elements/_admin-menu.html.twig' %}
+        {% endif %}
+        {% include 'page/elements/_topbar.html.twig' %}
+        {% include 'page/elements/_header.html.twig' %}
+
+        {% if app.user %}
+            {% set menuItems = getMenuItems(constant('App\\Enum\\DataEnum::DATA_FRONTEND_MENU_DEV_KEY')) %}
+            {% set footerItems = getMenuItems(constant('App\\Enum\\DataEnum::DATA_FRONTEND_FOOTER_DEV_KEY')) %}
+        {% else %}
+            {% set menuItems = getMenuItems(constant('App\\Enum\\DataEnum::DATA_FRONTEND_MENU_DEV_KEY')) %}
+            {% set footerItems = getMenuItems(constant('App\\Enum\\DataEnum::DATA_FRONTEND_FOOTER_DEV_KEY')) %}
+        {% endif %}
+
+        {% include 'page/elements/_menu.html.twig' with {menuItems: menuItems} %}
+
+        {% include "base/elements/_toast.html.twig" %}
+
         {% block body %}{% endblock %}
+        {% include 'page/elements/_footer.html.twig' with {footerItems: footerItems} %}
+
+        {# FONT AWESOME #}
+        <script src="https://kit.fontawesome.com/582e93cff3.js" crossorigin="anonymous"></script>
+
+        {# AOS #}
+        <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+        <script>
+            AOS.init({disable: 'mobile'});
+        </script>
+
+        {# LightGallery-js #}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lightgallery-js/1.4.0/js/lightgallery.min.js" integrity="sha512-b4rL1m5b76KrUhDkj2Vf14Y0l1NtbiNXwV+SzOzLGv6Tz1roJHa70yr8RmTUswrauu2Wgb/xBJPR8v80pQYKtQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script>
+            lightGallery(document.querySelector('.gallery'));
+        </script>
     </body>
 </html>

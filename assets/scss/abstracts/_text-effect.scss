@@ -1,0 +1,39 @@
+@import 'variables';
+
+.underline {
+  position: relative;
+}
+
+.underline-white::before {
+  background-color: $white;
+}
+
+.underline::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0;
+  height: 2px;
+  transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  /* If container */
+  .container-underline:hover {
+
+    cursor: pointer;
+
+    .underline::before {
+      left: 0;
+      right: auto;
+      width: 100%;
+    }
+  }
+  // FOR TEXT: USAGE: text-underline underline underline-white
+  .text-underline:hover::before {
+    left: 0;
+    right: auto;
+    width: 100%;
+  }
+}

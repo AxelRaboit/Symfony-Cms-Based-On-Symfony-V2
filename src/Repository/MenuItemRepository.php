@@ -4,7 +4,9 @@ namespace App\Repository;
 
 use App\Entity\MenuItem;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\Types\Collection;
 
 /**
  * @extends ServiceEntityRepository<MenuItem>
@@ -21,28 +23,65 @@ class MenuItemRepository extends ServiceEntityRepository
         parent::__construct($registry, MenuItem::class);
     }
 
-//    /**
-//     * @return MenuItem[] Returns an array of MenuItem objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('m.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function getMenuItemsSortedByWeight(
+        string $menu,
+    ): array {
+        $query = $this->em()->createQuery('SELECT mi
+            FROM App\Entity\MenuItem mi
+            JOIN mi.menu m
+            WHERE m.name = :menu
+        ');
 
-//    public function findOneBySomeField($value): ?MenuItem
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $query->setParameter('menu', $menu);
+
+        /* return (array) $query->execute(); */
+        return $this->sort((array) $query->execute(), true);
+    }
+
+    private function sort(
+        Collection|array $menuItems,
+        bool             $toArray = false
+    ): array {
+        $data = [];
+
+        foreach ($menuItems as $menuItem) {
+            $parentIds = [];
+            $menuItemWhile = $menuItem;
+
+            $item = [
+                'current' => true === $toArray ? $menuItem->toArray() : $menuItem,
+                'children' => [],
+            ];
+
+            if (null === $menuItem->getParent()) {
+                $data[$menuItem->getId()] = $item;
+            } else {
+                while (null !== $menuItemWhile->getParent()) {
+                    $parentIds[] = $menuItemWhile->getParent()->getId();
+                    $menuItemWhile = $menuItemWhile->getParent();
+                }
+
+                if (\count($parentIds) > 0) {
+                    $pointer = &$data[$parentIds[0]]['children'];
+                    for ($i = 1; $i < \count($parentIds); ++$i) {
+                        $pointer = &$pointer[$parentIds[$i]]['children'];
+                    }
+                    $pointer[$menuItem->getId()] = $item;
+                }
+            }
+        }
+
+        usort($data, function ($a, $b) {
+            return $a['current']['weight'] <=> $b['current']['weight'];
+        });
+
+        return $data;
+    }
+
+    // Base
+
+    private function em(): EntityManagerInterface
+    {
+        return $this->_em;
+    }
 }

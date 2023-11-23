@@ -1,0 +1,15 @@
+.facebook-logo {
+  color: $blue;
+  font-size: 40px;
+
+  &:hover {
+    color: $blue-400;
+  }
+}
+
+.header-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+

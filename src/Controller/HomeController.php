@@ -2,17 +2,20 @@
 
 namespace App\Controller;
 
+use App\Repository\PageRepository;
+use App\Service\PageService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(): Response
+    public function index(Request $request, PageService $pageService, PageRepository $pageRepository): Response
     {
-        return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
-        ]);
+        $elements = $pageService->getPageElements($pageRepository->findOneBy(['title' => 'Accueil']));
+
+        return $this->render($elements['template'], $elements);
     }
 }

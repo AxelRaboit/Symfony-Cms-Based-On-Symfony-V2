@@ -1,0 +1,32 @@
+.main-footer {
+  .made-by {
+    font-size: $font-size-xsmall;
+    padding: 0;
+    margin: 0;
+  }
+
+  .made-by-love {
+    color: $red;
+  }
+
+  .made-by-name a {
+
+    color: white;
+
+    &:hover {
+      color: $main-color-hover;
+    }
+  }
+
+  .footer-container-list, .footer-container-credits {
+    color: white;
+  }
+
+  .footer-container-list-item .nav-link {
+    text-decoration: underline;
+
+    &:hover {
+      color: $main-color-hover;
+    }
+  }
+}

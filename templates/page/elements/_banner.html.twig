@@ -1,0 +1,11 @@
+<div class="container-banner-large container-fluid m-0 p-0">
+    <img src="/assets/images/medias/{{ page.banner.directory }}" alt="{{ pageElements.bannerAlt ? pageElements.bannerAlt : '' }}" />
+    {% if pageElements.bannerTitle is not null %}
+        <p>{{ pageElements.bannerTitle|raw }}</p>
+    {% endif %}
+    {% if pageElements.ctaTitle %}
+        <a target="_blank" href="{{page.ctaUrl}}">
+            <button>{{ pageElements.ctaTitle|raw }}</button>
+        </a>
+    {% endif %}
+</div>
