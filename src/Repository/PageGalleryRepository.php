@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Page;
 use App\Entity\PageGallery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,28 +23,46 @@ class PageGalleryRepository extends ServiceEntityRepository
         parent::__construct($registry, PageGallery::class);
     }
 
-//    /**
-//     * @return PageGallery[] Returns an array of PageGallery objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function getPageGallery(Page $page): array
+    {
+        $data = [];
 
-//    public function findOneBySomeField($value): ?PageGallery
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $pageGallery = $this->em()->createQuery(
+            'SELECT pg FROM App\Entity\PageGallery pg
+            WHERE pg.page = :page'
+        );
+        $pageGallery->setParameter('page', $page);
+
+        $result = $pageGallery->getResult();
+        if ([] !== $result) {
+            $result = $pageGallery->getResult();
+
+            foreach ($result as $item) {
+                $data[$item->getId()] = [
+                    'title' => $item->getTitle(),
+                    'subTitle' => $item->getSubTitle(),
+                    'description' => $item->getDescription(),
+                    'imageAlt' => $item->getImageAlt(),
+                    'imageUrl' => $item->getImageUrl(),
+                    'imageTitle' => $item->getImageTitle(),
+                    'ctaText' => $item->getCtaText(),
+                    'ctaTitle' => $item->getCtaTitle(),
+                    'ctaUrl' => $item->getCtaUrl(),
+                    'weight' => $item->getWeight(),
+                    'image' => $item->getImage(),
+                ];
+            }
+
+            return $data;
+        }
+
+        return $data;
+    }
+
+    // Base
+
+    private function em(): EntityManagerInterface
+    {
+        return $this->_em;
+    }
 }

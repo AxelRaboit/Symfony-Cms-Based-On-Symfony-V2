@@ -33,6 +33,9 @@ class Website
     #[ORM\OneToMany(mappedBy: 'website', targetEntity: Page::class)]
     private Collection $pages;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $port = null;
+
     public function __construct()
     {
         $this->pages = new ArrayCollection();
@@ -145,5 +148,17 @@ class Website
             'protocol' => $this->getProtocol(),
             'hostname' => $this->getHostname(),
         ];
+    }
+
+    public function getPort(): ?string
+    {
+        return $this->port;
+    }
+
+    public function setPort(?string $port): static
+    {
+        $this->port = $port;
+
+        return $this;
     }
 }

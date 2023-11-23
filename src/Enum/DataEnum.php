@@ -14,6 +14,7 @@ class DataEnum
     public const DATA_FRONTEND_FOOTER_DEV_KEY = 10005;
     public const DATA_APPLICATION_MENU_DEV_KEY = 10006;
     public const DATA_ADMIN_MENU_DEV_KEY = 10007;
+    public const DATA_PAGE_ERROR_404_DEV_KEY = 10008;
 
     public static array $data = [
         self::DATA_PAGE_BACKEND_LOGIN_DEV_KEY => [
@@ -63,6 +64,12 @@ class DataEnum
             'dev_key' => self::DATA_ADMIN_MENU_DEV_KEY,
             'value' => 'admin',
             'category' => 'menu',
+        ],
+        self::DATA_PAGE_ERROR_404_DEV_KEY => [
+            'name' => 'DATA_PAGE_ERROR_404_DEV_KEY',
+            'dev_key' => self::DATA_PAGE_ERROR_404_DEV_KEY,
+            'value' => null,
+            'category' => 'page',
         ],
     ];
 
