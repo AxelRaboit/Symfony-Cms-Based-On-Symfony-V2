@@ -32,7 +32,6 @@ class PageController extends AbstractController
         requirements: [
             'slug' => '.+',
         ],
-        priority: 1,
     )]
     public function index(string $slug, Request $request): Response
     {
@@ -65,7 +64,6 @@ class PageController extends AbstractController
         if (null !== $route) {
             return $this->forward($route->getDefaults()['_controller']);
         }
-
 
         $page = $this->pageService->page404NotFound();
         $elements = $this->pageService->getPageElements($page);
