@@ -27,15 +27,15 @@ class PageController extends AbstractController
      * @throws NonUniqueResultException
      */
     #[Route(
-        path: '{slug}',
+        path: '{uri}',
         name: self::PAGE_DEFAULT,
         requirements: [
-            'slug' => '.+',
+            'uri' => '.+',
         ],
     )]
-    public function index(string $slug, Request $request): Response
+    public function index(string $uri, Request $request): Response
     {
-        $page = $this->pageRepository->getPageBySlug($slug);
+        $page = $this->pageRepository->getPageBySlug($uri);
         $routes = $this->routeService->getRoutes();
         $route = $this->redirectOnRoute($request, $routes);
 
@@ -43,7 +43,7 @@ class PageController extends AbstractController
             if ($page->getDevCodeRouteName()) {
                 $route = $route[$page->getDevCodeRouteName()];
 
-                if (!mb_strstr($route->getPath(), '{slug}') && !mb_strstr($route->getPath(), '{id}')) {
+                if (!mb_strstr($route->getPath(), '{uri}') && !mb_strstr($route->getPath(), '{id}')) {
                     return $this->forward($route->getDefaults()['_controller'], ['page' => $page]);
                 }
 
