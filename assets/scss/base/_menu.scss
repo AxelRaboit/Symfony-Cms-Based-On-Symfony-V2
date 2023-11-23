@@ -2,6 +2,10 @@
   background-color: $primary;
   padding: 0 !important;
 
+  .navbar-nav {
+    margin: 10px;
+  }
+
   a {
     color: $white;
   }
@@ -13,10 +17,6 @@
 
   .menu-dropdown-button-icon {
     color: $white;
-  }
-
-  .home-button {
-    padding: 10px;
   }
 
   .dropdown-menu-nav {

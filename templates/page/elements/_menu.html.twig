@@ -1,11 +1,12 @@
 <nav class="navbar main-navbar navbar-expand-lg">
     <div class="container">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <i class="fa-solid fa-bars menu-dropdown-button-icon"></i>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
-                <a href="/" class="text-decoration-none home-button d-flex align-items-center me-2">
+                <a href="/" class="text-decoration-none home-button d-flex align-items-center me-md-2 p-2">
                     <i class="fa-solid fa-house"></i>
                 </a>
                 {% if menuItems is defined and menuItems|length > 0 %}
@@ -15,7 +16,8 @@
                             <div class="btn-group menu-dropdown-container-item">
 
                                 {% if item.current.page %}
-                                <a class="nav-link menu-item-link d-flex align-items-center" href="{{ absolute_url(path('page_index', {'uri' : item.current.page.slug})) }}">
+                                <a class="nav-link menu-item-link d-flex align-items-center"
+                                   href="{{ absolute_url(path('page_index', {'uri' : item.current.page.slug})) }}">
                                     {% endif %}
                                     <button type="button" class="btn menu-dropdown-item menu-item-link">
                                         {{ item.current.name|upper }}
@@ -24,14 +26,17 @@
                                 </a>
                                 {% endif %}
 
-                                <button type="button" class="btn menu-dropdown-item dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button type="button"
+                                        class="btn menu-dropdown-item dropdown-toggle dropdown-toggle-split"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
                                     <span class="visually-hidden">Toggle Dropdown</span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-nav">
                                     {% for child in item.children %}
                                         <li class="d-flex align-center">
                                             {% if child.current.page %}
-                                                <a class="dropdown-item menu-item-link" href="{{ absolute_url(path('page_index', {'slug' : child.current.page.slug})) }}">
+                                                <a class="dropdown-item menu-item-link p-2"
+                                                   href="{{ absolute_url(path('page_index', {'slug' : child.current.page.slug})) }}">
                                                     {{ child.current.name|upper }}
                                                 </a>
                                             {% else %}
@@ -43,13 +48,14 @@
                             </div>
                         {% else %}
                             {% if item.children == [] %}
-                                <li class="nav-item menu-nav-item d-flex align-center">
-                                    {% if item.current.page %}
-                                        <a class="nav-link menu-item-link d-flex align-items-center" href="{{ absolute_url(path('page_index', {'uri' : item.current.page.slug})) }}">
+                                {% if item.current.page %}
+                                    <a class="nav-link menu-item-link d-flex align-items-center p-2"
+                                       href="{{ absolute_url(path('page_index', {'uri' : item.current.page.slug})) }}">
+                                        <li class="nav-item menu-nav-item d-flex align-center">
                                             {{ item.current.name|upper }}
-                                        </a>
-                                    {% endif %}
-                                </li>
+                                        </li>
+                                    </a>
+                                {% endif %}
                             {% endif %}
                         {% endif %}
                     {% endfor %}
