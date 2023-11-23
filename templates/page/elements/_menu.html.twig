@@ -15,20 +15,10 @@
                             <div class="btn-group menu-dropdown-container-item">
 
                                 {% if item.current.page %}
-                                <a class="nav-link menu-item-link d-flex align-items-center" href="{{ absolute_url(path('page_index', {'slug' : item.current.page.slug})) }}">
+                                <a class="nav-link menu-item-link d-flex align-items-center" href="{{ absolute_url(path('page_index', {'uri' : item.current.page.slug})) }}">
                                     {% endif %}
                                     <button type="button" class="btn menu-dropdown-item menu-item-link">
-                                        {% if language == 'nl' %}
-                                            {% if item.current.name_nl is not null %}
-                                                {{ item.current.name_nl|upper }}
-                                            {% endif %}
-                                        {% elseif language == 'en' %}
-                                            {% if item.current.name_en is not null %}
-                                                {{ item.current.name_en|upper }}
-                                            {% endif %}
-                                        {% else %}
-                                            {{ item.current.name|upper }}
-                                        {% endif %}
+                                        {{ item.current.name|upper }}
                                     </button>
                                     {% if item.current.page %}
                                 </a>
@@ -42,17 +32,7 @@
                                         <li class="d-flex align-center">
                                             {% if child.current.page %}
                                                 <a class="dropdown-item menu-item-link" href="{{ absolute_url(path('page_index', {'slug' : child.current.page.slug})) }}">
-                                                    {% if language == 'nl' %}
-                                                        {% if child.current.name_nl is not null %}
-                                                            {{ child.current.name_nl|upper }}
-                                                        {% endif %}
-                                                    {% elseif language == 'en' %}
-                                                        {% if child.current.name_en is not null %}
-                                                            {{ child.current.name_en|upper }}
-                                                        {% endif %}
-                                                    {% else %}
-                                                        {{ child.current.name|upper }}
-                                                    {% endif %}
+                                                    {{ child.current.name|upper }}
                                                 </a>
                                             {% else %}
 
@@ -65,14 +45,8 @@
                             {% if item.children == [] %}
                                 <li class="nav-item menu-nav-item d-flex align-center">
                                     {% if item.current.page %}
-                                        <a class="nav-link menu-item-link d-flex align-items-center" href="{{ absolute_url(path('page_index', {'slug' : item.current.page.slug})) }}">
-                                            {% if language == 'nl' %}
-                                                {{ item.current.name_nl|upper }}
-                                            {% elseif language == 'en' %}
-                                                {{ item.current.name_en|upper }}
-                                            {% else %}
-                                                {{ item.current.name|upper }}
-                                            {% endif %}
+                                        <a class="nav-link menu-item-link d-flex align-items-center" href="{{ absolute_url(path('page_index', {'uri' : item.current.page.slug})) }}">
+                                            {{ item.current.name|upper }}
                                         </a>
                                     {% endif %}
                                 </li>

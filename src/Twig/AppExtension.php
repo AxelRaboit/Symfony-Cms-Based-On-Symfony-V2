@@ -43,7 +43,7 @@ class AppExtension extends AbstractExtension
             new TwigFunction('urlParser', [$this, 'urlParserFunction']),
             new TwigFunction('getCanonicalUrlWithLink', [$this, 'getCanonicalUrlWithLinkFunction']),
             new TwigFunction('getCanonicalUrl', [$this, 'getCanonicalUrlFunction']),
-            new TwigFunction('getWebsite', [$this, 'getwebsiteFunction']),
+            new TwigFunction('getWebsite', [$this, 'getWebsiteFunction']),
             new TwigFunction('getUrlAbsoluteFinal', [$this, 'getUrlAbsoluteFinalFunction']),
         ];
     }
@@ -93,11 +93,17 @@ class AppExtension extends AbstractExtension
         return $string;
     }
 
-    public function getwebsiteFunction(): Website
+    /**
+     * @throws \Exception
+     */
+    public function getWebsiteFunction(): Website
     {
         return $this->websiteService->getCurrentWebsite($this->request->getHost());
     }
 
+    /**
+     * @throws \Exception
+     */
     public function getMenuItemsFunction(int $devKey): array
     {
         return $this->menuItemRepository->getMenuItemsSortedByWeight(
@@ -105,6 +111,9 @@ class AppExtension extends AbstractExtension
         );
     }
 
+    /**
+     * @throws \Exception
+     */
     public function getDataEnumValueFunction(int $devKey): string|int|bool
     {
         return $this->dataEnumManager->getDataEnumValue($devKey);

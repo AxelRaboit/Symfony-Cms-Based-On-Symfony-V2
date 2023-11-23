@@ -30,6 +30,9 @@ class MenuItem
     #[ORM\Column]
     private ?int $weight = 0;
 
+    #[ORM\Column(length: 255)]
+    private string $name;
+
     public function __construct()
     {
         $this->menu = new ArrayCollection();
@@ -129,5 +132,28 @@ class MenuItem
         $this->weight = $weight;
 
         return $this;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'parent' => null !== $this->parent ? $this->parent->getId() : null,
+            'page' => null !== $this->page ? $this->page : null,
+            'weight' => $this->weight,
+            'name' => $this->name,
+        ];
     }
 }
