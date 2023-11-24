@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}{% endblock %}</title>
+        <meta name="description" content="{% block metaDescription %}{% endblock %}">
+
+        {# Favicon #}
+        {% include 'shared/base/elements/_favicon.html.twig' %}
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        {% block canonical %}{% endblock %}
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('backend') }}
+            {{ encore_entry_link_tags('shared') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('backend') }}
+            {{ encore_entry_script_tags('shared') }}
+        {% endblock %}
+    </head>
+    <body>
+        {% include "shared/base/elements/_toast.html.twig" %}
+
+        {% block body %}{% endblock %}
+
+        {# FONT AWESOME #}
+        <script src="https://kit.fontawesome.com/582e93cff3.js" crossorigin="anonymous"></script>
+    </body>
+</html>

@@ -1,0 +1,27 @@
+@import './abstracts/index';
+@import './base/index';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  overflow-x: hidden; // Remove horizontal scroll
+}
+
+p {
+  font-family: 'Poppins-regular', serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins-bold', serif;
+}
+
+p.pacifico-regular  {
+  font-family: 'Pacifico-regular', serif;
+}

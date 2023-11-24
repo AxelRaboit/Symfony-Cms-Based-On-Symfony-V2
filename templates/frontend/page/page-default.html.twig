@@ -1,0 +1,59 @@
+{% extends 'frontend/base/base.html.twig' %}
+
+{% block title %}
+    {% include 'frontend/page/blocs/bloc-meta-title.html.twig' %}
+{% endblock %}
+
+{% block metaDescription %}
+    {% include 'frontend/page/blocs/bloc-meta-description.html.twig' %}
+{% endblock %}
+
+{% block canonical %}
+    {{ page is defined and page is not null ? getCanonicalUrlWithLink(page) : '' }}
+{% endblock %}
+
+{% block body %}
+    <div>
+        {% if page is defined and page is not null %}
+            {% if page.banner is not null and page.banner != '' %}
+                {% include 'frontend/page/elements/_banner.html.twig' with {page: page} %}
+            {% endif %}
+
+            <div class="pt-3 max-w-screen-xl mx-auto p-4">
+                {% include 'frontend/page/elements/_page-name.html.twig' with {'page': page} %}
+
+                {% if page.description %}
+                    {% include 'frontend/page/elements/_page-description.html.twig' with {'page': page} %}
+                {% endif %}
+
+                <div>
+                    {% if page.contentPrimary %}
+                        {% include 'frontend/page/elements/_page-content-primary.html.twig' with {'page': page} %}
+                    {% endif %}
+
+                    {% if gallery is defined %}
+                        {% include 'frontend/page/elements/_page-gallery-text.html.twig' with {'gallery': gallery} %}
+                    {% endif %}
+
+                    {% if page.contentSecondary %}
+                        {% include 'frontend/page/elements/_page-content-secondary.html.twig' with {'page': page} %}
+                    {% endif %}
+
+                    {% if page.contentTertiary %}
+                        {% include 'frontend/page/elements/_page-content-tertiary.html.twig' with {'page': page} %}
+                    {% endif %}
+
+                    {% if page.contentQuaternary %}
+                        {% include 'frontend/page/elements/_page-content-quaternary.html.twig' with {'page': page} %}
+                    {% endif %}
+
+                    {% if children is defined %}
+                        {% include 'frontend/page/elements/_page-children.html.twig' with {'children': children} %}
+                    {% endif %}
+                </div>
+            </div>
+        {% else %}
+            {% include 'frontend/page/page-404-not-found.html.twig' %}
+        {% endif %}
+    </div>
+{% endblock %}
