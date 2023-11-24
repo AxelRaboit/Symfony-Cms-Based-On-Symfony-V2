@@ -12,9 +12,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class PageService
 {
-    const PAGE_DEFAULT_TEMPLATE = 'page/page-default.html.twig';
+    const PAGE_DEFAULT_TEMPLATE = 'frontend/page/page-default.html.twig';
 
-    private ?\Symfony\Component\HttpFoundation\Request $request;
+    private ?Request $request;
 
     public function __construct(
         private readonly PageRepository $pageRepository,
