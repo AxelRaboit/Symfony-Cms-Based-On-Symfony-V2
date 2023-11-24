@@ -1,0 +1,26 @@
+{% extends 'exceptions/base/base.html.twig' %}
+
+{% block title %}
+    {% if exception.statusCode is defined %}
+        {{ exception.statusCode }}
+    {% else %}
+        Error
+    {% endif %}
+    - {{ exception.message }}
+{% endblock %}
+
+{% block body %}
+    <div class="flex items-center justify-center min-h-screen text-gray-800 p-4">
+        <div class="text-center w-full max-w-lg mx-auto bg-red-400 p-3 rounded">
+            {% if exception.statusCode is defined %}
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold">{{ exception.statusCode }}</h1>
+            {% else %}
+                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold">Error</h1>
+            {% endif %}
+            <p class="text-xs sm:text-sm mt-4 break-words">{{ exception.message }}</p>
+            {% if exception.statusCode is defined %}
+                <a href="/" class="mt-6 inline-block bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 transition duration-300">Go Home</a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

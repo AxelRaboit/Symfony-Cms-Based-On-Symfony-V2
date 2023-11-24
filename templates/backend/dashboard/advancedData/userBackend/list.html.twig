@@ -1,0 +1,32 @@
+{% extends 'backend/base/base.html.twig' %}
+
+{% block title %}Hello BackendController!{% endblock %}
+
+{% block body %}
+    {% include 'backend/dashboard/elements/_side-menu.html.twig' %}
+
+    <div class="overflow-x-auto relative shadow-md sm:rounded-lg m-5">
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="py-3 px-6">Email</th>
+                <th scope="col" class="py-3 px-6">Rôles</th>
+                <th scope="col" class="py-3 px-6">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <td class="py-4 px-6">{{ user.username }}</td>
+                    <td class="py-4 px-6">{{ user.email }}</td>
+                    <td class="py-4 px-6">{{ user.roles | join(', ') }}</td>
+                    <td class="py-4 px-6">
+                        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Modifier</a>
+                        <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline ml-2">Supprimer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
