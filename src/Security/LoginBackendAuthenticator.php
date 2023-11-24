@@ -51,8 +51,7 @@ class LoginBackendAuthenticator extends AbstractLoginFormAuthenticator
         $session = $request->getSession();
         $session->getFlashBag()->add('success', 'Vous êtes bien connecté.');
 
-        // For example:
-         return new RedirectResponse($this->urlGenerator->generate('app_home'));
+        return new RedirectResponse($this->urlGenerator->generate('app_backend_dashboard'));
     }
 
     protected function getLoginUrl(Request $request): string

@@ -19,6 +19,9 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+    App\EventListener\BackendRedirectListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }
 
     App\EventListener\ExceptionListener:
         arguments:
