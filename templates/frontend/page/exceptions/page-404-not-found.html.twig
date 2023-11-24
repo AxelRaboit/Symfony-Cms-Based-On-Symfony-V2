@@ -1,12 +1,12 @@
 {% extends 'frontend/base/base.html.twig' %}
 
-{% block title %}Page 404 - Not Found{% endblock %}
+{% block title %}{{ exception.statusCode }} - {{ exception.message }}{% endblock %}
 
 {% block body %}
     <div class="flex items-center justify-center h-screen bg-gray-100 text-gray-800">
         <div class="text-center">
-            <h1 class="text-6xl font-bold">404</h1>
-            <p class="text-2xl md:text-3xl font-light leading-normal">Sorry, the page you are looking for could not be found.</p>
+            <h1 class="text-6xl font-bold">{{ exception.statusCode }}</h1>
+            <p class="text-2xl md:text-3xl font-light leading-normal">{{ exception.message }}</p>
             <a href="/" class="mt-6 inline-block bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 transition duration-300">Go Home</a>
         </div>
     </div>

@@ -10,6 +10,7 @@ use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PageController extends AbstractController
@@ -63,18 +64,11 @@ class PageController extends AbstractController
             return $this->render($elements['template'], $elements);
         }
 
-        // If the page is not found, we check if the request is a redirection to a specific route.
         if ($route = $this->redirectOnRoute($request, $routes)) {
             return $this->forward($route->getDefaults()['_controller']);
         }
 
-        // If the page is not found, we display the 404 page.
-        $page = $this->pageService->page404NotFound();
-        $elements = $this->pageService->getPageElements($page);
-        $response = $this->render($elements['template'], $elements);
-        $response->setStatusCode(Response::HTTP_NOT_FOUND);
-
-        return $response;
+        throw new NotFoundHttpException("Page not found");
     }
 
     private function redirectOnRoute(Request $request, array $routes): mixed
