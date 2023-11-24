@@ -29,7 +29,7 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body>g
+    <body>
         {% if app.user %}
             {% set menuItems = getMenuItems(constant('App\\Enum\\DataEnum::DATA_FRONTEND_MENU_DEV_KEY')) %}
             {% set footerItems = getMenuItems(constant('App\\Enum\\DataEnum::DATA_FRONTEND_FOOTER_DEV_KEY')) %}

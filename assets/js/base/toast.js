@@ -1,11 +1,13 @@
-var toastLive = document.getElementById('liveToast');
+document.addEventListener('DOMContentLoaded', (event) => {
+    document.querySelectorAll('.close-toast-button').forEach(button => {
+        button.addEventListener('click', function () {
+            this.closest('.toast').remove();
+        });
+    });
 
-if (toastLive) {
-    toastLive.classList.add('show');
-
-    if (toastLive.classList.contains('show')) {
+    document.querySelectorAll('.toast').forEach(toast => {
         setTimeout(function () {
-            toastLive.classList.remove('show');
-        }, 10000);
-    }
-}
+            toast.remove();
+        }, 10000); // 10 secondes
+    });
+});
