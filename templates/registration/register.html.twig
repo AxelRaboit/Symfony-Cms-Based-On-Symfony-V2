@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <h1>Register</h1>
+
+    {{ form_errors(registrationForm) }}
+
+    {{ form_start(registrationForm) }}
+    {{ form_row(registrationForm.email) }}
+    {{ form_row(registrationForm.plainPassword, {
+        label: 'Password'
+    }) }}
+    {{ form_row(registrationForm.country) }}
+
+    <div id="city-container" class="hidden">
+        {{ form_row(registrationForm.city) }}
+    </div>
+
+    {{ form_row(registrationForm.agreeTerms) }}
+
+    <button type="submit" class="btn">Register</button>
+    {{ form_end(registrationForm) }}
+{% endblock %}
+
+
+{% block javascripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const countrySelectEl = document.getElementById('registration_form_country');
+            const cityContainerEl = document.getElementById('city-container');
+
+            countrySelectEl.addEventListener('change', function() {
+                const formEl = countrySelectEl.closest('form');
+                const formData = new FormData(formEl);
+
+                fetch(formEl.action, {
+                    method: 'POST',
+                    body: formData
+                })
+                    .then(response => response.text())
+                    .then(html => {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        const newCityFormFieldEl = doc.getElementById('registration_form_city');
+
+                        const oldCityFormFieldEl = document.getElementById('registration_form_city');
+                        oldCityFormFieldEl.replaceWith(newCityFormFieldEl);
+
+                        if (countrySelectEl.value) {
+                            cityContainerEl.classList.remove('hidden');
+                        } else {
+                            cityContainerEl.classList.add('hidden');
+                        }
+                    })
+                    .catch(err => {
+                        console.warn('Something went wrong.', err);
+                    });
+            });
+        });
+    </script>
+{% endblock %}
+

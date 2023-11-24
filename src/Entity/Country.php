@@ -15,31 +15,15 @@ class Country
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $alpha2 = null;
+    #[ORM\Column(length: 80)]
+    private ?string $name = null;
 
-    #[ORM\Column]
-    private ?int $code = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $alpha3 = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $nameEnGb = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $nameFrFr = null;
-
-    #[ORM\ManyToOne(inversedBy: 'countries')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Timezone $timezone = null;
-
-    #[ORM\OneToMany(mappedBy: 'country', targetEntity: UserBackend::class)]
-    private Collection $users;
+    #[ORM\OneToMany(mappedBy: 'country', targetEntity: City::class, fetch: 'EAGER')]
+    private Collection $cities;
 
     public function __construct()
     {
-        $this->users = new ArrayCollection();
+        $this->cities = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -47,102 +31,42 @@ class Country
         return $this->id;
     }
 
-    public function getAlpha2(): ?string
+    public function getName(): ?string
     {
-        return $this->alpha2;
+        return $this->name;
     }
 
-    public function setAlpha2(string $alpha2): static
+    public function setName(string $name): static
     {
-        $this->alpha2 = $alpha2;
-
-        return $this;
-    }
-
-    public function getCode(): ?int
-    {
-        return $this->code;
-    }
-
-    public function setCode(int $code): static
-    {
-        $this->code = $code;
-
-        return $this;
-    }
-
-    public function getAlpha3(): ?string
-    {
-        return $this->alpha3;
-    }
-
-    public function setAlpha3(string $alpha3): static
-    {
-        $this->alpha3 = $alpha3;
-
-        return $this;
-    }
-
-    public function getNameEnGb(): ?string
-    {
-        return $this->nameEnGb;
-    }
-
-    public function setNameEnGb(string $nameEnGb): static
-    {
-        $this->nameEnGb = $nameEnGb;
-
-        return $this;
-    }
-
-    public function getNameFrFr(): ?string
-    {
-        return $this->nameFrFr;
-    }
-
-    public function setNameFrFr(string $nameFrFr): static
-    {
-        $this->nameFrFr = $nameFrFr;
-
-        return $this;
-    }
-
-    public function getTimezone(): ?Timezone
-    {
-        return $this->timezone;
-    }
-
-    public function setTimezone(?Timezone $timezone): static
-    {
-        $this->timezone = $timezone;
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, UserBackend>
+     * @return Collection<int, City>
      */
-    public function getUsers(): Collection
+    public function getCities(): Collection
     {
-        return $this->users;
+        return $this->cities;
     }
 
-    public function addUser(UserBackend $user): static
+    public function addCity(City $city): static
     {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-            $user->setCountry($this);
+        if (!$this->cities->contains($city)) {
+            $this->cities->add($city);
+            $city->setCountry($this);
         }
 
         return $this;
     }
 
-    public function removeUser(UserBackend $user): static
+    public function removeCity(City $city): static
     {
-        if ($this->users->removeElement($user)) {
+        if ($this->cities->removeElement($city)) {
             // set the owning side to null (unless already changed)
-            if ($user->getCountry() === $this) {
-                $user->setCountry(null);
+            if ($city->getCountry() === $this) {
+                $city->setCountry(null);
             }
         }
 

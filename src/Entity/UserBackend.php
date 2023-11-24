@@ -27,9 +27,11 @@ class UserBackend implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\ManyToOne(inversedBy: 'users')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne]
     private ?Country $country = null;
+
+    #[ORM\ManyToOne]
+    private ?City $city = null;
 
     public function getId(): ?int
     {
@@ -109,6 +111,18 @@ class UserBackend implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCountry(?Country $country): static
     {
         $this->country = $country;
+
+        return $this;
+    }
+
+    public function getCity(): ?City
+    {
+        return $this->city;
+    }
+
+    public function setCity(?City $city): static
+    {
+        $this->city = $city;
 
         return $this;
     }
