@@ -17,7 +17,6 @@
             <tbody>
             {% for user in users %}
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                    <td class="py-4 px-6">{{ user.username }}</td>
                     <td class="py-4 px-6">{{ user.email }}</td>
                     <td class="py-4 px-6">{{ user.roles | join(', ') }}</td>
                     <td class="py-4 px-6">
