@@ -56,6 +56,12 @@ Encore
     // enables Sass/SCSS support
     .enableSassLoader()
 
+    .enablePostCssLoader((options) => {
+        options.postcssOptions = {
+            config: './postcss.config.js',
+        };
+    })
+
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()
 

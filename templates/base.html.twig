@@ -33,7 +33,6 @@
         {% if app.user and app.user.roles[0] == 'ROLE_BACKEND' %}
             {% include 'page/elements/_admin-menu.html.twig' %}
         {% endif %}
-        {% include 'page/elements/_topbar.html.twig' %}
 
         {% if app.user %}
             {% set menuItems = getMenuItems(constant('App\\Enum\\DataEnum::DATA_FRONTEND_MENU_DEV_KEY')) %}

@@ -1,6 +1,8 @@
-@import '~bootstrap/scss/bootstrap';
 @import './abstracts/index';
 @import './base/index';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 * {
   box-sizing: border-box;

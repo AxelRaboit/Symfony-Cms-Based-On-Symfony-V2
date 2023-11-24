@@ -1,62 +1,57 @@
-<nav class="navbar main-navbar navbar-expand-lg">
-    <div class="container">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="fa-solid fa-bars menu-dropdown-button-icon"></i>
+<nav class="bg-white border-gray-200 dark:bg-gray-900 dark:border-gray-700">
+    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <a href="#" class="flex items-center space-x-3 rtl:space-x-reverse">
+            <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo" />
+            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
+        </a>
+        <button data-collapse-toggle="navbar-dropdown" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-dropdown" aria-expanded="false">
+            <span class="sr-only">Open main menu</span>
+            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
+            </svg>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
-                <a href="/" class="text-decoration-none home-button d-flex align-items-center me-md-2 p-2">
-                    <i class="fa-solid fa-house"></i>
-                </a>
+        <div class="hidden w-full md:block md:w-auto" id="navbar-dropdown">
+            <ul class="flex flex-col font-medium p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                 {% if menuItems is defined and menuItems|length > 0 %}
                     {% for item in menuItems %}
-                        {% set children = item.children %}
-                        {% if children|length > 0 %}
-                            <div class="btn-group menu-dropdown-container-item">
-
-                                {% if item.current.page %}
-                                <a class="nav-link menu-item-link d-flex align-items-center"
-                                   href="{{ absolute_url(path('page_index', {'uri' : item.current.page.slug})) }}">
-                                    {% endif %}
-                                    <button type="button" class="btn menu-dropdown-item menu-item-link">
-                                        {{ item.current.name|upper }}
-                                    </button>
-                                    {% if item.current.page %}
-                                </a>
-                                {% endif %}
-
-                                <button type="button"
-                                        class="btn menu-dropdown-item dropdown-toggle dropdown-toggle-split"
-                                        data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="visually-hidden">Toggle Dropdown</span>
+                        {% if item.children|length > 0 %}
+                            <li class="relative">
+                                <button id="dropdownNavbarLink-{{ loop.index }}" data-dropdown-toggle="dropdownNavbar-{{ loop.index }}" class="flex items-center justify-between w-full py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700">
+                                    {{ item.current.name|upper }}
+                                    <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                                    </svg>
                                 </button>
-                                <ul class="dropdown-menu dropdown-menu-nav">
-                                    {% for child in item.children %}
-                                        <li class="d-flex align-center">
-                                            {% if child.current.page %}
-                                                <a class="dropdown-item menu-item-link p-2"
-                                                   href="{{ absolute_url(path('page_index', {'slug' : child.current.page.slug})) }}">
-                                                    {{ child.current.name|upper }}
-                                                </a>
-                                            {% else %}
-
-                                            {% endif %}
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
+                                <div id="dropdownNavbar-{{ loop.index }}" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-400">
+                                        {% for child in item.children %}
+                                            <li>
+                                                {% if child.current.page.slug == "/" %}
+                                                    <a href="{{ absolute_url(path('app_home')) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                                        {{ child.current.name|upper }}
+                                                    </a>
+                                                {% else %}
+                                                    <a href="{{ absolute_url(path('page_index', {'uri' : child.current.page.slug})) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                                                        {{ child.current.name|upper }}
+                                                    </a>
+                                                {% endif %}
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </li>
                         {% else %}
-                            {% if item.children == [] %}
-                                {% if item.current.page %}
-                                    <a class="nav-link menu-item-link d-flex align-items-center p-2"
-                                       href="{{ absolute_url(path('page_index', {'uri' : item.current.page.slug})) }}">
-                                        <li class="nav-item menu-nav-item d-flex align-center">
-                                            {{ item.current.name|upper }}
-                                        </li>
+                            <li>
+                                {% if item.current.page.slug == "/" %}
+                                    <a href="{{ absolute_url(path('app_home')) }}" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white dark:hover:text-blue-500 dark:hover:bg-gray-700">
+                                        {{ item.current.name|upper }}
+                                    </a>
+                                {% else %}
+                                    <a href="{{ absolute_url(path('page_index', {'uri' : item.current.page.slug})) }}" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white dark:hover:text-blue-500 dark:hover:bg-gray-700">
+                                        {{ item.current.name|upper }}
                                     </a>
                                 {% endif %}
-                            {% endif %}
+                            </li>
                         {% endif %}
                     {% endfor %}
                 {% endif %}

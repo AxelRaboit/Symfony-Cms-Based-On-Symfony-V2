@@ -19,20 +19,16 @@
                 {% include 'page/elements/_banner.html.twig' with {page: page} %}
             {% endif %}
 
-            <div class="pt-3">
+            <div class="pt-3 max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 {% include 'page/elements/_page-name.html.twig' with {'page': page} %}
 
                 {% if page.description %}
                     {% include 'page/elements/_page-description.html.twig' with {'page': page} %}
                 {% endif %}
 
-                <div class="container">
+                <div>
                     {% if page.contentPrimary %}
                         {% include 'page/elements/_page-content-primary.html.twig' with {'page': page} %}
-                    {% endif %}
-
-                    {% if children is defined %}
-                        {% include 'page/elements/_page-children.html.twig' with {'children': children} %}
                     {% endif %}
 
                     {% if gallery is defined %}
@@ -49,6 +45,10 @@
 
                     {% if page.contentQuaternary %}
                         {% include 'page/elements/_page-content-quaternary.html.twig' with {'page': page} %}
+                    {% endif %}
+
+                    {% if children is defined %}
+                        {% include 'page/elements/_page-children.html.twig' with {'children': children} %}
                     {% endif %}
                 </div>
             </div>
