@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Page;
 use App\Enum\DataEnum;
+use App\Enum\UtilsEnum;
 use App\Repository\PageRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Component\DomCrawler\Crawler;
@@ -12,14 +13,13 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class PageService
 {
-    const PAGE_DEFAULT_TEMPLATE = 'frontend/page/page-default.html.twig';
-
-    private ?Request $request;
+    private Request $request;
 
     public function __construct(
-        private readonly PageRepository $pageRepository,
-        private RequestStack $requestStack
-    ) {
+        RequestStack $requestStack,
+        private readonly PageRepository $pageRepository
+    )
+    {
         $this->request = $requestStack->getCurrentRequest();
     }
 
@@ -45,7 +45,7 @@ class PageService
 
     public function getPageElements(Page $page): array
     {
-        $template = $page->getTemplate() ?: self::PAGE_DEFAULT_TEMPLATE;
+        $template = $page->getTemplate() ?: UtilsEnum::PAGE_DEFAULT_TEMPLATE;
 
         $pageElements = [];
         $pageElementsFormatted = [];
@@ -105,9 +105,9 @@ class PageService
 
                 if (empty($matches)) {
                     if ('' !== $classes) {
-                        $newElement = '<a href="/'.$relativeUrl.'" class="'.$classes.'">'.$urlParts['_text'].'</a>';
+                        $newElement = '<a href="/' . $relativeUrl . '" class="' . $classes . '">' . $urlParts['_text'] . '</a>';
                     } else {
-                        $newElement = '<a href="/'.$relativeUrl.'">'.$urlParts['_text'].'</a>';
+                        $newElement = '<a href="/' . $relativeUrl . '">' . $urlParts['_text'] . '</a>';
                     }
 
                     $content = str_replace($oldElement, $newElement, $content);
