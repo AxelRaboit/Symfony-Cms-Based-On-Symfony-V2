@@ -9,68 +9,80 @@
 
     {% include 'backend/dashboard/elements/_side-menu.html.twig' %}
     <div class="p-2 sm:ml-64">
-        <div class="p-1 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-            {# Search by query #}
-            <form action="{{ path('app_backend_user_backend_list') }}" method="get" class="p-2"
-                  id="search-backend-user">
-                <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-                <div class="relative">
-                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                        </svg>
-                    </div>
-                    <label for="search-backend-user-input"></label>
-                    <input name="search" value="{{ app.request.query.get('search') }}" type="search"
-                           id="search-backend-user-input-js"
-                           class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                           placeholder="Rechercher par email, nom d'utlisateur...">
-                    <button type="submit" id="search-backend-user-submit-button-js"
-                            class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                        Rechercher
+        <div class="border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+            <div class="p-2">
+
+                <div id="container-reset-button-js" class="flex justify-end">
+                    <button type="button" id="refresh-backend-user-list-js"
+                            class="text-xs px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-whit">
+                        Afficher tous les utilisateurs
                     </button>
                 </div>
-            </form>
 
-            <div class="p-2 hidden" id="container-reset-button-js">
-                <button type="button" id="reset-search-backend-user-submit-button-js"
-                        class="w-full text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
-                    Réinitialiser
-                </button>
-            </div>
+                {# Search by query #}
+                <form action="{{ path('app_backend_user_backend_list') }}" method="get" class="mt-2"
+                      id="search-backend-user">
+                    <label for="default-search" class="mb-2 text-xs font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                      stroke-width="2"
+                                      d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                            </svg>
+                        </div>
+                        <label for="search-backend-user-input"></label>
+                        <input name="search" value="{{ app.request.query.get('search') }}" type="search"
+                               id="search-backend-user-input-js"
+                               class="block w-full p-1 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                               placeholder="Rechercher par email, nom d'utlisateur...">
+                        <button type="submit" id="search-backend-user-submit-button-js"
+                                class="text-white absolute right-0 bottom-0 bg-blue-600 hover:bg-blue-500 focus:ring-4 focus:outline-none font-medium text-xs px-2 py-2 dark:bg-blue-600 dark:hover:bg-blue-500 rounded-r-lg">
+                            Rechercher
+                        </button>
+                    </div>
+                </form>
 
-            <div class="flex-grow p-2">
-                <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
-                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                        <tr>
-                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Email</th>
-                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Nom d'utilisateur</th>
-                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Rôles</th>
-                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Actions</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for user in pagination %}
-                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <td class="py-2 px-3 md:py-4 md:px-6">{{ user.email }}</td>
-                                <td class="py-2 px-3 md:py-4 md:px-6">{{ user.username ? user.username : 'N/A' }}</td>
-                                <td class="py-2 px-3 md:py-4 md:px-6">{{ user.roles | join(', ') }}</td>
-                                <td class="py-2 px-3 md:py-4 md:px-6">
-                                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Modifier</a>
-                                    <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline ml-2">Supprimer</a>
-                                </td>
+                <div class="flex-grow mt-2">
+                    <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+                        <table class="w-full text-xs text-left text-gray-500 dark:text-gray-400">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Email</th>
+                                <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Nom d'utilisateur</th>
+                                <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Rôles</th>
+                                <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Actions</th>
                             </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            {% if pagination.items is not empty %}
+                                {% for user in pagination %}
+                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                        <td class="py-2 px-3 md:py-4 md:px-6">{{ user.email }}</td>
+                                        <td class="py-2 px-3 md:py-4 md:px-6">{{ user.username ? user.username : 'N/A' }}</td>
+                                        <td class="py-2 px-3 md:py-4 md:px-6">{{ user.roles | join(', ') }}</td>
+                                        <td class="py-2 px-3 md:py-4 md:px-6">
+                                            <a href="#"
+                                               class="font-medium text-white dark:text-white rounded p-1 bg-blue-600 hover:bg-blue-500">Modifier</a>
+                                            <a href="#"
+                                               class="font-medium text-white dark:text-white rounded p-1 bg-red-600 hover:bg-red-500">Supprimer</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                    <td colspan="4" class="py-2 px-3 md:py-4 md:px-6 text-center">Aucun utilisateur trouvé</td>
+                                </tr>
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
             {# Pagination #}
-            <div class="flex justify-center">
+            <div class="flex justify-center mb-2">
                 {{ knp_pagination_render(pagination) }}
             </div>
         </div>
