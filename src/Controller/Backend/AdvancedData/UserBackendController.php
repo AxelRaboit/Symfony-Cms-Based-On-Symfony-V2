@@ -2,6 +2,7 @@
 
 namespace App\Controller\Backend\AdvancedData;
 
+use App\Manager\Backend\AdvancedData\UserBackend\UserBackendManager;
 use App\Repository\UserBackendRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,5 +32,17 @@ class UserBackendController extends AbstractController
         return $this->render('backend/dashboard/advancedData/userBackend/list.html.twig', [
             'pagination' => $pagination,
         ]);
+    }
+
+    #[Route('/backend/user/backend/{id}/delete', name: 'app_backend_user_backend_delete')]
+    public function userDelete(UserBackendRepository $userBackendRepository, Request $request, UserBackendManager $userBackendManager): Response
+    {
+        $user = $userBackendRepository->find($request->get('id'));
+
+        if ($user) {
+            $userBackendManager->userBackendDelete($user->getId());
+        }
+
+        return $this->redirectToRoute('app_backend_user_backend_list');
     }
 }
