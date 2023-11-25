@@ -9,20 +9,10 @@ use App\Repository\PageRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Exception;
 use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 class PageService
 {
-    private Request $request;
-
-    public function __construct(
-        RequestStack $requestStack,
-        private readonly PageRepository $pageRepository
-    )
-    {
-        $this->request = $requestStack->getCurrentRequest();
-    }
+    public function __construct(private readonly PageRepository $pageRepository){}
 
     /**
      * @throws NonUniqueResultException

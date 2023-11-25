@@ -29,6 +29,9 @@ Encore
     // dashboard - elements
     .addEntry('backend/dashboard/side-menu', './assets/backend/js/templates/backend/dashboard/elements/side-menu.js')
 
+    // dashboard - advancedData
+    .addEntry('backend/dashboard/advancedData/UserBackend/list', './assets/backend/js/templates/backend/dashboard/advancedData/userBackend/list.js')
+
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

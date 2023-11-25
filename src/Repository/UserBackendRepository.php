@@ -40,6 +40,18 @@ class UserBackendRepository extends ServiceEntityRepository implements PasswordU
         $this->getEntityManager()->flush();
     }
 
+    public function findByCriteria(string $criteria): array
+    {
+        $qb = $this->createQueryBuilder('u');
+
+        if (!empty($criteria)) {
+            $qb->andWhere('u.email LIKE :email')
+                ->setParameter('email', '%' . $criteria . '%');
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return UserBackend[] Returns an array of UserBackend objects
 //     */
