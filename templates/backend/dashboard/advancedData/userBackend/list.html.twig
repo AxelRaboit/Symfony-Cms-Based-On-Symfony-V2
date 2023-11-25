@@ -24,15 +24,22 @@
                     </div>
                     <label for="search-backend-user-input"></label>
                     <input name="search" value="{{ app.request.query.get('search') }}" type="search"
-                           id="search-backend-user-input"
+                           id="search-backend-user-input-js"
                            class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                            placeholder="Rechercher par email, nom d'utlisateur...">
-                    <button type="submit"
+                    <button type="submit" id="search-backend-user-submit-button-js"
                             class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                         Rechercher
                     </button>
                 </div>
             </form>
+
+            <div class="p-2 hidden" id="container-reset-button-js">
+                <button type="button" id="reset-search-backend-user-submit-button-js"
+                        class="w-full text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">
+                    Réinitialiser
+                </button>
+            </div>
 
             <div class="flex-grow p-2">
                 <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
