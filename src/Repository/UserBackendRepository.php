@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\UserBackend;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -42,38 +43,16 @@ class UserBackendRepository extends ServiceEntityRepository implements PasswordU
 
     public function findByCriteria(string $criteria): array
     {
-        $qb = $this->createQueryBuilder('u');
+        $query = $this->em()->createQuery('SELECT u FROM App\Entity\UserBackend u WHERE u.email LIKE :criteria OR u.username LIKE :criteria');
+        $query->setParameter('criteria', '%' . $criteria . '%');
 
-        if (!empty($criteria)) {
-            $qb->andWhere('u.email LIKE :email')
-                ->setParameter('email', '%' . $criteria . '%');
-        }
-
-        return $qb->getQuery()->getResult();
+        return $query->getResult();
     }
 
-//    /**
-//     * @return UserBackend[] Returns an array of UserBackend objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    // base
 
-//    public function findOneBySomeField($value): ?UserBackend
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    private function em(): EntityManagerInterface
+    {
+        return $this->_em;
+    }
 }

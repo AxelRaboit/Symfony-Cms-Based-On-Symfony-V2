@@ -30,7 +30,6 @@ class UserBackendController extends AbstractController
 
         return $this->render('backend/dashboard/advancedData/userBackend/list.html.twig', [
             'pagination' => $pagination,
-            /*'searchForm' => $searchForm->createView(),*/
         ]);
     }
 }
