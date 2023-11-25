@@ -7,6 +7,7 @@ use App\Enum\DataEnum;
 use App\Enum\UtilsEnum;
 use App\Repository\PageRepository;
 use Doctrine\ORM\NonUniqueResultException;
+use Exception;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -25,14 +26,14 @@ class PageService
 
     /**
      * @throws NonUniqueResultException
-     * @throws \Exception
+     * @throws Exception
      */
     public function page404NotFound(): Page
     {
         $page = $this->pageRepository->getPageFromDataDevKey(DataEnum::DATA_PAGE_ERROR_404_DEV_KEY);
 
         if (null === $page) {
-            throw new \Exception('The page 404 not found is not defined.');
+            throw new Exception('The page 404 not found is not defined.');
         }
 
         return $page;

@@ -24,6 +24,12 @@ Encore
     .addEntry('backend', './assets/backend/app.js')
     .addEntry('shared', './assets/shared/app.js')
 
+    // Backend - Templates
+
+    // dashboard - elements
+    .addEntry('backend/dashboard/side-menu', './assets/backend/js/templates/backend/dashboard/elements/side-menu.js')
+
+
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
 
