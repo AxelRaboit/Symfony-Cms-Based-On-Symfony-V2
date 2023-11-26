@@ -1,12 +1,14 @@
 {% extends "backend/base/base.html.twig" %}
 
+{% block title %}{{ parent() }} - Créer un utilisateur Backend{% endblock %}
+
 {% block body %}
     {% include 'backend/dashboard/elements/_side-menu.html.twig' %}
     <div class="p-2 sm:ml-64">
         <div class="border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
             <div class="p-4">
 
-                <h1 class="text-2xl font-semibold mb-2">Créer un utilisateur</h1>
+                <h1 class="text-2xl font-semibold mb-2">Créer un utilisateur Backend</h1>
 
                 {{ form_start(form) }}
 
