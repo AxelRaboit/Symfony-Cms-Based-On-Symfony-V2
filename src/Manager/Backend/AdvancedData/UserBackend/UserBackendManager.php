@@ -27,6 +27,8 @@ class UserBackendManager extends AbstractManager
             )
         );
         $userBackend->setRoles(['ROLE_BACKEND']);
+        $userBackend->setCreatedAt(new \DateTimeImmutable());
+        $userBackend->setUpdatedAt(new \DateTimeImmutable());
 
         $this->save($userBackend);
     }

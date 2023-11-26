@@ -84,7 +84,17 @@
                                         <td class="py-2 px-3 md:py-4 md:px-6">{{ user.id }}</td>
                                         <td class="py-2 px-3 md:py-4 md:px-6">{{ user.email }}</td>
                                         <td class="py-2 px-3 md:py-4 md:px-6">{{ user.username ? user.username : 'N/A' }}</td>
-                                        <td class="py-2 px-3 md:py-4 md:px-6">{{ user.roles | join(', ') }}</td>
+                                        <td class="py-2 px-3 md:py-4 md:px-6">
+                                            {% for role in user.roles %}
+                                                {% if role == 'ROLE_BACKEND' %}
+                                                    <span class="bg-blue-600 text-white px-2 py-1 rounded">Backend</span>
+                                                {% elseif role == 'ROLE_USER' %}
+                                                    <span class="bg-green-600 text-white px-2 py-1 rounded">User</span>
+                                                {% else %}
+                                                    <span class="bg-gray-600 text-white px-2 py-1 rounded">N/A</span>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </td>
                                         <td class="py-2 px-3 md:py-1 md:px-1">
                                             <div class="flex flex-wrap items-center">
                                                 <a href="{{ path('app_backend_user_backend_edit', {'id': user.id}) }}"
