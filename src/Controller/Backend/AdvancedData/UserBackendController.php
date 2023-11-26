@@ -7,7 +7,7 @@ use App\Form\backend\admin\dashboard\advancedData\userBackend\UserBackendCreateT
 use App\Form\backend\admin\dashboard\advancedData\userBackend\UserBackendEditType;
 use App\Manager\Backend\AdvancedData\UserBackend\UserBackendManager;
 use App\Repository\UserBackendRepository;
-use App\Service\UtilsService;
+use App\Service\StringUtilsService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,14 +18,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserBackendController extends AbstractController
 {
     #[Route('/backend/admin/user/backend/list', name: 'app_backend_user_backend_list')]
-    public function userList(UserBackendRepository $userBackendRepository, Request $request, PaginatorInterface $paginator, UtilsService $utilsService): Response
+    public function userList(UserBackendRepository $userBackendRepository, Request $request, PaginatorInterface $paginator, StringUtilsService $stringUtilsService): Response
     {
         $search = $request->query->get('search');
 
         if (!empty($search)) {
-            $query = $userBackendRepository->findByCriteria(
-                $utilsService->extractEmailFromString($search)
-            );
+            if ($stringUtilsService->stringContainsEmail($search)) {
+                $query = $userBackendRepository->findByCriteria(
+                    $stringUtilsService->extractEmailFromString($search)
+                );
+            } else {
+                $query = $userBackendRepository->findByCriteria($search);
+            }
         } else {
             $query = $userBackendRepository->findAll();
         }

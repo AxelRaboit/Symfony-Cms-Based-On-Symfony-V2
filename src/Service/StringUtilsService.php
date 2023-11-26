@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-class UtilsService
+class StringUtilsService
 {
     public function extractEmailFromString(string $string): ?string
     {
@@ -12,5 +12,10 @@ class UtilsService
         }
 
         return $email;
+    }
+
+    public function stringContainsEmail(string $string): bool
+    {
+        return preg_match('/[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+.[a-zA-Z]+/', $string, $matches);
     }
 }
