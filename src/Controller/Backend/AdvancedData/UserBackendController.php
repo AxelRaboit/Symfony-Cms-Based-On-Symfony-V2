@@ -28,10 +28,10 @@ class UserBackendController extends AbstractController
                     $stringUtilsService->extractEmailFromString($search)
                 );
             } else {
-                $query = $userBackendRepository->findByCriteria($search);
+                $query = $userBackendRepository->findByCriteria($search, 'DESC');
             }
         } else {
-            $query = $userBackendRepository->findAll();
+            $query = $userBackendRepository->findAllOrderBy('DESC');
         }
 
         $pagination = $paginator->paginate(
@@ -114,9 +114,7 @@ class UserBackendController extends AbstractController
             $responseData[] = [
                 'id' => $user->getId(),
                 'label' => $user->getUsername() ?
-                    ($user->getEmail() . ' - ' . $user->getUsername()) : $user->getEmail(),
-                'text' => $user->getUsername() ?
-                    ($user->getEmail() . ' - ' . $user->getUsername()) : $user->getEmail(),
+                    ($user->getId() . ' - ' . $user->getEmail() . ' - ' . $user->getUsername()) : $user->getEmail(),
             ];
         }
 

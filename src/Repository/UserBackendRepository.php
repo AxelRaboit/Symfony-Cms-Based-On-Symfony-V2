@@ -41,10 +41,17 @@ class UserBackendRepository extends ServiceEntityRepository implements PasswordU
         $this->getEntityManager()->flush();
     }
 
-    public function findByCriteria(string $criteria): array
+    public function findByCriteria(string $criteria, string $order = 'ASC'): array
     {
-        $query = $this->em()->createQuery('SELECT u FROM App\Entity\UserBackend u WHERE u.email LIKE :criteria OR u.username LIKE :criteria');
+        $query = $this->em()->createQuery('SELECT u FROM App\Entity\UserBackend u WHERE u.email LIKE :criteria OR u.username LIKE :criteria ORDER BY u.id ' . $order);
         $query->setParameter('criteria', '%' . $criteria . '%');
+
+        return $query->getResult();
+    }
+
+    public function findAllOrderBy(string $order = 'ASC'): array
+    {
+        $query = $this->em()->createQuery('SELECT u FROM App\Entity\UserBackend u ORDER BY u.id ' . $order);
 
         return $query->getResult();
     }

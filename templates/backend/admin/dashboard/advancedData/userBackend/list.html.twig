@@ -72,6 +72,7 @@
                         <table class="w-full text-xs text-left text-gray-500 dark:text-gray-400">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
+                                <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Id</th>
                                 <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Email</th>
                                 <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Nom d'utilisateur</th>
                                 <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Rôles</th>
@@ -82,6 +83,7 @@
                             {% if pagination.items is not empty %}
                                 {% for user in pagination %}
                                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                        <td class="py-2 px-3 md:py-4 md:px-6">{{ user.id }}</td>
                                         <td class="py-2 px-3 md:py-4 md:px-6">{{ user.email }}</td>
                                         <td class="py-2 px-3 md:py-4 md:px-6">{{ user.username ? user.username : 'N/A' }}</td>
                                         <td class="py-2 px-3 md:py-4 md:px-6">{{ user.roles | join(', ') }}</td>
