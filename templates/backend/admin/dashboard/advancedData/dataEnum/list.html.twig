@@ -1,0 +1,63 @@
+{% extends 'backend/admin/base/base.html.twig' %}
+
+{% block title %}{{ parent() }} - Liste des data Enums{% endblock %}
+
+{% block body %}
+    {% include 'backend/admin/dashboard/elements/_side-menu.html.twig' %}
+
+    <div class="p-2 sm:ml-64">
+        <div class="border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+            <div class="flex-grow mt-2 p-2">
+                <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+                    <table class="w-full text-xs text-left text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Id</th>
+                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Nom</th>
+                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Categorie</th>
+                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Valeur</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if pagination.items is not empty %}
+                            {% for dataEnum in pagination %}
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ dataEnum.id }}</td>
+                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ dataEnum.name }}</td>
+                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ dataEnum.category }}</td>
+                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ dataEnum.value ? dataEnum.value : 'N/A' }}</td>
+                                    <td class="py-2 px-3 md:py-1 md:px-1">
+                                        <div class="flex flex-wrap items-center">
+                                            <a href="#"
+                                               class="font-medium text-white dark:text-white rounded p-2 bg-blue-600 hover:bg-blue-500 md:mr-2 my-1"><i
+                                                        class="fa-solid fa-pen-to-square"></i></a>
+                                            <a href="#"
+                                               class="font-medium text-white dark:text-white rounded p-2 bg-red-600 hover:bg-red-500 my-1"><i
+                                                        class="fa-solid fa-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <td colspan="5" class="py-2 px-3 md:py-4 md:px-6 text-center">Aucune dataEnum
+                                    trouvé
+                                </td>
+                            </tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            {# Pagination #}
+            {% if pagination.items is not empty %}
+                <div class="flex justify-center mb-2">
+                    {{ knp_pagination_render(pagination) }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+
