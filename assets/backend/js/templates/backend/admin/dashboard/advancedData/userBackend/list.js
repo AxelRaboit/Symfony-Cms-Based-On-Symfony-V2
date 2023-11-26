@@ -1,21 +1,22 @@
 document.addEventListener('DOMContentLoaded', function () {
+
+    // Variables
     const searchForm = document.getElementById('search-backend-user');
-    const searchFormInput = document.getElementById('search-backend-user-input-js');
     const containerResetFormButton = document.getElementById('container-reset-button-js');
     const resetFormButton = document.getElementById('refresh-backend-user-list-js');
+    const searchFormInput = document.getElementById('search-backend-user-input-js');
+    const suggestionsList = document.getElementById('search-suggestions');
 
-    resetFormButton.addEventListener('click', function (e) {
+    // This function is used to display the reset button when the user click on it, it will reset the search form and display all users
+    // This button is called "Afficher tous les utilisateurs"
+    resetFormButton.addEventListener('click', function () {
         searchFormInput.value = '';
         containerResetFormButton.classList.add('hidden');
         searchForm.submit();
     });
-});
 
-document.addEventListener('DOMContentLoaded', function () {
-    const searchInput = document.getElementById('search-backend-user-input-js');
-    const suggestionsList = document.getElementById('search-suggestions');
-
-    searchInput.addEventListener('input', function (e) {
+    // This function is used to fetch the users from the database and display them in the suggestions list according to the search term
+    searchFormInput.addEventListener('input', function (e) {
         const searchTerm = e.target.value;
 
         if (searchTerm.length >= 2) { // Begin search only if search term is at least 2 characters long
@@ -42,7 +43,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    // This function is used to display the results of the search in the suggestions list
     function updateSuggestionsList(users) {
+        const searchForm = document.getElementById('search-backend-user');
+
         suggestionsList.innerHTML = ''; // Delete all the current suggestions
 
         users.forEach(user => {
@@ -51,10 +55,12 @@ document.addEventListener('DOMContentLoaded', function () {
             listItem.classList.add('p-2', 'hover:bg-gray-100', 'cursor-pointer');
 
             listItem.addEventListener('click', () => {
-                searchInput.value = user.label; // Update the input with the selected value
+                searchFormInput.value = user.label; // Update the input with the selected value
                 suggestionsList.innerHTML = ''; // Delete suggestions
                 suggestionsList.classList.add('hidden');
-                // We can also trigger a search or any other action here
+
+                // Submit the form when a suggestion is clicked
+                searchForm.submit();
             });
 
             suggestionsList.appendChild(listItem);
@@ -67,4 +73,3 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 });
-
