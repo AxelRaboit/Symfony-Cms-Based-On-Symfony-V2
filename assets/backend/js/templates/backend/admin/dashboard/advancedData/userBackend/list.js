@@ -15,6 +15,13 @@ document.addEventListener('DOMContentLoaded', function () {
         searchForm.submit();
     });
 
+    // Check if the click is outside the suggestions list and the search input and hide the suggestions list if it is the case
+    document.addEventListener('click', function (event) {
+        if (!searchFormInput.contains(event.target) && !suggestionsList.contains(event.target)) {
+            suggestionsList.classList.add('hidden');
+        }
+    });
+
     // This function is used to fetch the users from the database and display them in the suggestions list according to the search term
     searchFormInput.addEventListener('input', function (e) {
         const searchTerm = e.target.value;
