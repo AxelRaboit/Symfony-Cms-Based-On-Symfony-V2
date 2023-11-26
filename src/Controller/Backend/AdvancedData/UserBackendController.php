@@ -9,6 +9,7 @@ use App\Manager\Backend\AdvancedData\UserBackend\UserBackendManager;
 use App\Repository\UserBackendRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -37,7 +38,7 @@ class UserBackendController extends AbstractController
         ]);
     }
 
-    #[Route('/backend/admin/user/backend/create', name: 'app_backend_user_backend_create', methods: ['GET', 'POST'] )]
+    #[Route('/backend/admin/user/backend/create', name: 'app_backend_user_backend_create', methods: ['GET', 'POST'])]
     public function userCreate(Request $request, UserBackendManager $userBackendManager): Response
     {
         $userBackend = new UserBackend();
@@ -72,7 +73,7 @@ class UserBackendController extends AbstractController
         return $this->redirectToRoute('app_backend_user_backend_list');
     }
 
-    #[Route('/backend/admin/user/backend/{id}/edit', name: 'app_backend_user_backend_edit', methods: ['GET', 'POST'] )]
+    #[Route('/backend/admin/user/backend/{id}/edit', name: 'app_backend_user_backend_edit', methods: ['GET', 'POST'])]
     public function userEdit(UserBackend $userBackend, Request $request, UserBackendManager $userBackendManager): Response
     {
         $form = $this->createForm(UserBackendEditType::class, $userBackend);
@@ -91,5 +92,27 @@ class UserBackendController extends AbstractController
         return $this->render('backend/admin/dashboard/advancedData/userBackend/edit.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/backend/admin/user/backend/ajax-search', name: 'app_backend_user_backend_ajax_search')]
+    public function ajaxSearch(Request $request, UserBackendRepository $userBackendRepository): JsonResponse
+    {
+        $searchTerm = $request->query->get('term');
+
+        $users = $userBackendRepository->findByCriteria($searchTerm);
+
+        $responseData = [];
+
+        foreach ($users as $user) {
+            $responseData[] = [
+                'id' => $user->getId(),
+                'label' => $user->getUsername() ?
+                    ($user->getUsername() . ' - ' . $user->getEmail()) : $user->getEmail(),
+                'text' => $user->getUsername() ?
+                    ($user->getUsername() . ' - ' . $user->getEmail()) : $user->getEmail(),
+            ];
+        }
+
+        return new JsonResponse($responseData);
     }
 }
