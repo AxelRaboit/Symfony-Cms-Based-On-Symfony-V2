@@ -34,6 +34,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    // When we click on the search input, we display the current suggestions list
+    handleClickEvent(document, function (event) {
+        if (searchFormInput.contains(event.target)) {
+            suggestionsList.classList.remove('hidden');
+        }
+    });
+
     // This function is used to fetch the users from the database and display them in the suggestions list according to the search term
     handleInputEvent(searchFormInput, function (event) {
         const searchTerm = event.target.value;
