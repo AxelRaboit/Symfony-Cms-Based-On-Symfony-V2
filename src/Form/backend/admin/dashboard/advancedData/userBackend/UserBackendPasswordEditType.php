@@ -20,7 +20,7 @@ class UserBackendPasswordEditType extends AbstractType
         $builder
             ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'invalid_message' => 'Les mots de passe doivent correspondre.',
+                'invalid_message' => 'Les mots de passe doivent être identiques.',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => false,
                 'first_options'  => ['label' => 'Mot de passe'],

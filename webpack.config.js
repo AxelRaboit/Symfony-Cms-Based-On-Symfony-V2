@@ -28,6 +28,7 @@ Encore
 
     // dashboard - advancedData
     .addEntry('backend/admin/dashboard/advancedData/UserBackend/list', './assets/backend/js/templates/backend/admin/dashboard/advancedData/userBackend/list.js')
+    .addEntry('backend/admin/dashboard/advancedData/UserBackend/edit', './assets/backend/js/templates/backend/admin/dashboard/advancedData/userBackend/edit.js')
 
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.

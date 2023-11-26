@@ -3,6 +3,8 @@
 {% block title %}{{ parent() }} - Modifier l'utilisateur Backend{% endblock %}
 
 {% block body %}
+    {{ encore_entry_link_tags('backend/admin/dashboard/advancedData/UserBackend/edit') }}
+
     {% include 'backend/admin/dashboard/elements/_side-menu.html.twig' %}
 
     <div class="p-2 sm:ml-64">
@@ -35,31 +37,40 @@
                     {% endif %}
                 </div>
 
-                <div class="mb-4">
-                    {{ form_label(form.password.password.first) }}
-                    {{ form_widget(form.password.password.first, { 'attr': { 'class': 'w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
-                    {% if form.password.password.first.vars.errors %}
-                        <div class="mt-1 text-red-600 text-xs">
-                            {% for error in form.password.password.first.vars.errors %}
-                                <p>{{ error.message }}</p>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
+                <div class="w-full md:w-auto mb-2 md:mb-0">
+                    <button type="button" id="button-edit-password-js"
+                            class="w-full text-xs px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                        Modifier le mot de passe
+                    </button>
                 </div>
 
-                <div class="mb-4">
-                    {{ form_label(form.password.password.second) }}
-                    {{ form_widget(form.password.password.second, { 'attr': { 'class': 'w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
-                    {% if form.password.password.second.vars.errors %}
-                        <div class="mt-1 text-red-600 text-xs">
-                            {% for error in form.password.password.second.vars.errors %}
-                                <p>{{ error.message }}</p>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
+                <div id="container-password-js" class="hidden mt-2">
+                    <div class="mb-4">
+                        {{ form_label(form.password.password.first) }}
+                        {{ form_widget(form.password.password.first, { 'attr': { 'class': 'w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
+                        {% if form.password.password.first.vars.errors %}
+                            <div class="mt-1 text-red-600 text-xs">
+                                {% for error in form.password.password.first.vars.errors %}
+                                    <p>{{ error.message }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        {{ form_label(form.password.password.second) }}
+                        {{ form_widget(form.password.password.second, { 'attr': { 'class': 'w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
+                        {% if form.password.password.second.vars.errors %}
+                            <div class="mt-1 text-red-600 text-xs">
+                                {% for error in form.password.password.second.vars.errors %}
+                                    <p>{{ error.message }}</p>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
 
-                <div class="flex flex-wrap">
+                <div class="flex flex-wrap mt-4">
                     <div class="w-full md:w-auto mb-2 md:mb-0">
                         <button type="submit"
                                 class="w-full text-xs px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
@@ -81,13 +92,7 @@
             </div>
         </div>
     </div>
-{% endblock %}
 
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            attachConfirmationToForm("form-edit-user-backend-js", "Êtes-vous sûr de vouloir d'effectuer cette modification ?");
-        });
-    </script>
+    {{ encore_entry_script_tags('backend/admin/dashboard/advancedData/UserBackend/edit') }}
+
 {% endblock %}
