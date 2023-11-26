@@ -22,6 +22,7 @@ class UserBackendController extends AbstractController
     public function userList(UserBackendRepository $userBackendRepository, Request $request, PaginatorInterface $paginator, StringUtilsService $stringUtilsService): Response
     {
         $search = $request->query->get('search');
+        $search = $stringUtilsService->protectQueryString($search);
 
         if (!empty($search)) {
             if ($stringUtilsService->stringContainsEmail($search)) {
