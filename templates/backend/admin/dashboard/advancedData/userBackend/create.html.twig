@@ -10,7 +10,7 @@
                 <h1 class="text-2xl font-semibold mb-2">Créer un utilisateur Backend</h1>
                 {{ form_start(form, {'attr': {'id': 'form-create-user-backend-js'}}) }}
 
-                <div class="mb-2">
+                <div class="mb-2 text-xs">
                     {{ form_label(form.username) }}
                     {{ form_widget(form.username, { 'attr': { 'class': 'w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
                     {% if form.username.vars.errors %}
@@ -22,7 +22,7 @@
                     {% endif %}
                 </div>
 
-                <div class="mb-4">
+                <div class="mb-4 text-xs">
                     {{ form_label(form.email) }}
                     {{ form_widget(form.email, { 'attr': { 'class': 'w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
                     {% if form.email.vars.errors %}
@@ -34,7 +34,7 @@
                     {% endif %}
                 </div>
 
-                <div class="mb-4">
+                <div class="mb-4 text-xs">
                     {{ form_label(form.password) }}
                     {{ form_widget(form.password, { 'attr': { 'class': 'w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
                     {% if form.password.vars.errors %}

@@ -13,9 +13,9 @@
                 <h1 class="text-2xl font-semibold mb-2">Modifier l'utilisateur Backend</h1>
                 {{ form_start(form, {'attr': {'id': 'form-edit-user-backend-js'}}) }}
 
-                <div class="mb-2">
+                <div class="mb-2 text-xs">
                     {{ form_label(form.username) }}
-                    {{ form_widget(form.username, { 'attr': { 'class': 'w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
+                    {{ form_widget(form.username, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
                     {% if form.username.vars.errors %}
                         <div class="mt-1 text-red-600 text-xs">
                             {% for error in form.username.vars.errors %}
@@ -25,9 +25,9 @@
                     {% endif %}
                 </div>
 
-                <div class="mb-4">
+                <div class="mb-4 text-xs">
                     {{ form_label(form.email) }}
-                    {{ form_widget(form.email, { 'attr': { 'class': 'w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
+                    {{ form_widget(form.email, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
                     {% if form.email.vars.errors %}
                         <div class="mt-1 text-red-600 text-xs">
                             {% for error in form.email.vars.errors %}
@@ -47,7 +47,7 @@
                 <div id="container-password-js" class="hidden mt-2">
                     <div class="mb-4">
                         {{ form_label(form.password.password.first) }}
-                        {{ form_widget(form.password.password.first, { 'attr': { 'class': 'w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
+                        {{ form_widget(form.password.password.first, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
                         {% if form.password.password.first.vars.errors %}
                             <div class="mt-1 text-red-600 text-xs">
                                 {% for error in form.password.password.first.vars.errors %}
@@ -59,7 +59,7 @@
 
                     <div class="mb-4">
                         {{ form_label(form.password.password.second) }}
-                        {{ form_widget(form.password.password.second, { 'attr': { 'class': 'w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
+                        {{ form_widget(form.password.password.second, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
                         {% if form.password.password.second.vars.errors %}
                             <div class="mt-1 text-red-600 text-xs">
                                 {% for error in form.password.password.second.vars.errors %}
