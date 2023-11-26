@@ -1,7 +1,10 @@
 // Using "windows." to make the function available in the global scope
 window.attachConfirmationToForm = function(formId, confirmationMessage) {
     const form = document.getElementById(formId);
-    if (!form) return;
+    if (!form) {
+        console.error(`Form with id "${formId}" not found`);
+        return;
+    }
 
     form.addEventListener('submit', function(event) {
         event.preventDefault();

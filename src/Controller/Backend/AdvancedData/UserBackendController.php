@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserBackendController extends AbstractController
@@ -81,16 +82,29 @@ class UserBackendController extends AbstractController
     }
 
     #[Route('/backend/admin/user/backend/{id}/edit', name: 'app_backend_user_backend_edit', methods: ['GET', 'POST'])]
-    public function userEdit(UserBackend $userBackend, Request $request, UserBackendManager $userBackendManager): Response
+    public function userEdit(UserBackend $userBackend, Request $request, UserBackendManager $userBackendManager, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $form = $this->createForm(UserBackendEditType::class, $userBackend);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $passwordData = $form->get('password');
+
+            $firstPassword = $passwordData['password']['first']->getData();
+            $secondPassword = $passwordData['password']['second']->getData();
+
+            if (!empty($firstPassword) && $firstPassword === $secondPassword) {
+                $hashedPassword = $userPasswordHasher->hashPassword(
+                    $userBackend,
+                    $firstPassword
+                );
+
+                $userBackend->setPassword($hashedPassword);
+            }
+
             $userBackendManager->userBackendEdit($userBackend);
 
             $userIdentity = $userBackend->getUsername() ?? $userBackend->getEmail();
-
             $this->addFlash('success', "L'utilisateur {$userIdentity} a été modifié avec succès.");
 
             return $this->redirectToRoute('app_backend_user_backend_list');
