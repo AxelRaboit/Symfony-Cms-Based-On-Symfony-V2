@@ -4,13 +4,14 @@
 
 {% block body %}
     {% include 'backend/admin/dashboard/elements/_side-menu.html.twig' %}
+
     <div class="p-2 sm:ml-64">
         <div class="border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
             <div class="p-4">
 
                 <h1 class="text-2xl font-semibold mb-2">Modifier l'utilisateur Backend</h1>
 
-                {{ form_start(form) }}
+                {{ form_start(form, {'attr': {'id': 'form-edit-user-backend-js'}}) }}
 
                 <div class="mb-2">
                     {{ form_row(form.username, { 'attr': { 'class': 'w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
@@ -43,4 +44,13 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            attachConfirmationToForm("form-edit-user-backend-js", "Êtes-vous sûr de vouloir d'effectuer cette modification ?");
+        });
+    </script>
 {% endblock %}

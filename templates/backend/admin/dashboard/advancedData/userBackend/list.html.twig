@@ -2,9 +2,7 @@
 
 {% block title %}{{ parent() }} - Liste des utilisateurs Backend{% endblock %}
 
-
 {% block body %}
-
     {{ encore_entry_link_tags('backend/admin/dashboard/advancedData/UserBackend/list') }}
 
     {% include 'backend/admin/dashboard/elements/_side-menu.html.twig' %}
@@ -120,7 +118,6 @@
     </div>
 
     {{ encore_entry_script_tags('backend/admin/dashboard/advancedData/UserBackend/list') }}
-
 {% endblock %}
 
 
