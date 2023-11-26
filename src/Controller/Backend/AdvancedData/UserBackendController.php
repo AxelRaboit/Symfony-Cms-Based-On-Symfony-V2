@@ -3,8 +3,8 @@
 namespace App\Controller\Backend\AdvancedData;
 
 use App\Entity\UserBackend;
-use App\Form\backend\dashboard\advancedData\userBackend\UserBackendCreateType;
-use App\Form\backend\dashboard\advancedData\userBackend\UserBackendEditType;
+use App\Form\backend\admin\dashboard\advancedData\userBackend\UserBackendCreateType;
+use App\Form\backend\admin\dashboard\advancedData\userBackend\UserBackendEditType;
 use App\Manager\Backend\AdvancedData\UserBackend\UserBackendManager;
 use App\Repository\UserBackendRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserBackendController extends AbstractController
 {
-    #[Route('/backend/user/backend/list', name: 'app_backend_user_backend_list')]
+    #[Route('/backend/admin/user/backend/list', name: 'app_backend_user_backend_list')]
     public function userList(UserBackendRepository $userBackendRepository, Request $request, PaginatorInterface $paginator): Response
     {
         $search = $request->query->get('search');
@@ -32,12 +32,12 @@ class UserBackendController extends AbstractController
             null // Override default limit per page
         );
 
-        return $this->render('backend/dashboard/advancedData/userBackend/list.html.twig', [
+        return $this->render('backend/admin/dashboard/advancedData/userBackend/list.html.twig', [
             'pagination' => $pagination,
         ]);
     }
 
-    #[Route('/backend/user/backend/create', name: 'app_backend_user_backend_create', methods: ['GET', 'POST'] )]
+    #[Route('/backend/admin/user/backend/create', name: 'app_backend_user_backend_create', methods: ['GET', 'POST'] )]
     public function userCreate(Request $request, UserBackendManager $userBackendManager): Response
     {
         $userBackend = new UserBackend();
@@ -55,12 +55,12 @@ class UserBackendController extends AbstractController
             return $this->redirectToRoute('app_backend_user_backend_list');
         }
 
-        return $this->render('backend/dashboard/advancedData/userBackend/create.html.twig', [
+        return $this->render('backend/admin/dashboard/advancedData/userBackend/create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
 
-    #[Route('/backend/user/backend/{id}/delete', name: 'app_backend_user_backend_delete')]
+    #[Route('/backend/admin/user/backend/{id}/delete', name: 'app_backend_user_backend_delete')]
     public function userDelete(UserBackend $userBackend, UserBackendManager $userBackendManager): Response
     {
         $userBackendManager->userBackendDelete($userBackend);
@@ -72,7 +72,7 @@ class UserBackendController extends AbstractController
         return $this->redirectToRoute('app_backend_user_backend_list');
     }
 
-    #[Route('/backend/user/backend/{id}/edit', name: 'app_backend_user_backend_edit', methods: ['GET', 'POST'] )]
+    #[Route('/backend/admin/user/backend/{id}/edit', name: 'app_backend_user_backend_edit', methods: ['GET', 'POST'] )]
     public function userEdit(UserBackend $userBackend, Request $request, UserBackendManager $userBackendManager): Response
     {
         $form = $this->createForm(UserBackendEditType::class, $userBackend);
@@ -88,7 +88,7 @@ class UserBackendController extends AbstractController
             return $this->redirectToRoute('app_backend_user_backend_list');
         }
 
-        return $this->render('backend/dashboard/advancedData/userBackend/edit.html.twig', [
+        return $this->render('backend/admin/dashboard/advancedData/userBackend/edit.html.twig', [
             'form' => $form->createView(),
         ]);
     }

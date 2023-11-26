@@ -8,10 +8,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class BackendController extends AbstractController
 {
-    #[Route('/backend/dashboard', name: 'app_backend_dashboard')]
+    #[Route('/backend/admin/dashboard', name: 'app_backend_dashboard')]
     public function index(): Response
     {
-        return $this->render('backend/dashboard/dashboard.html.twig', [
+        return $this->render('backend/admin/dashboard/dashboard.html.twig', [
             'controller_name' => 'BackendController',
         ]);
     }

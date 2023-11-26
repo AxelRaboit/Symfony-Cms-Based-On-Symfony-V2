@@ -27,10 +27,10 @@ Encore
     // Backend - Templates
 
     // dashboard - elements
-    .addEntry('backend/dashboard/side-menu', './assets/backend/js/templates/backend/dashboard/elements/side-menu.js')
+    .addEntry('backend/admin/dashboard/side-menu', './assets/backend/js/templates/backend/admin/dashboard/elements/side-menu.js')
 
     // dashboard - advancedData
-    .addEntry('backend/dashboard/advancedData/UserBackend/list', './assets/backend/js/templates/backend/dashboard/advancedData/userBackend/list.js')
+    .addEntry('backend/admin/dashboard/advancedData/UserBackend/list', './assets/backend/js/templates/backend/admin/dashboard/advancedData/userBackend/list.js')
 
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.

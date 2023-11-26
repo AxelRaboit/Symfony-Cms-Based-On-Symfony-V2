@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\backend\dashboard\advancedData\userBackend;
+namespace App\Form\backend\admin\dashboard\advancedData\userBackend;
 
 use App\Entity\UserBackend;
 use Symfony\Component\Form\AbstractType;

@@ -36,10 +36,18 @@ security:
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
 
+    role_hierarchy:
+        # BACKEND
+        ROLE_BACKEND:
+
+
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/backend/dashboard, roles: ROLE_BACKEND }
+        - { path: ^/backend/admin, roles: ROLE_BACKEND }
+        - { path: ^/backend/connexion, roles: PUBLIC_ACCESS }
+
+
 
 when@test:
     security:
