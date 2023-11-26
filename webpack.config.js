@@ -26,9 +26,6 @@ Encore
 
     // Backend - Templates
 
-    // dashboard - elements
-    .addEntry('backend/admin/dashboard/side-menu', './assets/backend/js/templates/backend/admin/dashboard/elements/side-menu.js')
-
     // dashboard - advancedData
     .addEntry('backend/admin/dashboard/advancedData/UserBackend/list', './assets/backend/js/templates/backend/admin/dashboard/advancedData/userBackend/list.js')
 
