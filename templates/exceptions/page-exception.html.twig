@@ -10,17 +10,30 @@
 {% endblock %}
 
 {% block body %}
-    <div class="flex items-center justify-center min-h-screen text-gray-800 p-4">
-        <div class="text-center w-full max-w-lg mx-auto bg-red-400 p-3 rounded">
+    <div class="flex items-center justify-center min-h-screen bg-gray-100">
+        <div class="w-full max-w-lg p-8 bg-white rounded-lg shadow-md">
             {% if exception.statusCode is defined %}
-                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold">{{ exception.statusCode }}</h1>
+                <h1 class="text-center text-4xl sm:text-5xl md:text-6xl font-bold text-white bg-red-600 p-2 rounded">{{ exception.statusCode }}</h1>
             {% else %}
-                <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold">Error</h1>
+                <h1 class="text-center text-4xl sm:text-5xl md:text-6xl font-bold text-white bg-red-600 p-2 rounded">Error</h1>
             {% endif %}
-            <p class="text-xs sm:text-sm mt-4 break-words">{{ exception.message }}</p>
-            {% if exception.statusCode is defined %}
-                <a href="/" class="mt-6 inline-block bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 transition duration-300">Go Home</a>
-            {% endif %}
+            <div class="mt-4">
+                <p class="text-gray-600 font-medium mt-4 text-white uppercase bg-red-600 p-2 rounded">message: </p>
+                <p class="text-sm my-2 bg-gray-100 p-2">{{ exception.message }}</p>
+                <p class="text-gray-600 font-medium mt-4 text-white uppercase bg-red-600 p-2 rounded">in file: </p>
+                <div class="flex items-center">
+                    <p class="my-2 text-sm break-words max-w-full overflow-x-auto bg-gray-100 p-2">{{ exception.file }}</p>
+                </div>
+                {% if exception.statusCode is defined and exception.statusCode is same as "404" %}
+                    <a href="/"
+                       class="mt-6 inline-block bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 transition duration-300">Go
+                        Home</a>
+                {% endif %}
+                <p class="text-gray-600 font-medium mt-4 text-white uppercase bg-red-600 p-2 rounded">at line: </p>
+                <p class="text-sm my-2 bg-gray-100 p-2">{{ exception.line }}</p>
+            </div>
         </div>
     </div>
 {% endblock %}
+
+

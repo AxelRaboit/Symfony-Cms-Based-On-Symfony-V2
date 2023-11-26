@@ -30,7 +30,7 @@ class UserBackendCreateType extends AbstractType
                 ],
             ])
             ->add('username', TextType::class, [
-                'required' => true,
+                'required' => false,
                 'label' => 'Nom d\'utilisateur',
                 'constraints' => [
                     new NotBlank([
