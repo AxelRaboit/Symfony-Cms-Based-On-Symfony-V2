@@ -74,6 +74,7 @@
                                 <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Email</th>
                                 <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Nom d'utilisateur</th>
                                 <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Rôles</th>
+                                <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Modification</th>
                                 <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Actions</th>
                             </tr>
                             </thead>
@@ -95,6 +96,7 @@
                                                 {% endif %}
                                             {% endfor %}
                                         </td>
+                                        <td class="py-2 px-3 md:py-4 md:px-6">{{ user.updatedAt | date('d/m/Y') }} à {{ user.updatedAt | date('H:i', "Europe/Paris") }}</td>
                                         <td class="py-2 px-3 md:py-1 md:px-1">
                                             <div class="flex flex-wrap items-center">
                                                 <a href="{{ path('app_backend_user_backend_edit', {'id': user.id}) }}"
@@ -109,7 +111,7 @@
                                 {% endfor %}
                             {% else %}
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <td colspan="5" class="py-2 px-3 md:py-4 md:px-6 text-center">Aucun utilisateur
+                                    <td colspan="6" class="py-2 px-3 md:py-4 md:px-6 text-center">Aucun utilisateur
                                         trouvé
                                     </td>
                                 </tr>

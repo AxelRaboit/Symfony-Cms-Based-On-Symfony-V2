@@ -10,6 +10,10 @@ class AbstractManager
 
     protected function save(object $entity): void
     {
+        if($entity->getUpdatedAt()) {
+            $entity->setUpdatedAt(new \DateTimeImmutable());
+        }
+
         $this->em->persist($entity);
         $this->em->flush();
     }
