@@ -31,11 +31,6 @@ class UserBackendEditType extends AbstractType
             ->add('username', TextType::class, [
                 'required' => false,
                 'label' => 'Nom d\'utilisateur',
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Veuillez saisir un nom d\'utilisateur',
-                    ]),
-                ],
             ])
         ;
     }

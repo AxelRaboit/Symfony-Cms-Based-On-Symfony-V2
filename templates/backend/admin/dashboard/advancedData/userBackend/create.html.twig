@@ -7,35 +7,55 @@
     <div class="p-2 sm:ml-64">
         <div class="border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
             <div class="p-4">
-
                 <h1 class="text-2xl font-semibold mb-2">Créer un utilisateur Backend</h1>
-
-                {{ form_start(form) }}
+                {{ form_start(form, {'attr': {'id': 'form-create-user-backend-js'}}) }}
 
                 <div class="mb-2">
-                    {{ form_row(form.username, { 'attr': { 'class': 'w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
+                    {{ form_label(form.username) }}
+                    {{ form_widget(form.username, { 'attr': { 'class': 'w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
+                    {% if form.username.vars.errors %}
+                        <div class="mt-1 text-red-600 text-xs">
+                            {% for error in form.username.vars.errors %}
+                                <p>{{ error.message }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
 
                 <div class="mb-4">
-                    {{ form_row(form.email, { 'attr': { 'class': 'w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
+                    {{ form_label(form.email) }}
+                    {{ form_widget(form.email, { 'attr': { 'class': 'w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
+                    {% if form.email.vars.errors %}
+                        <div class="mt-1 text-red-600 text-xs">
+                            {% for error in form.email.vars.errors %}
+                                <p>{{ error.message }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
 
                 <div class="mb-4">
-                    {{ form_row(form.password, { 'attr': { 'class': 'w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
+                    {{ form_label(form.password) }}
+                    {{ form_widget(form.password, { 'attr': { 'class': 'w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
+                    {% if form.password.vars.errors %}
+                        <div class="mt-1 text-red-600 text-xs">
+                            {% for error in form.password.vars.errors %}
+                                <p>{{ error.message }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
 
                 <div class="flex flex-wrap">
                     <div class="w-full md:w-auto mb-2 md:mb-0">
-                        <button type="submit"
-                                class="w-full text-xs px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                        <button type="submit" class="w-full text-xs px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                             Créer
                         </button>
                     </div>
 
                     <div id="container-reset-button" class="w-full md:w-auto mb-2 md:mb-0 md:ml-2">
                         <a href="{{ path('app_backend_user_backend_list') }}">
-                            <button type="button"
-                                    class="w-full text-xs px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                            <button type="button" class="w-full text-xs px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                                 Retour
                             </button>
                         </a>
@@ -43,8 +63,16 @@
                 </div>
 
                 {{ form_end(form) }}
-
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            attachConfirmationToForm("form-create-user-backend-js", "Êtes-vous sûr de vouloir d'effectuer la création de cet utilisateur ?");
+        });
+    </script>
 {% endblock %}
