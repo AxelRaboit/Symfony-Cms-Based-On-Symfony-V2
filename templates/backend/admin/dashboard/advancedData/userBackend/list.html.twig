@@ -111,9 +111,11 @@
             </div>
 
             {# Pagination #}
-            <div class="flex justify-center mb-2">
-                {{ knp_pagination_render(pagination) }}
-            </div>
+            {% if pagination.items is not empty %}
+                <div class="flex justify-center mb-2">
+                    {{ knp_pagination_render(pagination) }}
+                </div>
+            {% endif %}
         </div>
     </div>
 
