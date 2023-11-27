@@ -2,6 +2,8 @@
 
 namespace App\Controller\Backend\AdvancedData;
 
+use App\Entity\DataEnum;
+use App\Manager\DataEnumManager;
 use App\Repository\DataEnumRepository;
 use App\Service\StringUtilsService;
 use Knp\Component\Pager\PaginatorInterface;
@@ -13,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DataEnumController extends AbstractController
 {
-    #[Route('/backend/admin/data/list', name: 'app_backend_data_list')]
+    #[Route('/backend/admin/data/list', name: 'app_backend_data_enum_list')]
     public function dataList(DataEnumRepository $dataEnumRepository, Request $request, PaginatorInterface $paginator, StringUtilsService $stringUtilsService): Response
     {
         $search = $request->query->get('search');
@@ -42,7 +44,19 @@ class DataEnumController extends AbstractController
         ]);
     }
 
-    #[Route('/backend/admin/dataenum/backend/ajax-search', name: 'app_backend_data_enum_backend_ajax_search')]
+    #[Route('/backend/admin/dataenum/backend/{id}/delete', name: 'app_backend_data_enum_delete')]
+    public function userDelete(DataEnum $dataEnum, DataEnumManager $dataEnumManager): Response
+    {
+        $dataEnumManager->dataEnumDelete($dataEnum);
+
+        $dataEnumName = $dataEnum->getName();
+
+        $this->addFlash('success', "La donnée {$dataEnumName} a été supprimée avec succès.");
+
+        return $this->redirectToRoute('app_backend_data_enum_list');
+    }
+
+    #[Route('/backend/admin/dataenum/backend/ajax-search', name: 'app_backend_data_enum_ajax_search')]
     public function ajaxSearch(Request $request, DataEnumRepository $dataEnumRepository): JsonResponse
     {
         $searchTerm = $request->query->get('term');

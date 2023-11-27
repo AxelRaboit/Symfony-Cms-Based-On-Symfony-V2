@@ -14,28 +14,15 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class DataEnumManager extends BaseManager
+class DataEnumManager extends AbstractManager
 {
     public function __construct(
+        EntityManagerInterface $em,
         private readonly DataEnumRepository $dataEnumRepository,
         private readonly PageRepository $PageRepository,
-        private readonly EntityManagerInterface $em,
-        private ValidatorInterface $validator,
-        private LoggerInterface $logger,
-        private TranslatorInterface $translator,
-        private ParameterBagInterface $parameters,
-        private RequestStack $requestStack,
-        private TokenStorageInterface $tokenStorage,
-    ) {
-        parent::__construct(
-            $em,
-            $validator,
-            $logger,
-            $translator,
-            $parameters,
-            $requestStack,
-            $tokenStorage
-        );
+    )
+    {
+        parent::__construct($em);
     }
 
     /**
@@ -96,29 +83,18 @@ class DataEnumManager extends BaseManager
             $dataEnum->setDevKey($params['dev_key']);
         }
 
-        return $this->save($dataEnum);
-    }
-
-    public function save(
-        DataEnum $dataEnum
-    ): DataEnum {
-        $em = $this->em();
-        $em->persist($dataEnum);
-        $em->flush();
+        $this->save($dataEnum);
 
         return $dataEnum;
     }
 
-    // Base
+    public function dataEnumDelete(DataEnum $dataEnum): void
+    {
+        $this->remove($dataEnum);
+    }
 
-    public function em(
-        bool $refresh = false
-    ): EntityManagerInterface {
-        if (false === $this->em->getConnection()->isConnected()) {
-            $this->em->getConnection()->close();
-            $this->em->getConnection()->connect();
-        }
-
-        return $this->em;
+    public function dataEnumEdit(DataEnum $dataEnum): void
+    {
+        $this->save($dataEnum);
     }
 }

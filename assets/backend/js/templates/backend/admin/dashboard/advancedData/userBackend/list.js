@@ -8,6 +8,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const resetFormButton = document.getElementById('refresh-backend-user-list-js');
     const searchFormInput = document.getElementById('search-backend-user-input-js');
     const suggestionsList = document.getElementById('search-backend-user-suggestions');
+    const deleteBackendUserLinks = document.querySelectorAll('.link-delete-backend-user-js');
+
+    // This function is used to display the confirmation popup when the user click on the delete button from the list
+    Array.from(deleteBackendUserLinks).forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            const deleteUrl = this.href;
+            attachConfirmationToButton(deleteUrl, "Êtes-vous sûr de vouloir supprimer ?");
+        });
+    });
 
     // This function is used to display the reset button when the user click on it, it will reset the search form and display all users
     // This button is called "Afficher tous les utilisateurs"

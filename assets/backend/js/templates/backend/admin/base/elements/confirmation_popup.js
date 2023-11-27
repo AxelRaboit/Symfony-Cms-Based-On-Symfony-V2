@@ -1,16 +1,14 @@
+// Confirmation message before submiting the form
 // Using "windows." to make the function available in the global scope
-window.attachConfirmationToForm = function(formId, confirmationMessage) {
-    const form = document.getElementById(formId);
-    if (!form) {
-        console.error(`Form with id "${formId}" not found`);
-        return;
-    }
+window.attachConfirmationToForm = function(form, confirmationMessage) {
+    openPopup('Confirmation', confirmationMessage, function() {
+        form.submit();
+    });
+};
 
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
-        openPopup('Confirmation', confirmationMessage, function() {
-            form.submit();
-        });
+window.attachConfirmationToButton = function(url, confirmationMessage) {
+    openPopup('Confirmation', confirmationMessage, function() {
+        window.location.href = url;
     });
 };
 

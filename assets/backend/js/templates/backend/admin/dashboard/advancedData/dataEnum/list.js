@@ -8,6 +8,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const resetFormButton = document.getElementById('refresh-backend-data-enum-list-js');
     const searchFormInput = document.getElementById('search-backend-data-enum-input-js');
     const suggestionsList = document.getElementById('search-data-enum-suggestions');
+    const deleteDataEnumLinks = document.querySelectorAll('.link-delete-data-enum-js');
+
+    // This function is used to display the confirmation popup when the user click on the delete button from the list
+    Array.from(deleteDataEnumLinks).forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            const deleteUrl = this.href;
+            attachConfirmationToButton(deleteUrl, "Êtes-vous sûr de vouloir supprimer ?");
+        });
+    });
 
     // This function is used to display the reset button when the user click on it, it will reset the search form and display all data enums
     // This button is called "Afficher toutes les données"
