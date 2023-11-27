@@ -82,10 +82,10 @@
                             {% if pagination.items is not empty %}
                                 {% for user in pagination %}
                                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                        <td class="py-2 px-3 md:py-4 md:px-6">{{ user.id }}</td>
-                                        <td class="py-2 px-3 md:py-4 md:px-6">{{ user.email }}</td>
-                                        <td class="py-2 px-3 md:py-4 md:px-6">{{ user.username ? user.username : 'N/A' }}</td>
-                                        <td class="py-1 px-1 md:py-2 md:px-2">
+                                        <td class="py-2 px-3 md:py-3 md:px-6">{{ user.id }}</td>
+                                        <td class="py-2 px-3 md:py-3 md:px-6">{{ user.email }}</td>
+                                        <td class="py-2 px-3 md:py-3 md:px-6">{{ user.username ? user.username : 'N/A' }}</td>
+                                        <td class="py-2 px-1 md:py-3 md:px-2 whitespace-nowrap">
                                             {% for role in user.roles %}
                                                 {% if role == 'ROLE_BACKEND' %}
                                                     <span class="bg-blue-600 text-white px-2 py-1 rounded">Backend</span>
@@ -96,11 +96,11 @@
                                                 {% endif %}
                                             {% endfor %}
                                         </td>
-                                        <td class="py-2 px-3 md:py-4 md:px-6">{{ user.updatedAt | date('d/m/Y') }} à {{ user.updatedAt | date('H:i', "Europe/Paris") }}</td>
-                                        <td class="py-2 px-3 md:py-1 md:px-1">
-                                            <div class="flex flex-wrap items-center">
+                                        <td class="py-2 px-3 md:py-3 md:px-6">{{ user.updatedAt | date('d/m/Y') }} à {{ user.updatedAt | date('H:i', "Europe/Paris") }}</td>
+                                        <td class="py-2 px-3 md:py-3 md:px-1">
+                                            <div class="flex items-center whitespace-nowrap">
                                                 <a href="{{ path('app_backend_user_backend_edit', {'id': user.id}) }}"
-                                                   class="font-medium text-white dark:text-white rounded p-2 bg-blue-600 hover:bg-blue-500 md:mr-2 my-1"><i
+                                                   class="font-medium text-white dark:text-white rounded p-2 bg-blue-600 hover:bg-blue-500 mr-1 my-1"><i
                                                             class="fa-solid fa-pen-to-square"></i></a>
                                                 <a href="{{ path('app_backend_user_backend_delete', {'id': user.id}) }}"
                                                    class="font-medium text-white dark:text-white rounded p-2 bg-red-600 hover:bg-red-500 my-1"><i
