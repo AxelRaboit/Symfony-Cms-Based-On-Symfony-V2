@@ -5,7 +5,6 @@ namespace App\Manager\Frontend\UserBackend;
 use App\Entity\UserBackend;
 use App\Manager\AbstractManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserBackendManager extends AbstractManager
