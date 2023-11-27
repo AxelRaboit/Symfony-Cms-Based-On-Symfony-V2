@@ -85,7 +85,7 @@
                                         <td class="py-2 px-3 md:py-4 md:px-6">{{ user.id }}</td>
                                         <td class="py-2 px-3 md:py-4 md:px-6">{{ user.email }}</td>
                                         <td class="py-2 px-3 md:py-4 md:px-6">{{ user.username ? user.username : 'N/A' }}</td>
-                                        <td class="py-2 px-3 md:py-4 md:px-6">
+                                        <td class="py-1 px-1 md:py-2 md:px-2">
                                             {% for role in user.roles %}
                                                 {% if role == 'ROLE_BACKEND' %}
                                                     <span class="bg-blue-600 text-white px-2 py-1 rounded">Backend</span>
