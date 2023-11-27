@@ -1,16 +1,16 @@
-import {handleClickEvent, handleInputEvent, updateSuggestionsList} from "../shared/search";
+import { handleClickEvent, handleInputEvent, updateSuggestionsList } from "../shared/search";
 
 document.addEventListener('DOMContentLoaded', function () {
 
     // Variables
-    const searchForm = document.getElementById('search-backend-user');
+    const searchForm = document.getElementById('search-backend-data-enum');
     const containerResetFormButton = document.getElementById('container-reset-button-js');
-    const resetFormButton = document.getElementById('refresh-backend-user-list-js');
-    const searchFormInput = document.getElementById('search-backend-user-input-js');
-    const suggestionsList = document.getElementById('search-backend-user-suggestions');
+    const resetFormButton = document.getElementById('refresh-backend-data-enum-list-js');
+    const searchFormInput = document.getElementById('search-backend-data-enum-input-js');
+    const suggestionsList = document.getElementById('search-data-enum-suggestions');
 
-    // This function is used to display the reset button when the user click on it, it will reset the search form and display all users
-    // This button is called "Afficher tous les utilisateurs"
+    // This function is used to display the reset button when the user click on it, it will reset the search form and display all data enums
+    // This button is called "Afficher toutes les données"
     handleClickEvent(resetFormButton, function () {
         searchFormInput.value = '';
         containerResetFormButton.classList.add('hidden');
@@ -31,12 +31,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // This function is used to fetch the users from the database and display them in the suggestions list according to the search term
+    // This function is used to fetch the data enums from the database and display them in the suggestions list according to the search term
     handleInputEvent(searchFormInput, function (event) {
         const searchTerm = event.target.value;
 
         if (searchTerm.length >= 2) { // Begin search only if search term is at least 2 characters long
-            fetch(`/backend/admin/user/backend/ajax-search?term=${searchTerm}`)
+            fetch(`/backend/admin/dataenum/backend/ajax-search?term=${searchTerm}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (data && Array.isArray(data)) {
                         updateSuggestionsList(
                             data,
-                            'search-backend-user',
+                            'search-backend-data-enum',
                             suggestionsList,
                             searchFormInput
                         );

@@ -3,135 +3,132 @@
 {% block title %}{{ parent() }} - Liste des utilisateurs Backend{% endblock %}
 
 {% block body %}
-    {{ encore_entry_link_tags('backend/admin/dashboard/advancedData/UserBackend/list') }}
+    {{ encore_entry_link_tags('backend/admin/dashboard/advancedData/userBackend/list') }}
 
     {% include 'backend/admin/dashboard/elements/_side-menu.html.twig' %}
 
     <div class="p-2 sm:ml-64">
-        <div class="border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-            <div class="p-2">
-
-                <div class="flex flex-wrap">
-
-                    <div id="container-reset-button-js" class="w-full md:w-auto mb-2 md:mb-0">
-                        <button type="button" id="refresh-backend-user-list-js"
-                                class="w-full text-xs px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                            Afficher tous les utilisateurs
-                        </button>
-                    </div>
-
-                    <div class="w-full md:w-auto mb-2 md:mb-0 md:ml-2">
-                        <a href="{{ path('app_backend_user_backend_create') }}">
-                            <button type="button"
-                                    class="w-full md:w-auto text-xs px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:ml-custom">
-                                Créer un utilisateur
-                            </button>
-                        </a>
-                    </div>
+        <div class="p-2">
+            <div class="flex flex-wrap">
+                <div id="container-reset-button-js" class="w-full md:w-auto mb-2 md:mb-0">
+                    <button type="button" id="refresh-backend-user-list-js"
+                            class="w-full text-xs px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                        Afficher tous les utilisateurs
+                    </button>
                 </div>
 
-                {# Search by query #}
-                <form action="{{ path('app_backend_user_backend_list') }}" method="get" class="mt-2"
-                      id="search-backend-user">
-                    <label for="default-search" class="mb-2 text-xs font-medium text-gray-900 sr-only dark:text-white">Search</label>
-                    <div class="relative">
-                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                      stroke-width="2"
-                                      d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                            </svg>
-                        </div>
-
-                        <label for="search-backend-user-input-js"></label>
-                        <input name="search" value="{{ app.request.query.get('search') }}" type="search"
-                               id="search-backend-user-input-js"
-                               autocomplete="off"
-                               class="block w-full p-1 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                               placeholder="Rechercher par email, nom d'utlisateur, id...">
-                        <button type="submit" id="search-backend-user-submit-button-js"
-                                class="text-white absolute right-0 bottom-0 bg-blue-600 hover:bg-blue-500 focus:ring-4 focus:outline-none font-medium text-xs px-2 py-2 dark:bg-blue-600 dark:hover:bg-blue-500 rounded-r-lg">
-                            Rechercher
+                <div class="w-full md:w-auto mb-2 md:mb-0 md:ml-2">
+                    <a href="{{ path('app_backend_user_backend_create') }}">
+                        <button type="button"
+                                class="w-full md:w-auto text-xs px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:ml-custom">
+                            Créer un utilisateur
                         </button>
-                    </div>
-                </form>
-
-                <div class="relative">
-                    <ul id="search-suggestions"
-                        class="absolute z-10 list-none bg-white w-full max-h-60 overflow-y-auto rounded-md shadow-lg hidden divide-y divide-gray-100">
-                        {# Injected search results #}
-                    </ul>
-                </div>
-
-
-                <div class="flex-grow mt-2">
-                    <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
-                        <table class="w-full text-xs text-left text-gray-500 dark:text-gray-400">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Id</th>
-                                <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Email</th>
-                                <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Nom d'utilisateur</th>
-                                <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Rôles</th>
-                                <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Modification</th>
-                                <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% if pagination.items is not empty %}
-                                {% for user in pagination %}
-                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                        <td class="py-2 px-3 md:py-3 md:px-6">{{ user.id }}</td>
-                                        <td class="py-2 px-3 md:py-3 md:px-6">{{ user.email }}</td>
-                                        <td class="py-2 px-3 md:py-3 md:px-6">{{ user.username ? user.username : 'N/A' }}</td>
-                                        <td class="py-2 px-1 md:py-3 md:px-2 whitespace-nowrap">
-                                            {% for role in user.roles %}
-                                                {% if role == 'ROLE_BACKEND' %}
-                                                    <span class="bg-blue-600 text-white px-2 py-1 rounded">Backend</span>
-                                                {% elseif role == 'ROLE_USER' %}
-                                                    <span class="bg-green-600 text-white px-2 py-1 rounded">User</span>
-                                                {% else %}
-                                                    <span class="bg-gray-600 text-white px-2 py-1 rounded">N/A</span>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </td>
-                                        <td class="py-2 px-3 md:py-3 md:px-6">{{ user.updatedAt | date('d/m/Y') }} à {{ user.updatedAt | date('H:i', "Europe/Paris") }}</td>
-                                        <td class="py-2 px-3 md:py-3 md:px-1">
-                                            <div class="flex items-center whitespace-nowrap">
-                                                <a href="{{ path('app_backend_user_backend_edit', {'id': user.id}) }}"
-                                                   class="font-medium text-white dark:text-white rounded p-2 bg-blue-600 hover:bg-blue-500 mr-1 my-1"><i
-                                                            class="fa-solid fa-pen-to-square"></i></a>
-                                                <a href="{{ path('app_backend_user_backend_delete', {'id': user.id}) }}"
-                                                   class="font-medium text-white dark:text-white rounded p-2 bg-red-600 hover:bg-red-500 my-1"><i
-                                                            class="fa-solid fa-trash"></i></a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            {% else %}
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <td colspan="6" class="py-2 px-3 md:py-4 md:px-6 text-center">Aucun utilisateur
-                                        trouvé
-                                    </td>
-                                </tr>
-                            {% endif %}
-                            </tbody>
-                        </table>
-                    </div>
+                    </a>
                 </div>
             </div>
 
-            {# Pagination #}
-            {% if pagination.items is not empty %}
-                <div class="flex justify-center mb-2">
-                    {{ knp_pagination_render(pagination) }}
+            {# Search by query #}
+            <form action="{{ path('app_backend_user_backend_list') }}" method="get" class="mt-2"
+                  id="search-backend-user">
+                <label for="default-search" class="mb-2 text-xs font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                        </svg>
+                    </div>
+
+                    <label for="search-backend-user-input-js"></label>
+                    <input name="search" value="{{ app.request.query.get('search') }}" type="search"
+                           id="search-backend-user-input-js"
+                           autocomplete="off"
+                           class="block w-full p-1 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                           placeholder="Rechercher par email, nom d'utlisateur, id...">
+                    <button type="submit" id="search-backend-user-submit-button-js"
+                            class="text-white absolute right-0 bottom-0 bg-blue-600 hover:bg-blue-500 focus:ring-4 focus:outline-none font-medium text-xs px-2 py-2 dark:bg-blue-600 dark:hover:bg-blue-500 rounded-r-lg">
+                        Rechercher
+                    </button>
                 </div>
-            {% endif %}
+            </form>
+
+            <div class="relative">
+                <ul id="search-backend-user-suggestions"
+                    class="absolute z-10 list-none bg-white w-full max-h-60 overflow-y-auto rounded-md shadow-lg hidden divide-y divide-gray-100">
+                    {# Injected search results #}
+                </ul>
+            </div>
+
+
+            <div class="flex-grow my-2">
+                <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+                    <table class="w-full text-xs text-left text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Id</th>
+                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Email</th>
+                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Nom d'utilisateur</th>
+                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Rôles</th>
+                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Modification</th>
+                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if pagination.items is not empty %}
+                            {% for user in pagination %}
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                    <td class="py-2 px-3 md:py-3 md:px-6">{{ user.id }}</td>
+                                    <td class="py-2 px-3 md:py-3 md:px-6">{{ user.email }}</td>
+                                    <td class="py-2 px-3 md:py-3 md:px-6">{{ user.username ? user.username : 'N/A' }}</td>
+                                    <td class="py-2 px-1 md:py-3 md:px-2 whitespace-nowrap">
+                                        {% for role in user.roles %}
+                                            {% if role == 'ROLE_BACKEND' %}
+                                                <span class="bg-blue-600 text-white px-2 py-1 rounded">Backend</span>
+                                            {% elseif role == 'ROLE_USER' %}
+                                                <span class="bg-green-600 text-white px-2 py-1 rounded">User</span>
+                                            {% else %}
+                                                <span class="bg-gray-600 text-white px-2 py-1 rounded">N/A</span>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </td>
+                                    <td class="py-2 px-3 md:py-3 md:px-6">{{ user.updatedAt | date('d/m/Y') }}
+                                        à {{ user.updatedAt | date('H:i', "Europe/Paris") }}</td>
+                                    <td class="py-2 px-3 md:py-3 md:px-1">
+                                        <div class="flex items-center whitespace-nowrap">
+                                            <a href="{{ path('app_backend_user_backend_edit', {'id': user.id}) }}"
+                                               class="font-medium text-white dark:text-white rounded p-2 bg-blue-600 hover:bg-blue-500 mr-1 my-1"><i
+                                                        class="fa-solid fa-pen-to-square"></i></a>
+                                            <a href="{{ path('app_backend_user_backend_delete', {'id': user.id}) }}"
+                                               class="font-medium text-white dark:text-white rounded p-2 bg-red-600 hover:bg-red-500 my-1"><i
+                                                        class="fa-solid fa-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <td colspan="6" class="py-2 px-3 md:py-4 md:px-6 text-center">Aucun utilisateur
+                                    trouvé
+                                </td>
+                            </tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
+
+        {# Pagination #}
+        {% if pagination.items is not empty %}
+            <div class="flex justify-center mb-2">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        {% endif %}
     </div>
 
-    {{ encore_entry_script_tags('backend/admin/dashboard/advancedData/UserBackend/list') }}
+    {{ encore_entry_script_tags('backend/admin/dashboard/advancedData/userBackend/list') }}
 {% endblock %}
 
 

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\DataEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,28 +22,27 @@ class DataEnumRepository extends ServiceEntityRepository
         parent::__construct($registry, DataEnum::class);
     }
 
-//    /**
-//     * @return DataEnum[] Returns an array of DataEnum objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('d')
-//            ->andWhere('d.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('d.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findByCriteria(string $criteria, string $order = 'ASC'): array
+    {
+        $criteria = trim($criteria);
 
-//    public function findOneBySomeField($value): ?DataEnum
-//    {
-//        return $this->createQueryBuilder('d')
-//            ->andWhere('d.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $query = $this->em()->createQuery('SELECT d FROM App\Entity\DataEnum d WHERE d.name LIKE :criteria OR d.value LIKE :criteria OR d.id LIKE :criteria OR d.category LIKE :criteria ORDER BY d.id ' . $order);
+        $query->setParameter('criteria', '%' . $criteria . '%');
+
+        return $query->getResult();
+    }
+
+    public function findAllOrderBy(string $order = 'ASC'): array
+    {
+        $query = $this->em()->createQuery('SELECT d FROM App\Entity\DataEnum d ORDER BY d.id ' . $order);
+
+        return $query->getResult();
+    }
+
+    // base
+
+    private function em(): EntityManagerInterface
+    {
+        return $this->_em;
+    }
 }
