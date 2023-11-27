@@ -45,6 +45,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/backend/admin, roles: ROLE_BACKEND }
+        #- { path: ^/backend/inscription, roles: ROLE_BACKEND }
         - { path: ^/backend/connexion, roles: PUBLIC_ACCESS }
 
 

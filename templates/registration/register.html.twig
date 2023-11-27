@@ -1,6 +1,6 @@
-{% extends 'frontend/base/base.html.twig' %}
+{% extends 'backend/base/base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}{{ parent() }} - S'enregistrer{% endblock %}
 
 {% block body %}
     <div class="flex justify-center items-center h-screen bg-gray-100">
@@ -12,37 +12,50 @@
                 </div>
             {% endif %}
 
-            <h1 class="text-lg font-bold mb-4 text-gray-700">Register</h1>
+            <h1 class="text-lg font-bold mb-4 text-gray-700">Back Office - S'enregistrer</h1>
 
             {{ form_start(registrationForm, {'attr': {'class': 'space-y-4'}}) }}
 
             <div class="mb-4">
-                {{ form_label(registrationForm.email) }}
+                {{ form_label(registrationForm.email, '', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
                 {{ form_widget(registrationForm.email, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
-                {{ form_errors(registrationForm.email) }}
+                <div class="text-red-700 mt-2 text-xs">
+                    {{ form_errors(registrationForm.email) }}
+                </div>
             </div>
 
             <div class="mb-4">
-                {{ form_label(registrationForm.username) }}
+                {{ form_label(registrationForm.username, '', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
                 {{ form_widget(registrationForm.username, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
-                {{ form_errors(registrationForm.username) }}
+                <div class="text-red-700 mt-2 text-xs">
+                    {{ form_errors(registrationForm.username) }}
+                </div>
             </div>
 
             <div class="mb-6">
-                {{ form_label(registrationForm.plainPassword, 'Password') }}
+                {{ form_label(registrationForm.plainPassword, '', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
                 {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'}}) }}
-                {{ form_errors(registrationForm.plainPassword) }}
+                <div class="text-red-700 mt-2 text-xs">
+                    {{ form_errors(registrationForm.plainPassword) }}
+                </div>
             </div>
 
             <div class="mb-6 flex items-center">
                 {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'mr-2'}}) }}
-                {{ form_label(registrationForm.agreeTerms) }}
-                {{ form_errors(registrationForm.agreeTerms) }}
+                {{ form_label(registrationForm.agreeTerms, '', {'label_attr': {'class': 'block text-gray-700 text-sm font-bold'}}) }}
+                <div class="text-red-700 mt-2 text-xs">
+                    {{ form_errors(registrationForm.agreeTerms) }}
+                </div>
             </div>
 
-            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                Register
+            <button class="w-full text-xs px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                    type="submit">
+                S'enregistrer
             </button>
+
+            <div class="mt-2">
+                <a href="{{ path('app_backend_login') }}" class="text-xs text-gray-700 hover:text-gray-600">Déjà un compte ?</a>
+            </div>
 
             {{ form_end(registrationForm) }}
         </div>
