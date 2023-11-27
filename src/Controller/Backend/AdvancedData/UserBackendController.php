@@ -56,7 +56,9 @@ class UserBackendController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $userBackendManager->userBackendCreate($form, $userBackend);
+            $password = $form->get('password')->getData();
+
+            $userBackendManager->userBackendCreate($password, $userBackend);
 
             $userIdentity = $userBackend->getUsername() ?? $userBackend->getEmail();
 

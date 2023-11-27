@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Manager\Backend\AdvancedData\UserBackend;
+namespace App\Manager\Frontend\UserBackend;
 
 use App\Entity\UserBackend;
 use App\Manager\AbstractManager;
@@ -30,16 +30,6 @@ class UserBackendManager extends AbstractManager
         $userBackend->setCreatedAt(new \DateTimeImmutable());
         $userBackend->setUpdatedAt(new \DateTimeImmutable());
 
-        $this->save($userBackend);
-    }
-
-    public function userBackendDelete(UserBackend $userBackend): void
-    {
-        $this->remove($userBackend);
-    }
-
-    public function userBackendEdit(UserBackend $userBackend): void
-    {
         $this->save($userBackend);
     }
 }
