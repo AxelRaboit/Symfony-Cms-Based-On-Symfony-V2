@@ -1,0 +1,165 @@
+<?php
+
+namespace App\Form\backend\admin\dashboard\content\page;
+
+use App\Entity\Page;
+use App\Repository\PageRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Callback;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+
+class PageCreateType extends AbstractType
+{
+    public function __construct(private PageRepository $pageRepository){}
+
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+        $builder
+            ->add('name', TextType::class, [
+                'label' => 'Nom de la page',
+                'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez saisir un nom',
+                    ]),
+                ],
+            ])
+            ->add('title', TextType::class, [
+                'label' => 'Titre de la page',
+                'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez saisir un titre',
+                    ]),
+                ],
+            ])
+            ->add('template', TextType::class, [
+                'label' => 'Template de la page',
+                'required' => false,
+            ])
+            ->add('contentPrimary', TextareaType::class, [
+                'label' => 'Contenu principal',
+                'required' => false,
+            ])
+            ->add('contentSecondary', TextareaType::class, [
+                'label' => 'Contenu secondaire',
+                'required' => false,
+            ])
+            ->add('contentTertiary', TextareaType::class, [
+                'label' => 'Contenu tertiaire',
+                'required' => false,
+            ])
+            ->add('contentQuaternary', TextareaType::class, [
+                'label' => 'Contenu quaternaire',
+                'required' => false,
+            ])
+            ->add('description', TextareaType::class, [
+                'label' => 'Description de la page',
+                'required' => false,
+            ])
+            ->add('devCodeRouteName', TextType::class, [
+                'label' => 'Nom de la route',
+                'required' => false,
+            ])
+            ->add('ctaTitle', TextType::class, [
+                'label' => 'Titre du CTA',
+                'required' => false,
+            ])
+            ->add('ctaText', TextType::class, [
+                'label' => 'Texte du CTA',
+                'required' => false,
+            ])
+            ->add('ctaUrl', TextType::class, [
+                'label' => 'URL du CTA',
+                'required' => false,
+            ])
+            ->add('slug', TextType::class, [
+                'label' => 'Slug de la page',
+                'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez saisir un slug',
+                    ]),
+                    new Callback([$this, 'validateSlug']),
+                ],
+            ])
+            ->add('pageType', EntityType::class, [
+                'class' => 'App\Entity\PageType',
+                'choice_label' => 'name',
+                'placeholder' => 'Sélectionner un type de page',
+                'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez sélectionner un type de page',
+                    ]),
+                ],
+            ])
+            ->add('parent', EntityType::class, [
+                'class' => 'App\Entity\Page',
+                'choice_label' => 'name',
+                'placeholder' => 'Sélectionner une page parent',
+                'required' => false,
+            ])
+            ->add('banner', EntityType::class, [
+                'class' => 'App\Entity\Image',
+                'choice_label' => 'name',
+                'placeholder' => 'Sélectionner une image',
+                'required' => false,
+            ])
+            ->add('imageThumbnail', EntityType::class, [
+                'class' => 'App\Entity\Image',
+                'choice_label' => 'name',
+                'placeholder' => 'Sélectionner une image',
+                'required' => false,
+            ])
+            ->add('website', EntityType::class, [
+                'class' => 'App\Entity\Website',
+                'choice_label' => 'name',
+                'label' => 'Site',
+                'placeholder' => 'Sélectionner un site',
+                'required' => true,
+            ])
+            ->add('canonicalUrl', TextType::class, [
+                'label' => 'URL canonique',
+                'required' => false,
+            ])
+            ->add('metaDescription', TextType::class, [
+                'label' => 'Meta description',
+                'required' => false,
+            ])
+            ->add('isPublished', CheckboxType::class, [
+                'label' => 'Publier la page',
+                'required' => false,
+            ])
+        ;
+    }
+
+    public function validateSlug($slug, ExecutionContextInterface $context): void
+    {
+        if ($this->pageRepository->findOneBy(['slug' => $slug])) {
+            $context->buildViolation('Ce slug existe déjà.')
+                ->atPath('slug')
+                ->addViolation();
+        }
+
+        if (str_starts_with($slug, '/')) {
+            $context->buildViolation('Le slug ne doit pas commencer par un slash.')
+                ->atPath('slug')
+                ->addViolation();
+        }
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'data_class' => Page::class,
+        ]);
+    }
+}

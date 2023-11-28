@@ -19,9 +19,9 @@ class PageController extends AbstractController
 
     public function __construct(
         private readonly PageRepository     $pageRepository,
-        private readonly PageService        $pageService,
         private readonly PageGalleryService $pageGalleryService,
         private readonly RouteService       $routeService,
+        private readonly PageService        $pageService,
     ) {}
 
     /**
@@ -64,21 +64,17 @@ class PageController extends AbstractController
             return $this->render($elements['template'], $elements);
         }
 
-        if ($route = $this->redirectOnRoute($request, $routes)) {
+        if ($route = $this->redirectOnRouteSiteMap($request, $routes)) {
             return $this->forward($route->getDefaults()['_controller']);
         }
 
         throw new NotFoundHttpException("Page not found");
     }
 
-    private function redirectOnRoute(Request $request, array $routes): mixed
+    private function redirectOnRouteSiteMap(Request $request, array $routes): mixed
     {
         if (mb_strstr($request->getRequestUri(), 'sitemap')) {
             return $routes['sitemap'];
-        }
-
-        if (mb_strstr($request->getRequestUri(), 'admin')) {
-            return $routes['admin'];
         }
 
         return null;

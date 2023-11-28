@@ -26,10 +26,11 @@ class AppExtension extends AbstractExtension
         private readonly DataEnumManager $dataEnumManager,
         private readonly MenuItemRepository $menuItemRepository,
         private readonly PageRepository $pageRepository,
-        private readonly PageService $pageService,
         private readonly RequestStack $requestStack,
         private readonly WebsiteService $websiteService,
         private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly PageService $pageService,
+        private readonly string $appEnv,
     ) {
         $this->request = $requestStack->getCurrentRequest();
     }
@@ -49,6 +50,8 @@ class AppExtension extends AbstractExtension
             new TwigFunction('getUrlAbsoluteFinal', [$this, 'getUrlAbsoluteFinalFunction']),
             new TwigFunction('fileExists', [$this, 'fileExistsFunction']),
             new TwigFunction('returnReferer', [$this, 'returnRefererFunction']),
+            new TwigFunction('getCurrentHour', [$this, 'getCurrentHourFunction']),
+            new TwigFunction('getUrlRelativeFinal', [$this, 'getUrlRelativeFinalFunction']),
         ];
     }
 
@@ -79,6 +82,15 @@ class AppExtension extends AbstractExtension
         return '';
     }
 
+    /**
+     * @throws \Exception
+     */
+    public function getCurrentHourFunction(string $timezone): string
+    {
+        $timezone = new \DateTimeZone($timezone);
+        $date = new \DateTime('now', $timezone);
+        return $date->format('H:i:s');
+    }
 
     public function fileExistsFunction(string $path): bool
     {
@@ -263,12 +275,17 @@ class AppExtension extends AbstractExtension
 
     public function getUrlAbsoluteFinalFunction(Page $page): ?string
     {
-        $url = $page->getWebsite()->getDomain().'/'.$page->getSlug();
+        $baseUrl = $this->request->getSchemeAndHttpHost();
 
+        $url = $baseUrl. '/' . $page->getSlug();
         /* This is used to prevent double slash on the homepage */
         $url = str_replace('//', '/', $url);
 
-        return $page->getWebsite()->getProtocol().$url;
+        return $url;
     }
 
+    public function getUrlRelativeFinalFunction(Page $page): ?string
+    {
+        return '/' . $page->getSlug();
+    }
 }

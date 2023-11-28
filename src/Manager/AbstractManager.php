@@ -10,6 +10,12 @@ class AbstractManager
 
     protected function save(object $entity): void
     {
+        if (method_exists($entity, 'getCreatedAt')) {
+            if($entity->getCreatedAt() === null) {
+                $entity->setCreatedAt(new \DateTimeImmutable());
+            }
+        }
+
         if (method_exists($entity, 'getUpdatedAt')) {
             $entity->setUpdatedAt(new \DateTimeImmutable());
         }

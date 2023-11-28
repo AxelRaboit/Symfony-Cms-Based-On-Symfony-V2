@@ -1,0 +1,5 @@
+twig:
+  globals:
+    project_directory: '%kernel.project_dir%'
+parameters:
+  app_env: '%env(APP_ENV)%'

@@ -124,6 +124,25 @@ class PageRepository extends ServiceEntityRepository
         return $query->getOneOrNullResult();
     }
 
+    /**
+     * We take the highest devKey and increment it by 1 to get the next available devKey.
+     * We make sure that the devKey is unique.
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
+    public function createDevKey(): int
+    {
+        $query = $this->em()->createQuery('SELECT MAX(p.devKey) FROM App\Entity\Page p');
+
+        $devKey = $query->getSingleScalarResult();
+
+        while ($this->findOneBy(['devKey' => $devKey])) {
+            $devKey++;
+        }
+
+        return $devKey;
+    }
+
     // Base
 
     private function em(): EntityManagerInterface

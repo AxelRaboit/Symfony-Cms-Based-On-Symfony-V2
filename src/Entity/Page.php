@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PageRepository::class)]
+#[ORM\UniqueConstraint(name: "slug_unique", columns: ["slug"])]
 class Page
 {
     #[ORM\Id]
@@ -58,9 +59,6 @@ class Page
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: self::class)]
     private Collection $children;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $bannerTitle = null;
-
     #[ORM\Column(length: 255)]
     private string $slug;
 
@@ -76,10 +74,7 @@ class Page
     #[ORM\Column(nullable: true)]
     private ?int $devKey = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $category = null;
-
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $metaDescription = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -101,6 +96,18 @@ class Page
     #[ORM\ManyToOne(inversedBy: 'pages')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Website $website = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $publishedAt = null;
+
+    #[ORM\Column]
+    private ?bool $isPublished = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $bannerTitle = null;
+
+    #[ORM\Column]
+    private ?bool $visibleForBackendActions = null;
 
     public function __construct()
     {
@@ -299,18 +306,6 @@ class Page
         return $this;
     }
 
-    public function getBannerTitle(): ?string
-    {
-        return $this->bannerTitle;
-    }
-
-    public function setBannerTitle(?string $bannerTitle): static
-    {
-        $this->bannerTitle = $bannerTitle;
-
-        return $this;
-    }
-
     public function getSlug(): string
     {
         return $this->slug;
@@ -371,24 +366,12 @@ class Page
         return $this;
     }
 
-    public function getCategory(): ?string
-    {
-        return $this->category;
-    }
-
-    public function setCategory(?string $category): static
-    {
-        $this->category = $category;
-
-        return $this;
-    }
-
     public function getMetaDescription(): ?string
     {
         return $this->metaDescription;
     }
 
-    public function setMetaDescription(string $metaDescription): static
+    public function setMetaDescription(?string $metaDescription): static
     {
         $this->metaDescription = $metaDescription;
 
@@ -495,7 +478,6 @@ class Page
             'ctaTitle' => $this->getCtaTitle(),
             'ctaText' => $this->getCtaText(),
             'ctaUrl' => $this->getCtaUrl(),
-            'bannerTitle' => $this->getBannerTitle(),
             'banner' => $this->getBanner(),
             'imageThumbnail' => $this->getImageThumbnail(),
             'slug' => $this->getSlug(),
@@ -503,7 +485,6 @@ class Page
             'updatedAt' => $this->getUpdatedAt(),
             'deletedAt' => $this->getDeletedAt(),
             'pageGalleries' => $this->getPageGalleries(),
-            'category' => $this->getCategory(),
             'canonicalUrl' => $this->getCanonicalUrl(),
         ];
     }
@@ -525,6 +506,54 @@ class Page
     public function setWebsite(?Website $website): static
     {
         $this->website = $website;
+
+        return $this;
+    }
+
+    public function getPublishedAt(): ?\DateTimeImmutable
+    {
+        return $this->publishedAt;
+    }
+
+    public function setPublishedAt(?\DateTimeImmutable $publishedAt): static
+    {
+        $this->publishedAt = $publishedAt;
+
+        return $this;
+    }
+
+    public function isIsPublished(): ?bool
+    {
+        return $this->isPublished;
+    }
+
+    public function setIsPublished(bool $isPublished): static
+    {
+        $this->isPublished = $isPublished;
+
+        return $this;
+    }
+
+    public function getBannerTitle(): ?string
+    {
+        return $this->bannerTitle;
+    }
+
+    public function setBannerTitle(?string $bannerTitle): static
+    {
+        $this->bannerTitle = $bannerTitle;
+
+        return $this;
+    }
+
+    public function isVisibleForBackendActions(): bool
+    {
+        return $this->visibleForBackendActions;
+    }
+
+    public function setVisibleForBackendActions(bool $visibleForBackendActions): static
+    {
+        $this->visibleForBackendActions = $visibleForBackendActions;
 
         return $this;
     }

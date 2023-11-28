@@ -41,7 +41,6 @@ class PageService
         $pageElements = [];
         $pageElementsFormatted = [];
 
-        $pageElements['bannerTitle'] = $page->getBannerTitle();
         if (null !== $page->getBanner()) {
             $pageElements['bannerName'] = $page->getBanner()->getName();
         }
@@ -49,6 +48,7 @@ class PageService
             $pageElements['bannerAlt'] = $page->getBanner()->getAlt();
         }
         $pageElements['metaDescription'] = $page->getMetaDescription();
+        $pageElements['bannerTitle'] = $page->getBannerTitle();
         $pageElements['ctaTitle'] = $page->getCtaTitle();
         $pageElements['name'] = $page->getName();
         $pageElements['title'] = $page->getTitle();
