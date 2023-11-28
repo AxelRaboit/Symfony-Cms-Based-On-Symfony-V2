@@ -25,6 +25,9 @@ class DataEnum
     #[ORM\Column]
     private ?int $devKey = null;
 
+    #[ORM\Column]
+    private ?bool $isSystem = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -81,6 +84,18 @@ class DataEnum
     public function setDevKey(int $devKey): static
     {
         $this->devKey = $devKey;
+
+        return $this;
+    }
+
+    public function isIsSystem(): bool
+    {
+        return $this->isSystem;
+    }
+
+    public function setIsSystem(bool $isSystem): static
+    {
+        $this->isSystem = $isSystem;
 
         return $this;
     }
