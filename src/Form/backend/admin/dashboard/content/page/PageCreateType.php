@@ -7,6 +7,7 @@ use App\Repository\PageRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -17,7 +18,9 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class PageCreateType extends AbstractType
 {
-    public function __construct(private PageRepository $pageRepository){}
+    public function __construct(private PageRepository $pageRepository)
+    {
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -138,15 +141,34 @@ class PageCreateType extends AbstractType
                 'label' => 'URL canonique',
                 'required' => false,
             ])
+            ->add('metaTitle', TextType::class, [
+                'label' => 'Meta title',
+                'required' => false,
+            ])
             ->add('metaDescription', TextType::class, [
                 'label' => 'Meta description',
                 'required' => false,
+            ])
+            ->add('weight', TextType::class, [
+                'label' => 'Poids',
+                'required' => true,
             ])
             ->add('isPublished', CheckboxType::class, [
                 'label' => 'Publier la page',
                 'required' => false,
             ])
-        ;
+            ->add('visibleForBackendActions', CheckboxType::class, [
+                'label' => 'Visible pour les actions du backoffice',
+                'required' => false,
+            ])
+            ->add('displayType', ChoiceType::class, [
+                'label' => 'Type d\'affichage',
+                'required' => true,
+                'choices' => [
+                    'Liste' => 'list',
+                    'Détail' => 'detail',
+                ],
+            ]);
     }
 
     public function validateSlug($slug, ExecutionContextInterface $context): void
