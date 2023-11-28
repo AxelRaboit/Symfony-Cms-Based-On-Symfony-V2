@@ -1,9 +1,9 @@
 {% extends 'backend/admin/base/base.html.twig' %}
 
-{% block title %}{{ parent() }} - Liste des data Enums{% endblock %}
+{% block title %}{{ parent() }} - Liste des pages{% endblock %}
 
 {% block body %}
-    {{ encore_entry_link_tags('backend/admin/dashboard/advancedData/dataEnum/list') }}
+    {{ encore_entry_link_tags('backend/admin/dashboard/content/page/list') }}
 
     {% include 'backend/admin/dashboard/elements/_side-menu.html.twig' %}
 
@@ -12,26 +12,26 @@
             <div class="flex flex-wrap">
                 <div class="flex flex-wrap">
                     <div id="container-reset-button-js" class="w-full md:w-auto mb-2 md:mb-0">
-                        <button type="button" id="refresh-backend-data-enum-list-js"
+                        <button type="button" id="refresh-page-list-js"
                                 class="w-full text-xs px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                            Afficher toutes les données
+                            Afficher toutes les pages
                         </button>
                     </div>
                 </div>
 
                 <div class="w-full md:w-auto mb-2 md:mb-0 md:ml-2">
-                    <a href="{{ path('app_backend_advanced_data_data_enum_create') }}">
+                    <a href="{#{{ path('app_backend_page_create') }}#}">
                         <button type="button"
                                 class="w-full md:w-auto text-xs px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:ml-custom">
-                            Créer une donnée
+                            Créer une page
                         </button>
                     </a>
                 </div>
             </div>
 
             {# Search by query #}
-            <form action="{{ path('app_backend_advanced_data_data_enum_list') }}" method="get" class="mt-2"
-                  id="search-backend-data-enum">
+            <form action="{{ path('app_backend_admin_content_page_list') }}" method="get" class="mt-2"
+                  id="search-page">
                 <label for="default-search"
                        class="mb-2 text-xs font-medium text-gray-900 sr-only dark:text-white">Search</label>
                 <div class="relative">
@@ -44,13 +44,13 @@
                         </svg>
                     </div>
 
-                    <label for="search-backend-data-enum-input-js"></label>
+                    <label for="search-page-input-js"></label>
                     <input name="search" value="{{ app.request.query.get('search') }}" type="search"
-                           id="search-backend-data-enum-input-js"
+                           id="search-page-input-js"
                            autocomplete="off"
                            class="block w-full p-1 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                           placeholder="Rechercher par nom, valeur, categorie...">
-                    <button type="submit" id="search-backend-data-enum-submit-button-js"
+                           placeholder="Rechercher par nom, slug, id...">
+                    <button type="submit" id="search-backend-page-submit-button-js"
                             class="text-white absolute right-0 bottom-0 bg-blue-600 hover:bg-blue-500 focus:ring-4 focus:outline-none font-medium text-xs px-2 py-2 dark:bg-blue-600 dark:hover:bg-blue-500 rounded-r-lg">
                         Rechercher
                     </button>
@@ -58,7 +58,7 @@
             </form>
 
             <div class="relative">
-                <ul id="search-data-enum-suggestions"
+                <ul id="search-page-suggestions"
                     class="absolute z-10 list-none bg-white w-full max-h-60 overflow-y-auto rounded-md shadow-lg hidden divide-y divide-gray-100">
                     {# Injected search results #}
                 </ul>
@@ -71,38 +71,31 @@
                         <tr>
                             <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Id</th>
                             <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Nom</th>
+                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Titre</th>
+                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Slug</th>
                             <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Catégorie</th>
-                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Valeur</th>
-                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Clé dev</th>
-                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Système</th>
+                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Type</th>
                             <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% if pagination.items is not empty %}
-                            {% for dataEnum in pagination %}
+                            {% for page in pagination %}
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ dataEnum.id }}</td>
-                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ dataEnum.name }}</td>
-                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ dataEnum.category ? dataEnum.category : 'N/A' }}</td>
-                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ dataEnum.value ? dataEnum.value : 'N/A' }}</td>
-                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ dataEnum.devKey }}</td>
-                                    <td class="py-2 px-3 md:py-4 md:px-6 whitespace-nowrap">
-                                        {% if dataEnum.isSystem == true %}
-                                            <span class="bg-green-600 text-white px-2 py-1 rounded">true</span>
-                                        {% else %}
-                                            <span class="bg-red-600 text-white px-2 py-1 rounded">false</span>
-                                        {% endif %}
-                                    </td>
+                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ page.id }}</td>
+                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ page.name }}</td>
+                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ page.title }}</td>
+                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ page.slug }}</td>
+                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ page.category ? page.category : 'N/A' }}</td>
+                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ page.pageType.name }}</td>
                                     <td class="py-2 px-3 md:py-1 md:px-1">
                                         <div class="flex flex-wrap items-center">
-                                            <a href="{{ path('app_backend_advanced_data_data_enum_edit', {'id': dataEnum.id}) }}"
+                                            <a href="{#{{ path('app_backend_page_edit', {'id': page.id}) }}#}"
                                                class="font-medium text-white dark:text-white rounded p-2 bg-blue-600 hover:bg-blue-500 md:mr-2 my-1"><i
                                                         class="fa-solid fa-pen-to-square"></i>
                                             </a>
-                                            <a href="{{ dataEnum.isSystem == true ? '#' : path('app_backend_data_enum_delete', {'id': dataEnum.id}) }}"
-                                               data-is-system="{{ dataEnum.isSystem == true ? 'true' : 'false' }}"
-                                               class="{{ dataEnum.isSystem == true ? 'cursor-not-allowed' }} link-delete-data-enum-js disabled font-medium text-white dark:text-white rounded p-2 bg-red-600 hover:bg-red-500 my-1"><i
+                                            <a href="{#{{ path('app_backend_page_delete', {'id': page.id}) }}#}"
+                                               class="link-delete-page-js disabled font-medium text-white dark:text-white rounded p-2 bg-red-600 hover:bg-red-500 my-1"><i
                                                         class="fa-solid fa-trash"></i>
                                             </a>
                                         </div>
@@ -111,7 +104,7 @@
                             {% endfor %}
                         {% else %}
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <td colspan="7" class="py-2 px-3 md:py-4 md:px-6 text-center">Aucune dataEnum
+                                <td colspan="7" class="py-2 px-3 md:py-4 md:px-6 text-center">Aucune page
                                     trouvé
                                 </td>
                             </tr>
@@ -130,7 +123,7 @@
         {% endif %}
     </div>
 
-    {{ encore_entry_script_tags('backend/admin/dashboard/advancedData/dataEnum/list') }}
+    {{ encore_entry_script_tags('backend/admin/dashboard/content/page/list') }}
 {% endblock %}
 
 

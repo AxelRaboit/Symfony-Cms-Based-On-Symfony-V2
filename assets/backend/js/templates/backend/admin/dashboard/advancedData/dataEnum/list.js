@@ -1,4 +1,4 @@
-import { handleClickEvent, handleInputEvent, updateSuggestionsList } from "../shared/search";
+import { handleClickEvent, handleInputEvent, updateSuggestionsList } from "../../shared/search";
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -48,8 +48,8 @@ document.addEventListener('DOMContentLoaded', function () {
     handleInputEvent(searchFormInput, function (event) {
         const searchTerm = event.target.value;
 
-        if (searchTerm.length >= 2) { // Begin search only if search term is at least 2 characters long
-            fetch(`/backend/admin/dataenum/backend/ajax-search?term=${searchTerm}`)
+        if (searchTerm.length >= 1) { // Begin search only if search term is at least 1 characters long
+            fetch(`/backend/admin/advanced-data/data-enum/ajax-search?term=${searchTerm}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');

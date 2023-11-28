@@ -24,6 +24,23 @@ class PageRepository extends ServiceEntityRepository
         parent::__construct($registry, Page::class);
     }
 
+    public function findAllOrderBy(string $order = 'ASC'): array
+    {
+        $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p ORDER BY p.id ' . $order);
+
+        return $query->getResult();
+    }
+
+    public function findByCriteria(string $criteria, string $order = 'ASC'): array
+    {
+        $criteria = trim($criteria);
+
+        $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE p.name LIKE :criteria OR p.slug LIKE :criteria OR p.id LIKE :criteria ORDER BY p.id ' . $order);
+        $query->setParameter('criteria', '%' . $criteria . '%');
+
+        return $query->getResult();
+    }
+
     public function getChildren(Page $page): array
     {
         $query = $this->getEntityManager()->createQuery(
