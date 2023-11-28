@@ -48,18 +48,7 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-2 mb-2">
-            <div class="text-xs">
-                {{ form_label(form.template) }}
-                {{ form_widget(form.template, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
-                {% if form.template.vars.errors %}
-                    <div class="mt-1 text-red-600 text-xs">
-                        {% for error in form.template.vars.errors %}
-                            <p>{{ error.message }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            </div>
+        <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2 mb-2">
             <div class="text-xs">
                 {{ form_label(form.pageType) }}
                 {{ form_widget(form.pageType, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
@@ -77,31 +66,6 @@
                 {% if form.parent.vars.errors %}
                     <div class="mt-1 text-red-600 text-xs">
                         {% for error in form.parent.vars.errors %}
-                            <p>{{ error.message }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2 mb-2">
-            <div class="text-xs">
-                {{ form_label(form.devCodeRouteName) }}
-                {{ form_widget(form.devCodeRouteName, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
-                {% if form.devCodeRouteName.vars.errors %}
-                    <div class="mt-1 text-red-600 text-xs">
-                        {% for error in form.devCodeRouteName.vars.errors %}
-                            <p>{{ error.message }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            </div>
-            <div class="text-xs">
-                {{ form_label(form.slug) }}
-                {{ form_widget(form.slug, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
-                {% if form.slug.vars.errors %}
-                    <div class="mt-1 text-red-600 text-xs">
-                        {% for error in form.slug.vars.errors %}
                             <p>{{ error.message }}</p>
                         {% endfor %}
                     </div>
@@ -173,6 +137,35 @@
             </div>
         </div>
 
+        <h2 class="text-1xl font-semibold mb-2">Bannière et miniature</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2 mb-2">
+            <div class="text-xs">
+                {{ form_label(form.banner) }}
+                {{ form_widget(form.banner, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
+                {% if form.banner.vars.errors %}
+                    <div class="mt-1 text-red-600 text-xs">
+                        {% for error in form.banner.vars.errors %}
+                            <p>{{ error.message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="text-xs">
+                {{ form_label(form.imageThumbnail) }}
+                {{ form_widget(form.imageThumbnail, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
+                {% if form.imageThumbnail.vars.errors %}
+                    <div class="mt-1 text-red-600 text-xs">
+                        {% for error in form.imageThumbnail.vars.errors %}
+                            <p>{{ error.message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <h2 class="text-1xl font-semibold mb-2">CTA</h2>
+
         <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-2 mb-2">
             <div class="text-xs">
                 {{ form_label(form.ctaTitle) }}
@@ -209,34 +202,9 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2 mb-2">
-            <div class="text-xs">
-                {{ form_label(form.imageThumbnail) }}
-                {{ form_widget(form.imageThumbnail, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
-                {% if form.imageThumbnail.vars.errors %}
-                    <div class="mt-1 text-red-600 text-xs">
-                        {% for error in form.imageThumbnail.vars.errors %}
-                            <p>{{ error.message }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            </div>
-            <div class="text-xs">
-                {{ form_label(form.banner) }}
-                {{ form_widget(form.banner, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
-                {% if form.banner.vars.errors %}
-                    <div class="mt-1 text-red-600 text-xs">
-                        {% for error in form.banner.vars.errors %}
-                            <p>{{ error.message }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-
         <h2 class="text-1xl font-semibold mb-2">Seo</h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2 mb-2">
+        <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-2 mb-2">
             <div class="text-xs">
                 {{ form_label(form.canonicalUrl) }}
                 {{ form_widget(form.canonicalUrl, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
@@ -259,11 +227,50 @@
                     </div>
                 {% endif %}
             </div>
+            <div class="text-xs">
+                {{ form_label(form.slug) }}
+                {{ form_widget(form.slug, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
+                {% if form.slug.vars.errors %}
+                    <div class="mt-1 text-red-600 text-xs">
+                        {% for error in form.slug.vars.errors %}
+                            <p>{{ error.message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
         </div>
 
-        <div class="mb-5 text-xs">
-            {{ form_widget(form.isPublished, { 'attr': { 'class': 'text-xs p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 mr-2' } }) }}
-            {{ form_label(form.isPublished) }}
+        <h2 class="text-1xl font-semibold mb-2">Dev</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2 mb-2">
+            <div class="text-xs">
+                {{ form_label(form.devCodeRouteName) }}
+                {{ form_widget(form.devCodeRouteName, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
+                {% if form.devCodeRouteName.vars.errors %}
+                    <div class="mt-1 text-red-600 text-xs">
+                        {% for error in form.devCodeRouteName.vars.errors %}
+                            <p>{{ error.message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="text-xs">
+                {{ form_label(form.template) }}
+                {{ form_widget(form.template, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
+                {% if form.template.vars.errors %}
+                    <div class="mt-1 text-red-600 text-xs">
+                        {% for error in form.template.vars.errors %}
+                            <p>{{ error.message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="mb-5">
+            {{ form_widget(form.isPublished, { 'attr': { 'class': 'scale-150 mr-2 text-xs p-1 border border-gray-300 rounded focus:ring-gray-800 focus:border-gray-800' } }) }}
+            {{ form_label(form.isPublished, null, { 'label_attr': { 'class': 'text-md' } }) }}
+
             {% if form.isPublished.vars.errors %}
                 <div class="mt-1 text-red-600 text-xs">
                     {% for error in form.isPublished.vars.errors %}

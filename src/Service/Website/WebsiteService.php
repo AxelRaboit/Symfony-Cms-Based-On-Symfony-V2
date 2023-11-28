@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\Utils;
+namespace App\Service\Website;
 
 use App\Entity\Website;
 use App\Repository\WebsiteRepository;

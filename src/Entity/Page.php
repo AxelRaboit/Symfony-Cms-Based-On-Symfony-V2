@@ -109,6 +109,15 @@ class Page
     #[ORM\Column]
     private ?bool $visibleForBackendActions = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $metaTitle = null;
+
+    #[ORM\Column]
+    private ?int $weight = 0;
+
+    #[ORM\Column(length: 255)]
+    private ?string $displayType = null;
+
     public function __construct()
     {
         $this->children = new ArrayCollection();
@@ -486,6 +495,14 @@ class Page
             'deletedAt' => $this->getDeletedAt(),
             'pageGalleries' => $this->getPageGalleries(),
             'canonicalUrl' => $this->getCanonicalUrl(),
+            'pageType' => $this->getPageType(),
+            'isPublished' => $this->isIsPublished(),
+            'publishedAt' => $this->getPublishedAt(),
+            'bannerTitle' => $this->getBannerTitle(),
+            'visibleForBackendActions' => $this->isVisibleForBackendActions(),
+            'metaTitle' => $this->getMetaTitle(),
+            'weight' => $this->getWeight(),
+            'displayType' => $this->getDisplayType(),
         ];
     }
 
@@ -554,6 +571,42 @@ class Page
     public function setVisibleForBackendActions(bool $visibleForBackendActions): static
     {
         $this->visibleForBackendActions = $visibleForBackendActions;
+
+        return $this;
+    }
+
+    public function getMetaTitle(): ?string
+    {
+        return $this->metaTitle;
+    }
+
+    public function setMetaTitle(?string $metaTitle): static
+    {
+        $this->metaTitle = $metaTitle;
+
+        return $this;
+    }
+
+    public function getWeight(): int
+    {
+        return $this->weight;
+    }
+
+    public function setWeight(int $weight): static
+    {
+        $this->weight = $weight;
+
+        return $this;
+    }
+
+    public function getDisplayType(): string
+    {
+        return $this->displayType;
+    }
+
+    public function setDisplayType(string $displayType): static
+    {
+        $this->displayType = $displayType;
 
         return $this;
     }

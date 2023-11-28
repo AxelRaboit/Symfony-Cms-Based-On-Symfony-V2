@@ -97,6 +97,7 @@ class PageCreateType extends AbstractType
             ->add('pageType', EntityType::class, [
                 'class' => 'App\Entity\PageType',
                 'choice_label' => 'name',
+                'label' => 'Type de page',
                 'placeholder' => 'Sélectionner un type de page',
                 'required' => true,
                 'constraints' => [
@@ -108,17 +109,20 @@ class PageCreateType extends AbstractType
             ->add('parent', EntityType::class, [
                 'class' => 'App\Entity\Page',
                 'choice_label' => 'name',
+                'label' => 'Page parent',
                 'placeholder' => 'Sélectionner une page parent',
                 'required' => false,
             ])
             ->add('banner', EntityType::class, [
                 'class' => 'App\Entity\Image',
+                'label' => 'Bannière',
                 'choice_label' => 'name',
                 'placeholder' => 'Sélectionner une image',
                 'required' => false,
             ])
             ->add('imageThumbnail', EntityType::class, [
                 'class' => 'App\Entity\Image',
+                'label' => 'Image miniature',
                 'choice_label' => 'name',
                 'placeholder' => 'Sélectionner une image',
                 'required' => false,

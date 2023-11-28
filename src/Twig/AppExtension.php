@@ -10,7 +10,7 @@ use App\Manager\DataEnumManager;
 use App\Repository\MenuItemRepository;
 use App\Repository\PageRepository;
 use App\Service\Page\PageService;
-use App\Service\Utils\WebsiteService;
+use App\Service\Website\WebsiteService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
