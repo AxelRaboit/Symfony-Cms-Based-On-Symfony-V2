@@ -30,8 +30,8 @@
             </div>
 
             {# Search by query #}
-            <form action="{{ path('app_backend_page_list') }}" method="get" class="mt-2"
-                  id="search-backend-page">
+            <form action="{{ path('app_backend_admin_content_page_list') }}" method="get" class="mt-2"
+                  id="search-page">
                 <label for="default-search"
                        class="mb-2 text-xs font-medium text-gray-900 sr-only dark:text-white">Search</label>
                 <div class="relative">
@@ -71,6 +71,10 @@
                         <tr>
                             <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Id</th>
                             <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Nom</th>
+                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Titre</th>
+                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Slug</th>
+                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Catégorie</th>
+                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Type</th>
                             <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Actions</th>
                         </tr>
                         </thead>
@@ -80,6 +84,10 @@
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <td class="py-2 px-3 md:py-4 md:px-6">{{ page.id }}</td>
                                     <td class="py-2 px-3 md:py-4 md:px-6">{{ page.name }}</td>
+                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ page.title }}</td>
+                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ page.slug }}</td>
+                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ page.category ? page.category : 'N/A' }}</td>
+                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ page.pageType.name }}</td>
                                     <td class="py-2 px-3 md:py-1 md:px-1">
                                         <div class="flex flex-wrap items-center">
                                             <a href="{#{{ path('app_backend_page_edit', {'id': page.id}) }}#}"
@@ -96,7 +104,7 @@
                             {% endfor %}
                         {% else %}
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <td colspan="3" class="py-2 px-3 md:py-4 md:px-6 text-center">Aucune page
+                                <td colspan="7" class="py-2 px-3 md:py-4 md:px-6 text-center">Aucune page
                                     trouvé
                                 </td>
                             </tr>

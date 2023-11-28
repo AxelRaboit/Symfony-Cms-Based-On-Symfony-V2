@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PageController extends AbstractController
 {
-    #[Route('/backend/admin/page/list', name: 'app_backend_page_list')]
+    #[Route('/backend/admin/content/page/list', name: 'app_backend_admin_content_page_list')]
     public function pageList(
         PageRepository $pageRepository,
         Request $request,
@@ -41,7 +41,7 @@ class PageController extends AbstractController
         ]);
     }
 
-    #[Route('/backend/admin/page/ajax-search', name: 'app_backend_page_ajax_search')]
+    #[Route('/backend/admin/content/page/ajax-search', name: 'app_backend_admin_content_page_ajax_search')]
     public function ajaxSearch(Request $request, PageRepository $pageRepository): JsonResponse
     {
         $searchTerm = $request->query->get('term');
@@ -53,7 +53,7 @@ class PageController extends AbstractController
         foreach ($pages as $page) {
             $responseData[] = [
                 'id' => $page->getId(),
-                'label' => $page->getName()
+                'label' =>  $page->getName()
             ];
         }
 

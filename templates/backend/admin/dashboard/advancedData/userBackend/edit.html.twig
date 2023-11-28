@@ -8,17 +8,48 @@
     {% include 'backend/admin/dashboard/elements/_side-menu.html.twig' %}
 
     <div class="p-2 sm:ml-64">
-        <div class="border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-            <div class="p-4">
-                <h1 class="text-2xl font-semibold mb-2">Modifier l'utilisateur Backend</h1>
-                {{ form_start(form, {'attr': {'id': 'form-edit-user-backend-js'}}) }}
+        <div class="p-2">
+            <h1 class="text-2xl font-semibold mb-2">Modifier l'utilisateur Backend</h1>
+            {{ form_start(form, {'attr': {'id': 'form-edit-user-backend-js'}}) }}
 
-                <div class="mb-2 text-xs">
-                    {{ form_label(form.username) }}
-                    {{ form_widget(form.username, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
-                    {% if form.username.vars.errors %}
+            <div class="mb-2 text-xs">
+                {{ form_label(form.username) }}
+                {{ form_widget(form.username, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
+                {% if form.username.vars.errors %}
+                    <div class="mt-1 text-red-600 text-xs">
+                        {% for error in form.username.vars.errors %}
+                            <p>{{ error.message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="mb-4 text-xs">
+                {{ form_label(form.email) }}
+                {{ form_widget(form.email, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
+                {% if form.email.vars.errors %}
+                    <div class="mt-1 text-red-600 text-xs">
+                        {% for error in form.email.vars.errors %}
+                            <p>{{ error.message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="w-full md:w-auto mb-2 md:mb-0">
+                <button type="button" id="button-edit-password-js"
+                        class="w-full text-xs px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    Modifier le mot de passe
+                </button>
+            </div>
+
+            <div id="container-password-js" class="hidden mt-2">
+                <div class="mb-4 text-xs">
+                    {{ form_label(form.password.password.first) }}
+                    {{ form_widget(form.password.password.first, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
+                    {% if form.password.password.first.vars.errors %}
                         <div class="mt-1 text-red-600 text-xs">
-                            {% for error in form.username.vars.errors %}
+                            {% for error in form.password.password.first.vars.errors %}
                                 <p>{{ error.message }}</p>
                             {% endfor %}
                         </div>
@@ -26,71 +57,38 @@
                 </div>
 
                 <div class="mb-4 text-xs">
-                    {{ form_label(form.email) }}
-                    {{ form_widget(form.email, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
-                    {% if form.email.vars.errors %}
+                    {{ form_label(form.password.password.second) }}
+                    {{ form_widget(form.password.password.second, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
+                    {% if form.password.password.second.vars.errors %}
                         <div class="mt-1 text-red-600 text-xs">
-                            {% for error in form.email.vars.errors %}
+                            {% for error in form.password.password.second.vars.errors %}
                                 <p>{{ error.message }}</p>
                             {% endfor %}
                         </div>
                     {% endif %}
                 </div>
+            </div>
 
+            <div class="flex flex-wrap mt-4">
                 <div class="w-full md:w-auto mb-2 md:mb-0">
-                    <button type="button" id="button-edit-password-js"
+                    <button type="submit"
+                            id="submit-button-edit-user-backend-js"
                             class="w-full text-xs px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                        Modifier le mot de passe
+                        Modifier
                     </button>
                 </div>
 
-                <div id="container-password-js" class="hidden mt-2">
-                    <div class="mb-4 text-xs">
-                        {{ form_label(form.password.password.first) }}
-                        {{ form_widget(form.password.password.first, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
-                        {% if form.password.password.first.vars.errors %}
-                            <div class="mt-1 text-red-600 text-xs">
-                                {% for error in form.password.password.first.vars.errors %}
-                                    <p>{{ error.message }}</p>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    </div>
-
-                    <div class="mb-4 text-xs">
-                        {{ form_label(form.password.password.second) }}
-                        {{ form_widget(form.password.password.second, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
-                        {% if form.password.password.second.vars.errors %}
-                            <div class="mt-1 text-red-600 text-xs">
-                                {% for error in form.password.password.second.vars.errors %}
-                                    <p>{{ error.message }}</p>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    </div>
-                </div>
-
-                <div class="flex flex-wrap mt-4">
-                    <div class="w-full md:w-auto mb-2 md:mb-0">
-                        <button type="submit"
-                                id="submit-button-edit-user-backend-js"
+                <div id="container-reset-button" class="w-full md:w-auto mb-2 md:mb-0 md:ml-2">
+                    <a href="{{ path('app_backend_advanced_data_user_backend_list') }}">
+                        <button type="button"
                                 class="w-full text-xs px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                            Modifier
+                            Retour
                         </button>
-                    </div>
-
-                    <div id="container-reset-button" class="w-full md:w-auto mb-2 md:mb-0 md:ml-2">
-                        <a href="{{ path('app_backend_user_backend_list') }}">
-                            <button type="button"
-                                    class="w-full text-xs px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                                Retour
-                            </button>
-                        </a>
-                    </div>
+                    </a>
                 </div>
-
-                {{ form_end(form) }}
             </div>
+
+            {{ form_end(form) }}
         </div>
     </div>
 

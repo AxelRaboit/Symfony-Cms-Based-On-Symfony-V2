@@ -1,9 +1,8 @@
 import {handleClickEvent, handleInputEvent, updateSuggestionsList} from "../../shared/search";
-
 document.addEventListener('DOMContentLoaded', function () {
 
     // Variables
-    const searchForm = document.getElementById('search-backend-page');
+    const searchForm = document.getElementById('search-page');
     const containerResetFormButton = document.getElementById('container-reset-button-js');
     const resetFormButton = document.getElementById('refresh-page-list-js');
     const searchFormInput = document.getElementById('search-page-input-js');
@@ -45,8 +44,8 @@ document.addEventListener('DOMContentLoaded', function () {
     handleInputEvent(searchFormInput, function (event) {
         const searchTerm = event.target.value;
 
-        if (searchTerm.length >= 2) { // Begin search only if search term is at least 2 characters long
-            fetch(`/backend/admin/page/ajax-search?term=${searchTerm}`)
+        if (searchTerm.length >= 1) { // Begin search only if search term is at least 1 characters long
+            fetch(`/backend/admin/content/page/ajax-search?term=${searchTerm}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
@@ -57,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (data && Array.isArray(data)) {
                         updateSuggestionsList(
                             data,
-                            'search-backend-page',
+                            'search-page',
                             suggestionsList,
                             searchFormInput
                         );
