@@ -68,8 +68,8 @@ class AppExtension extends AbstractExtension
         }
 
         /* Truncate */
-        if (null !== $charactersLimit && '' !== $charactersLimit) {
-            $string = (string) strip_tags((string) $string);
+        if (null !== $charactersLimit) {
+            $string = strip_tags((string) $string);
 
             if (mb_strlen($string) > $charactersLimit) {
                 return mb_substr($string, 0, $charactersLimit).'...';
