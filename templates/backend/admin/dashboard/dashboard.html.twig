@@ -10,12 +10,12 @@
     <div class="p-4 sm:ml-64">
         <div class="flex items-center justify-center flex-col h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
             <h2 class="text-xs sm:text-sm text-gray-900 dark:text-white text-center">Heure</h2>
-            <p class="text-3xl text-gray-900 dark:text-white" id="dashboard-current-hour">
+            <p class="text-5xl text-gray-900 dark:text-white" id="dashboard-current-hour">
                 {# Inject current hour #}
             </p>
         </div>
         <div class="grid grid-cols-2 gap-4 mb-4">
-            <div class="flex items-center justify-center flex-col h-28 rounded bg-gray-50 dark:bg-gray-800">
+            <div class="flex items-center justify-center flex-col h-28 rounded bg-gray-50 dark:bg-gray-800 p-1">
                 <h2 class="text-xs sm:text-sm text-gray-900 dark:text-white text-center">Nombre d'utilisateurs Backend</h2>
                 <div>
                     <a href="{{ path('app_backend_advanced_data_user_backend_list') }}">
@@ -25,7 +25,7 @@
                     </a>
                 </div>
             </div>
-            <div class="flex items-center justify-center flex-col h-28 rounded bg-gray-50 dark:bg-gray-800">
+            <div class="flex items-center justify-center flex-col h-28 rounded bg-gray-50 dark:bg-gray-800 p-1">
                 <h2 class="text-xs sm:text-sm text-gray-900 dark:text-white text-center">Nombre d'utilisateurs Frontend</h2>
                 <div>
                     <p class="text-3xl text-gray-900 dark:text-white">
@@ -33,7 +33,7 @@
                     </p>
                 </div>
             </div>
-            <div class="flex items-center justify-center flex-col rounded bg-gray-50 h-28 dark:bg-gray-800">
+            <div class="flex items-center justify-center flex-col rounded bg-gray-50 h-28 dark:bg-gray-800 p-1">
                 <h2 class="text-xs sm:text-sm text-gray-900 dark:text-white text-center">Nombre de pages</h2>
                 <div>
                     <a href="{{ path('app_backend_admin_content_page_list') }}">
@@ -43,7 +43,7 @@
                     </a>
                 </div>
             </div>
-            <div class="flex items-center justify-center flex-col rounded bg-gray-50 h-28 dark:bg-gray-800">
+            <div class="flex items-center justify-center flex-col rounded bg-gray-50 h-28 dark:bg-gray-800 p-1">
                 <h2 class="text-xs sm:text-sm text-gray-900 dark:text-white text-center">Nombre de données</h2>
                 <div>
                     <a href="{{ path('app_backend_advanced_data_data_enum_list') }}">

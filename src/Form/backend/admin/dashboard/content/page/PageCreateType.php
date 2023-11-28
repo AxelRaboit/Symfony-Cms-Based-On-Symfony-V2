@@ -47,18 +47,22 @@ class PageCreateType extends AbstractType
             ->add('contentPrimary', TextareaType::class, [
                 'label' => 'Contenu principal',
                 'required' => false,
+                'attr' => ['rows' => 7],
             ])
             ->add('contentSecondary', TextareaType::class, [
                 'label' => 'Contenu secondaire',
                 'required' => false,
+                'attr' => ['rows' => 7],
             ])
             ->add('contentTertiary', TextareaType::class, [
                 'label' => 'Contenu tertiaire',
                 'required' => false,
+                'attr' => ['rows' => 7],
             ])
             ->add('contentQuaternary', TextareaType::class, [
                 'label' => 'Contenu quaternaire',
                 'required' => false,
+                'attr' => ['rows' => 7],
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description de la page',
