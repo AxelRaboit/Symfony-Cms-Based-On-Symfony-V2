@@ -6,7 +6,7 @@ namespace App\Twig;
 
 use App\Entity\Page;
 use App\Entity\Website;
-use App\Manager\DataEnumManager;
+use App\Manager\Backend\AdvancedData\DataEnum\DataEnumManager;
 use App\Repository\MenuItemRepository;
 use App\Repository\PageRepository;
 use App\Service\PageService;

@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\DataEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,6 +39,17 @@ class DataEnumRepository extends ServiceEntityRepository
         $query = $this->em()->createQuery('SELECT d FROM App\Entity\DataEnum d ORDER BY d.id ' . $order);
 
         return $query->getResult();
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
+    public function getLastDevKey(): int
+    {
+        $query = $this->em()->createQuery('SELECT MAX(d.devKey) FROM App\Entity\DataEnum d');
+
+        return $query->getSingleScalarResult();
     }
 
     // base

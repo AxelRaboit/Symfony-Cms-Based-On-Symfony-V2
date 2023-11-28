@@ -3,7 +3,7 @@
 namespace App\Command;
 
 use App\Enum\DataEnum;
-use App\Manager\DataEnumManager;
+use App\Manager\Backend\AdvancedData\DataEnum\DataEnumManager;
 use App\Repository\DataEnumRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;

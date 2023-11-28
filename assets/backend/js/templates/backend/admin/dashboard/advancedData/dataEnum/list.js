@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
         button.addEventListener('click', function(event) {
             event.preventDefault();
             const deleteUrl = this.href;
-            if (dataIsSystem === "0") {
+            if (dataIsSystem === "false") {
                 attachConfirmationToButton(deleteUrl, "Êtes-vous sûr de vouloir supprimer ?");
             }
         });

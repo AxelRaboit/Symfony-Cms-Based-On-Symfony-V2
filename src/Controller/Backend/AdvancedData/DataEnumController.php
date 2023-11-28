@@ -3,8 +3,9 @@
 namespace App\Controller\Backend\AdvancedData;
 
 use App\Entity\DataEnum;
+use App\Form\backend\admin\dashboard\advancedData\dataEnum\DataEnumCreateType;
 use App\Form\backend\admin\dashboard\advancedData\dataEnum\DataEnumEditType;
-use App\Manager\DataEnumManager;
+use App\Manager\Backend\AdvancedData\DataEnum\DataEnumManager;
 use App\Repository\DataEnumRepository;
 use App\Service\StringUtilsService;
 use Knp\Component\Pager\PaginatorInterface;
@@ -42,6 +43,28 @@ class DataEnumController extends AbstractController
 
         return $this->render('backend/admin/dashboard/advancedData/dataEnum/list.html.twig', [
             'pagination' => $pagination,
+        ]);
+    }
+
+    #[Route('/backend/admin/dataenum/create', name: 'app_backend_data_enum_create', methods: ['GET', 'POST'])]
+    public function dataEnumCreate(Request $request, DataEnumManager $dataEnumManager): Response
+    {
+        $dataEnum = new DataEnum();
+        $form = $this->createForm(DataEnumCreateType::class, $dataEnum);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $dataEnumManager->dataEnumCreate($dataEnum);
+
+            $dataEnumName = $dataEnum->getName();
+
+            $this->addFlash('success', "La donnée {$dataEnumName} a été créé avec succès.");
+
+            return $this->redirectToRoute('app_backend_data_enum_list');
+        }
+
+        return $this->render('backend/admin/dashboard/advancedData/dataEnum/create.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 

@@ -7,12 +7,6 @@ use App\Entity\Page;
 use App\Repository\DataEnumRepository;
 use App\Repository\PageRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DataEnumManager extends AbstractManager
 {
@@ -86,15 +80,5 @@ class DataEnumManager extends AbstractManager
         $this->save($dataEnum);
 
         return $dataEnum;
-    }
-
-    public function dataEnumDelete(DataEnum $dataEnum): void
-    {
-        $this->remove($dataEnum);
-    }
-
-    public function dataEnumEdit(DataEnum $dataEnum): void
-    {
-        $this->save($dataEnum);
     }
 }
