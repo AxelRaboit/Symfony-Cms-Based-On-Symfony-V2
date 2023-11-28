@@ -12,10 +12,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // This function is used to display the confirmation popup when the user click on the delete button from the list
     Array.from(deleteDataEnumLinks).forEach(button => {
+        const dataIsSystem = button.dataset.isSystem;
         button.addEventListener('click', function(event) {
             event.preventDefault();
             const deleteUrl = this.href;
-            attachConfirmationToButton(deleteUrl, "Êtes-vous sûr de vouloir supprimer ?");
+            if (dataIsSystem === "0") {
+                attachConfirmationToButton(deleteUrl, "Êtes-vous sûr de vouloir supprimer ?");
+            }
         });
     });
 
