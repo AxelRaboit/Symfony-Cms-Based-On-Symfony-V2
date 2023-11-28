@@ -1,7 +1,7 @@
 const editPasswordButton = document.getElementById("button-edit-password-js");
 const containerPasswordFields = document.getElementById("container-password-js");
-const formSubmitButton = document.getElementById("form-edit-user-backend-js");
-const submitFormButton = document.getElementById("submit-button-edit-user-backend-js");
+const formSubmitButton = document.getElementById("form-edit-backend-user-js");
+const submitFormButton = document.getElementById("submit-button-edit-backend-user-js");
 
 // On click on the submit button, we display a confirmation popup
 submitFormButton.addEventListener('click', function(event) {

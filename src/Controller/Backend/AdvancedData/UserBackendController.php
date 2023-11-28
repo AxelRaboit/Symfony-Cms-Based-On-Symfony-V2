@@ -66,18 +66,6 @@ class UserBackendController extends AbstractController
         ]);
     }
 
-    #[Route('/backend/admin/advanced-data/user-backend/{id}/delete', name: 'app_backend_advanced_data_user_backend_delete')]
-    public function userDelete(UserBackend $userBackend, UserBackendManager $userBackendManager): Response
-    {
-        $userBackendManager->userBackendDelete($userBackend);
-
-        $userIdentity = $userBackend->getUsername() ?? $userBackend->getEmail();
-
-        $this->addFlash('success', "L'utilisateur {$userIdentity} a été supprimé avec succès.");
-
-        return $this->redirectToRoute('app_backend_advanced_data_user_backend_list');
-    }
-
     #[Route('/backend/admin/advanced-data/user-backend/{id}/edit', name: 'app_backend_advanced_data_user_backend_edit', methods: ['GET', 'POST'])]
     public function userEdit(UserBackend $userBackend, Request $request, UserBackendManager $userBackendManager, UserPasswordHasherInterface $userPasswordHasher): Response
     {
@@ -103,6 +91,18 @@ class UserBackendController extends AbstractController
         return $this->render('backend/admin/dashboard/advancedData/userBackend/edit.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/backend/admin/advanced-data/user-backend/{id}/delete', name: 'app_backend_advanced_data_user_backend_delete')]
+    public function userDelete(UserBackend $userBackend, UserBackendManager $userBackendManager): Response
+    {
+        $userBackendManager->userBackendDelete($userBackend);
+
+        $userIdentity = $userBackend->getUsername() ?? $userBackend->getEmail();
+
+        $this->addFlash('success', "L'utilisateur {$userIdentity} a été supprimé avec succès.");
+
+        return $this->redirectToRoute('app_backend_advanced_data_user_backend_list');
     }
 
     #[Route('/backend/admin/advanced-data/user-backend/ajax-search', name: 'app_backend_advanced_data_user_ajax_search')]

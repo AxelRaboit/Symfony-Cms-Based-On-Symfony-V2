@@ -68,18 +68,6 @@ class DataEnumController extends AbstractController
         ]);
     }
 
-    #[Route('/backend/admin/advanced-data/data-enum/{id}/delete', name: 'app_backend_advanced_data_data_enum_delete')]
-    public function dataEnumDelete(DataEnum $dataEnum, DataEnumManager $dataEnumManager): Response
-    {
-        $dataEnumManager->dataEnumDelete($dataEnum);
-
-        $dataEnumName = $dataEnum->getName();
-
-        $this->addFlash('success', "La donnée {$dataEnumName} a été supprimée avec succès.");
-
-        return $this->redirectToRoute('app_backend_advanced_data_data_enum_list');
-    }
-
     #[Route('/backend/admin/advanced-data/data-enum/{id}/edit', name: 'app_backend_advanced_data_data_enum_edit', methods: ['GET', 'POST'])]
     public function dataEnumEdit(DataEnum $dataEnum, Request $request, DataEnumManager $dataEnumManager): Response
     {
@@ -99,6 +87,18 @@ class DataEnumController extends AbstractController
         return $this->render('backend/admin/dashboard/advancedData/dataEnum/edit.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/backend/admin/advanced-data/data-enum/{id}/delete', name: 'app_backend_advanced_data_data_enum_delete')]
+    public function dataEnumDelete(DataEnum $dataEnum, DataEnumManager $dataEnumManager): Response
+    {
+        $dataEnumManager->dataEnumDelete($dataEnum);
+
+        $dataEnumName = $dataEnum->getName();
+
+        $this->addFlash('success', "La donnée {$dataEnumName} a été supprimée avec succès.");
+
+        return $this->redirectToRoute('app_backend_advanced_data_data_enum_list');
     }
 
     #[Route('/backend/admin/advanced-data/data-enum/ajax-search', name: 'app_backend_advanced_data_data_enum_ajax_search')]
