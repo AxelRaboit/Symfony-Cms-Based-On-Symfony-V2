@@ -38,7 +38,7 @@ export function updateSuggestionsList(
     data.forEach(item => {
         const listItem = document.createElement('li');
         listItem.textContent = item.label;
-        listItem.classList.add('p-2', 'hover:bg-gray-100', 'hover:dark:bg-gray-100', 'hover:dark:text-gray-800', 'cursor-pointer', 'text-white', 'bg-white', 'dark:bg-gray-800');
+        listItem.classList.add('p-2', 'text-gray-800', 'hover:bg-gray-100', 'hover:dark:bg-gray-100', 'hover:dark:text-gray-800', 'cursor-pointer', 'bg-white', 'dark:bg-gray-800');
 
         listItem.addEventListener('click', () => {
             searchFormInput.value = item.label; // Update the input with the selected value
