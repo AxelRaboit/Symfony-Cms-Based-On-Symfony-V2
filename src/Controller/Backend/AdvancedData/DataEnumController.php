@@ -3,6 +3,7 @@
 namespace App\Controller\Backend\AdvancedData;
 
 use App\Entity\DataEnum;
+use App\Form\backend\admin\dashboard\advancedData\dataEnum\DataEnumEditType;
 use App\Manager\DataEnumManager;
 use App\Repository\DataEnumRepository;
 use App\Service\StringUtilsService;
@@ -16,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DataEnumController extends AbstractController
 {
     #[Route('/backend/admin/data/list', name: 'app_backend_data_enum_list')]
-    public function dataList(DataEnumRepository $dataEnumRepository, Request $request, PaginatorInterface $paginator, StringUtilsService $stringUtilsService): Response
+    public function dataEnumList(DataEnumRepository $dataEnumRepository, Request $request, PaginatorInterface $paginator, StringUtilsService $stringUtilsService): Response
     {
         $search = $request->query->get('search');
 
@@ -44,8 +45,8 @@ class DataEnumController extends AbstractController
         ]);
     }
 
-    #[Route('/backend/admin/dataenum/backend/{id}/delete', name: 'app_backend_data_enum_delete')]
-    public function userDelete(DataEnum $dataEnum, DataEnumManager $dataEnumManager): Response
+    #[Route('/backend/admin/dataenum/{id}/delete', name: 'app_backend_data_enum_delete')]
+    public function dataEnumDelete(DataEnum $dataEnum, DataEnumManager $dataEnumManager): Response
     {
         $dataEnumManager->dataEnumDelete($dataEnum);
 
@@ -54,6 +55,27 @@ class DataEnumController extends AbstractController
         $this->addFlash('success', "La donnée {$dataEnumName} a été supprimée avec succès.");
 
         return $this->redirectToRoute('app_backend_data_enum_list');
+    }
+
+    #[Route('/backend/admin/dataenum/{id}/edit', name: 'app_backend_data_enum_edit', methods: ['GET', 'POST'])]
+    public function dataEnumEdit(DataEnum $dataEnum, Request $request, DataEnumManager $dataEnumManager): Response
+    {
+        $form = $this->createForm(DataEnumEditType::class, $dataEnum);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $dataEnumManager->dataEnumEdit($dataEnum);
+
+            $dataEnumName = $dataEnum->getName();
+
+            $this->addFlash('success', "La donnée {$dataEnumName} a été modifiée avec succès.");
+
+            return $this->redirectToRoute('app_backend_data_enum_list');
+        }
+
+        return $this->render('backend/admin/dashboard/advancedData/dataEnum/edit.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     #[Route('/backend/admin/dataenum/backend/ajax-search', name: 'app_backend_data_enum_ajax_search')]

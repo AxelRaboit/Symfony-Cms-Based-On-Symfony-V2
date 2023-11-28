@@ -28,6 +28,7 @@ Encore
 
     // dashboard - advancedData
     .addEntry('backend/admin/dashboard/advancedData/dataEnum/list', './assets/backend/js/templates/backend/admin/dashboard/advancedData/dataEnum/list.js')
+    .addEntry('backend/admin/dashboard/advancedData/dataEnum/edit', './assets/backend/js/templates/backend/admin/dashboard/advancedData/dataEnum/edit.js')
 
     .addEntry('backend/admin/dashboard/advancedData/userBackend/list', './assets/backend/js/templates/backend/admin/dashboard/advancedData/userBackend/list.js')
     .addEntry('backend/admin/dashboard/advancedData/userBackend/create', './assets/backend/js/templates/backend/admin/dashboard/advancedData/userBackend/create.js')

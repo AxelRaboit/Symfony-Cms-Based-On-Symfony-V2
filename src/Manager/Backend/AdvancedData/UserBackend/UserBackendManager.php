@@ -38,8 +38,17 @@ class UserBackendManager extends AbstractManager
         $this->remove($userBackend);
     }
 
-    public function userBackendEdit(UserBackend $userBackend): void
+    public function userBackendEdit(UserBackend $userBackend, array $passwords = []): void
     {
+        if (!empty($passwords['first']) && $passwords['first'] === $passwords['second']) {
+            $hashedPassword = $this->userPasswordHasher->hashPassword(
+                $userBackend,
+                $passwords['first']
+            );
+
+            $userBackend->setPassword($hashedPassword);
+        }
+
         $this->save($userBackend);
     }
 }

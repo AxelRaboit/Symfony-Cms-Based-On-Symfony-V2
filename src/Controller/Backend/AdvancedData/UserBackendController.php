@@ -93,19 +93,12 @@ class UserBackendController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $passwordData = $form->get('password');
 
-            $firstPassword = $passwordData['password']['first']->getData();
-            $secondPassword = $passwordData['password']['second']->getData();
+            $passwords = [
+                'first' => $passwordData['password']['first']->getData(),
+                'second' => $passwordData['password']['second']->getData()
+            ];
 
-            if (!empty($firstPassword) && $firstPassword === $secondPassword) {
-                $hashedPassword = $userPasswordHasher->hashPassword(
-                    $userBackend,
-                    $firstPassword
-                );
-
-                $userBackend->setPassword($hashedPassword);
-            }
-
-            $userBackendManager->userBackendEdit($userBackend);
+            $userBackendManager->userBackendEdit($userBackend, $passwords);
 
             $userIdentity = $userBackend->getUsername() ?? $userBackend->getEmail();
             $this->addFlash('success', "L'utilisateur {$userIdentity} a été modifié avec succès.");
