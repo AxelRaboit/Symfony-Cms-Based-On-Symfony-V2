@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Utils;
 
+use App\Entity\Website;
 use App\Repository\WebsiteRepository;
 use Symfony\Component\HttpKernel\KernelInterface;
-use App\Entity\Website;
 
 class WebsiteService
 {

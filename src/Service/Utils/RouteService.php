@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Utils;
 
 use Symfony\Component\Routing\RouterInterface;
 

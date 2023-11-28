@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Page;
 
 use App\Entity\Page;
 use App\Repository\PageGalleryRepository;
-use Symfony\Component\HttpFoundation\Request;
 
 class PageGalleryService
 {

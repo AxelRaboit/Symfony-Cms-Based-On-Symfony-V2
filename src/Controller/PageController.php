@@ -3,13 +3,13 @@
 namespace App\Controller;
 
 use App\Repository\PageRepository;
-use App\Service\PageGalleryService;
-use App\Service\PageService;
-use App\Service\RouteService;
+use App\Service\Page\PageGalleryService;
+use App\Service\Page\PageService;
+use App\Service\Utils\RouteService;
 use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 

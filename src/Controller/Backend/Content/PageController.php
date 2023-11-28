@@ -6,7 +6,7 @@ use App\Entity\Page;
 use App\Form\backend\admin\dashboard\content\page\PageCreateType;
 use App\Manager\Backend\Content\Page\PageManager;
 use App\Repository\PageRepository;
-use App\Service\StringUtilsService;
+use App\Service\Utils\StringUtilsService;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Knp\Component\Pager\PaginatorInterface;

@@ -7,7 +7,7 @@ use App\Form\backend\admin\dashboard\advancedData\dataEnum\DataEnumCreateType;
 use App\Form\backend\admin\dashboard\advancedData\dataEnum\DataEnumEditType;
 use App\Manager\Backend\AdvancedData\DataEnum\DataEnumManager;
 use App\Repository\DataEnumRepository;
-use App\Service\StringUtilsService;
+use App\Service\Utils\StringUtilsService;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Knp\Component\Pager\PaginatorInterface;

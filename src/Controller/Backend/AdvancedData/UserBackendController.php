@@ -7,7 +7,7 @@ use App\Form\backend\admin\dashboard\advancedData\userBackend\UserBackendCreateT
 use App\Form\backend\admin\dashboard\advancedData\userBackend\UserBackendEditType;
 use App\Manager\Backend\AdvancedData\UserBackend\UserBackendManager;
 use App\Repository\UserBackendRepository;
-use App\Service\StringUtilsService;
+use App\Service\Utils\StringUtilsService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;

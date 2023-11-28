@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\PageRepository;
-use App\Service\PageService;
+use App\Service\Page\PageService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

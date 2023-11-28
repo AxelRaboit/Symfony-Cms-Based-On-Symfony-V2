@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Page;
 
 use App\Entity\Page;
 use App\Enum\DataEnum;
