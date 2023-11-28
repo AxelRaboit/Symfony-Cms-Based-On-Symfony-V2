@@ -8,18 +8,18 @@
     {% include 'backend/admin/dashboard/elements/_side-menu.html.twig' %}
 
     <div class="p-2 sm:ml-64">
-        <h1 class="text-2xl font-semibold mb-2">Modifier la donnée</h1>
+        <h1 class="text-2xl font-semibold mb-2 text-gray-900 dark:text-white">Modifier la donnée</h1>
 
         <div class="mb-4">
-            <h2 class="text-md">Informations</h2>
+            <h2 class="text-md text-gray-900 dark:text-white">Informations</h2>
             <p class="text-red-600 text-sm font-semibold">ATTENTION: Ne pas changer la Dev Key (sauf en cas de nécessité).</p>
-            <p class="text-xs"><span class="font-semibold">Note: </span> Pour lier une data Enum à un element, modifiez la valeur.</p>
+            <p class="text-xs text-gray-900 dark:text-white"><span class="font-semibold text-gray-900 dark:text-white">Note: </span> Pour lier une data Enum à un element, modifiez la valeur.</p>
         </div>
 
         {{ form_start(form, {'attr': {'id': 'form-edit-data-enum-js'}}) }}
 
         <div class="mb-2 text-xs">
-            {{ form_label(form.name) }}
+            {{ form_label(form.name, null, { 'label_attr': { 'class': 'text-gray-900 dark:text-white'}}) }}
             {{ form_widget(form.name, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
             {% if form.name.vars.errors %}
                 <div class="mt-1 text-red-600 text-xs">
@@ -31,7 +31,7 @@
         </div>
 
         <div class="mb-4 text-xs">
-            {{ form_label(form.category) }}
+            {{ form_label(form.category, null, { 'label_attr': { 'class': 'text-gray-900 dark:text-white'}}) }}
             {{ form_widget(form.category, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
             {% if form.category.vars.errors %}
                 <div class="mt-1 text-red-600 text-xs">
@@ -43,7 +43,7 @@
         </div>
 
         <div class="mb-4 text-xs">
-            {{ form_label(form.value) }}
+            {{ form_label(form.value, null, { 'label_attr': { 'class': 'text-gray-900 dark:text-white'}}) }}
             {{ form_widget(form.value, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
             {% if form.value.vars.errors %}
                 <div class="mt-1 text-red-600 text-xs">
@@ -55,7 +55,7 @@
         </div>
 
         <div class="mb-4 text-xs">
-            {{ form_label(form.devKey) }}
+            {{ form_label(form.devKey, null, { 'label_attr': { 'class': 'text-gray-900 dark:text-white'}}) }}
             {{ form_widget(form.devKey, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
             {% if form.devKey.vars.errors %}
                 <div class="mt-1 text-red-600 text-xs">
