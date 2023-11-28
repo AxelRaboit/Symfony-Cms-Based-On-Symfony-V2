@@ -45,7 +45,7 @@
                 </div>
 
                 <div id="container-password-js" class="hidden mt-2">
-                    <div class="mb-4">
+                    <div class="mb-4 text-xs">
                         {{ form_label(form.password.password.first) }}
                         {{ form_widget(form.password.password.first, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
                         {% if form.password.password.first.vars.errors %}
@@ -57,7 +57,7 @@
                         {% endif %}
                     </div>
 
-                    <div class="mb-4">
+                    <div class="mb-4 text-xs">
                         {{ form_label(form.password.password.second) }}
                         {{ form_widget(form.password.password.second, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
                         {% if form.password.password.second.vars.errors %}
