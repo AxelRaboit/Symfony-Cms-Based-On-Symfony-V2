@@ -25,8 +25,8 @@ class DataEnumManager extends AbstractManager
      */
     public function dataEnumCreate(DataEnum $dataEnum): void
     {
-        $lastDevKey = $this->dataEnumRepository->getLastDevKey();
-        $dataEnum->setDevKey($lastDevKey + 1);
+        $devKey = $this->dataEnumRepository->createDevKey();
+        $dataEnum->setDevKey($devKey);
         $dataEnum->setIsSystem(false);
         $this->save($dataEnum);
     }

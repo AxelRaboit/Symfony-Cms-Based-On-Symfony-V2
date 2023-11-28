@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class DataEnumCreateType extends AbstractType
 {
@@ -15,7 +16,13 @@ class DataEnumCreateType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'required' => true,
-                'label' => 'Nom'
+                'label' => 'Nom',
+                'constraints' => [
+                    new Regex([
+                        'pattern' => '/^DATA_[A-Z_]*$/',
+                        'message' => 'Le nom doit commencer par "DATA_" et ne contenir que des lettres majuscules et des underscores.',
+                    ]),
+                ],
             ])
             ->add('category', TextType::class, [
                 'required' => false,

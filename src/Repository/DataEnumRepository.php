@@ -42,14 +42,22 @@ class DataEnumRepository extends ServiceEntityRepository
     }
 
     /**
+     * We take the highest devKey and increment it by 1 to get the next available devKey.
+     * We make sure that the devKey is unique.
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
-    public function getLastDevKey(): int
+    public function createDevKey(): int
     {
         $query = $this->em()->createQuery('SELECT MAX(d.devKey) FROM App\Entity\DataEnum d');
 
-        return $query->getSingleScalarResult();
+        $devKey = $query->getSingleScalarResult();
+
+        while ($this->findOneBy(['devKey' => $devKey])) {
+            $devKey++;
+        }
+
+        return $devKey;
     }
 
     // base

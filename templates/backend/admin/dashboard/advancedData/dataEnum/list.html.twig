@@ -73,6 +73,7 @@
                             <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Nom</th>
                             <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Catégorie</th>
                             <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Valeur</th>
+                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Clé dev</th>
                             <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Système</th>
                             <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Actions</th>
                         </tr>
@@ -83,8 +84,9 @@
                                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                     <td class="py-2 px-3 md:py-4 md:px-6">{{ dataEnum.id }}</td>
                                     <td class="py-2 px-3 md:py-4 md:px-6">{{ dataEnum.name }}</td>
-                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ dataEnum.category }}</td>
+                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ dataEnum.category ? dataEnum.category : 'N/A' }}</td>
                                     <td class="py-2 px-3 md:py-4 md:px-6">{{ dataEnum.value ? dataEnum.value : 'N/A' }}</td>
+                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ dataEnum.devKey }}</td>
                                     <td class="py-2 px-3 md:py-4 md:px-6 whitespace-nowrap">
                                         {% if dataEnum.isSystem == true %}
                                             <span class="bg-green-600 text-white px-2 py-1 rounded">true</span>
@@ -109,7 +111,7 @@
                             {% endfor %}
                         {% else %}
                             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <td colspan="6" class="py-2 px-3 md:py-4 md:px-6 text-center">Aucune dataEnum
+                                <td colspan="7" class="py-2 px-3 md:py-4 md:px-6 text-center">Aucune dataEnum
                                     trouvé
                                 </td>
                             </tr>
