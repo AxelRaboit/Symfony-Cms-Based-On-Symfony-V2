@@ -13,6 +13,7 @@ use App\Service\PageService;
 use App\Service\WebsiteService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -28,6 +29,7 @@ class AppExtension extends AbstractExtension
         private readonly PageService $pageService,
         private readonly RequestStack $requestStack,
         private readonly WebsiteService $websiteService,
+        private readonly UrlGeneratorInterface $urlGenerator,
     ) {
         $this->request = $requestStack->getCurrentRequest();
     }
@@ -45,19 +47,50 @@ class AppExtension extends AbstractExtension
             new TwigFunction('getCanonicalUrl', [$this, 'getCanonicalUrlFunction']),
             new TwigFunction('getWebsite', [$this, 'getWebsiteFunction']),
             new TwigFunction('getUrlAbsoluteFinal', [$this, 'getUrlAbsoluteFinalFunction']),
+            new TwigFunction('fileExists', [$this, 'fileExistsFunction']),
+            new TwigFunction('returnReferer', [$this, 'returnRefererFunction']),
         ];
     }
 
     public function getFilters()
     {
         return [
-            new TwigFilter('stringToArray', [$this, 'stringToArrayFunction']),
-            new TwigFilter('htmlEntityDecodeAndTruncate', [$this, 'htmlEntityDecodeAndTruncate']),
-            new TwigFilter('truncate', [$this, 'truncate']),
+            new TwigFilter('htmlEntityDecodeAndTruncate', [$this, 'htmlEntityDecodeAndTruncateFilter']),
+            new TwigFilter('truncate', [$this, 'truncateFilter']),
+            new TwigFilter('applyMd5', [$this, 'applyMd5Filter']),
         ];
     }
 
-    public function htmlEntityDecodeAndTruncate(
+    public function returnRefererFunction(
+        string $urlPath
+    ): string {
+        $requestStackRequest = $this->requestStack->getCurrentRequest();
+        if (null !== $requestStackRequest) {
+            $currentUrl = $requestStackRequest->getUri();
+            $referer = $requestStackRequest->headers->get('referer');
+
+            if (null === $referer || $referer === $currentUrl) {
+                return $this->urlGenerator->generate($urlPath);
+            }
+
+            return $referer;
+        }
+
+        return '';
+    }
+
+
+    public function fileExistsFunction(string $path): bool
+    {
+        return file_exists($path);
+    }
+
+    public function applyMd5Filter(string $string): string
+    {
+        return md5($string);
+    }
+
+    public function htmlEntityDecodeAndTruncateFilter(
         ?string $string,
         int $charactersLimit = null,
         bool $decodeHtmlEntity = true
@@ -79,7 +112,7 @@ class AppExtension extends AbstractExtension
         return $string;
     }
 
-    public function truncate(
+    public function truncateFilter(
         ?string $string,
         int $charactersLimit = null,
     ): ?string {
