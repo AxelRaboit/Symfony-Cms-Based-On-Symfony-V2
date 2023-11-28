@@ -27,7 +27,7 @@ const submitFormButton = document.getElementById("submit-button-edit-user-backen
 
 submitFormButton.addEventListener('click', function(event) {
     event.preventDefault();
-    attachConfirmationToForm(formSubmitButton, "Êtes-vous sûr de vouloir d'effectuer cette modification ?");
+    attachConfirmationToForm(formSubmitButton, "Êtes-vous sûr de vouloir effectuer cette modification ?");
 });
 ```
 

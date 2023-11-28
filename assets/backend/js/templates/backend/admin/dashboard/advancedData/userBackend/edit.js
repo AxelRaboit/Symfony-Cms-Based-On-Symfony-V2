@@ -6,7 +6,7 @@ const submitFormButton = document.getElementById("submit-button-edit-user-backen
 // On click on the submit button, we display a confirmation popup
 submitFormButton.addEventListener('click', function(event) {
     event.preventDefault();
-    attachConfirmationToForm(formSubmitButton, "Êtes-vous sûr de vouloir d'effectuer cette modification ?");
+    attachConfirmationToForm(formSubmitButton, "Êtes-vous sûr de vouloir effectuer cette modification ?");
 });
 
 editPasswordButton.addEventListener("click", function () {

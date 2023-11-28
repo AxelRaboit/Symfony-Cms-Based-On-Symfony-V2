@@ -4,5 +4,5 @@ const submitFormButton = document.getElementById("submit-button-create-user-back
 // On click on the submit button, we display a confirmation popup
 submitFormButton.addEventListener('click', function(event) {
     event.preventDefault();
-    attachConfirmationToForm(formSubmitButton, "Êtes-vous sûr de vouloir d'effectuer cette action ?");
+    attachConfirmationToForm(formSubmitButton, "Êtes-vous sûr de vouloir effectuer cette action ?");
 });
