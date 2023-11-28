@@ -1,4 +1,4 @@
-import {handleClickEvent, handleInputEvent, updateSuggestionsList} from "../shared/search";
+import {handleClickEvent, handleInputEvent, updateSuggestionsList} from "../../shared/search";
 
 document.addEventListener('DOMContentLoaded', function () {
 

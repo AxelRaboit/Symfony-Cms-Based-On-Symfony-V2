@@ -8,6 +8,8 @@ use App\Form\backend\admin\dashboard\advancedData\dataEnum\DataEnumEditType;
 use App\Manager\Backend\AdvancedData\DataEnum\DataEnumManager;
 use App\Repository\DataEnumRepository;
 use App\Service\StringUtilsService;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,20 +19,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DataEnumController extends AbstractController
 {
-    #[Route('/backend/admin/data/list', name: 'app_backend_data_enum_list')]
+    #[Route('/backend/admin/dataenum/list', name: 'app_backend_data_enum_list')]
     public function dataEnumList(DataEnumRepository $dataEnumRepository, Request $request, PaginatorInterface $paginator, StringUtilsService $stringUtilsService): Response
     {
         $search = $request->query->get('search');
 
         if (!empty($search)) {
             $search = $stringUtilsService->protectQueryString($search);
-            if ($stringUtilsService->stringContainsEmail($search)) {
-                $query = $dataEnumRepository->findByCriteria(
-                    $stringUtilsService->extractEmailFromString($search)
-                );
-            } else {
-                $query = $dataEnumRepository->findByCriteria($search, 'DESC');
-            }
+            $query = $dataEnumRepository->findByCriteria($search, 'DESC');
         } else {
             $query = $dataEnumRepository->findAllOrderBy('DESC');
         }
@@ -46,6 +42,10 @@ class DataEnumController extends AbstractController
         ]);
     }
 
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
     #[Route('/backend/admin/dataenum/create', name: 'app_backend_data_enum_create', methods: ['GET', 'POST'])]
     public function dataEnumCreate(Request $request, DataEnumManager $dataEnumManager): Response
     {

@@ -1,29 +1,26 @@
-import { handleClickEvent, handleInputEvent, updateSuggestionsList } from "../../shared/search";
+import {handleClickEvent, handleInputEvent, updateSuggestionsList} from "../../shared/search";
 
 document.addEventListener('DOMContentLoaded', function () {
 
     // Variables
-    const searchForm = document.getElementById('search-backend-data-enum');
+    const searchForm = document.getElementById('search-backend-page');
     const containerResetFormButton = document.getElementById('container-reset-button-js');
-    const resetFormButton = document.getElementById('refresh-backend-data-enum-list-js');
-    const searchFormInput = document.getElementById('search-backend-data-enum-input-js');
-    const suggestionsList = document.getElementById('search-data-enum-suggestions');
-    const deleteDataEnumLinks = document.querySelectorAll('.link-delete-data-enum-js');
+    const resetFormButton = document.getElementById('refresh-page-list-js');
+    const searchFormInput = document.getElementById('search-page-input-js');
+    const suggestionsList = document.getElementById('search-page-suggestions');
+    const deleteBackendPageLinks = document.querySelectorAll('.link-delete-page-js');
 
     // This function is used to display the confirmation popup when the user click on the delete button from the list
-    Array.from(deleteDataEnumLinks).forEach(button => {
-        const dataIsSystem = button.dataset.isSystem;
+    Array.from(deleteBackendPageLinks).forEach(button => {
         button.addEventListener('click', function(event) {
             event.preventDefault();
             const deleteUrl = this.href;
-            if (dataIsSystem === "false") {
-                attachConfirmationToButton(deleteUrl, "Êtes-vous sûr de vouloir supprimer ?");
-            }
+            attachConfirmationToButton(deleteUrl, "Êtes-vous sûr de vouloir supprimer ?");
         });
     });
 
-    // This function is used to display the reset button when the user click on it, it will reset the search form and display all data enums
-    // This button is called "Afficher toutes les données"
+    // This function is used to display the reset button when the user click on it, it will reset the search form and display all pages
+    // This button is called "Afficher tous les pages"
     handleClickEvent(resetFormButton, function () {
         searchFormInput.value = '';
         containerResetFormButton.classList.add('hidden');
@@ -44,12 +41,12 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // This function is used to fetch the data enums from the database and display them in the suggestions list according to the search term
+    // This function is used to fetch the pages from the database and display them in the suggestions list according to the search term
     handleInputEvent(searchFormInput, function (event) {
         const searchTerm = event.target.value;
 
         if (searchTerm.length >= 2) { // Begin search only if search term is at least 2 characters long
-            fetch(`/backend/admin/dataenum/backend/ajax-search?term=${searchTerm}`)
+            fetch(`/backend/admin/page/ajax-search?term=${searchTerm}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
@@ -60,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (data && Array.isArray(data)) {
                         updateSuggestionsList(
                             data,
-                            'search-backend-data-enum',
+                            'search-backend-page',
                             suggestionsList,
                             searchFormInput
                         );
