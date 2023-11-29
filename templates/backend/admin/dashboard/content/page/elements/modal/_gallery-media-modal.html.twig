@@ -1,0 +1,32 @@
+{{ encore_entry_link_tags('backend/admin/dashboard/content/page/modal/galleryMedia') }}
+
+<div id="gallery-media-modal"
+     class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full p-2 sm:ml-64 z-50">
+    <div class="relative top-1/4 mx-auto p-5 border shadow-lg rounded-md bg-white ">
+        <div class="text-center">
+            <h3 class="text-lg leading-6 font-medium text-gray-900">
+                Gallerie
+            </h3>
+            <div class="mt-2 px-4 py-3">
+
+                {# Gallery #}
+                <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-6 xl:grid-cols-6 gap-2">
+                    {% for image in images %}
+                        <div class="w-full overflow-hidden rounded-md flex justify-center items-center border border-gray-300" data-id="{{ image.id }}">
+                            <img src="{{ image_directory ~ image.name }}" alt="{{ image.alt }}" class="object-contain max-h-full max-w-full cursor-pointer">
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="flex justify-center gap-4 mt-4">
+                    <button id="gallery-media-modal-cancel" type="button"
+                            class="w-full px-4 py-2 text-xs leading-tight text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                        Annuler
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{ encore_entry_script_tags('backend/admin/dashboard/content/page/modal/galleryMedia') }}

@@ -1,8 +1,6 @@
-// Confirmation message before submiting the form
-// Using "windows." to make the function available in the global scope
 export function importMediaModal() {
     openPopup();
-};
+}
 
 function openPopup() {
     const popup = document.getElementById('create-media-modal');

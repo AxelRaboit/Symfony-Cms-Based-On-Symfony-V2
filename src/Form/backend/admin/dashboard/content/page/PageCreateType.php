@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -114,20 +115,6 @@ class PageCreateType extends AbstractType
                 'choice_label' => 'name',
                 'label' => 'Page parent',
                 'placeholder' => 'Sélectionner une page parent',
-                'required' => false,
-            ])
-            ->add('banner', EntityType::class, [
-                'class' => 'App\Entity\Image',
-                'label' => 'Bannière',
-                'choice_label' => 'name',
-                'placeholder' => 'Sélectionner une image',
-                'required' => false,
-            ])
-            ->add('imageThumbnail', EntityType::class, [
-                'class' => 'App\Entity\Image',
-                'label' => 'Image miniature',
-                'choice_label' => 'name',
-                'placeholder' => 'Sélectionner une image',
                 'required' => false,
             ])
             ->add('website', EntityType::class, [

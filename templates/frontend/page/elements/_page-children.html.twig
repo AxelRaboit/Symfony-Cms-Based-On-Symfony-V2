@@ -4,8 +4,8 @@
             <div class="w-full sm:w-1/2 xl:w-1/3 px-2">
                 <div class="mb-4 border-2 border-gray-100">
                     <a href="{{ absolute_url(path('page_index', {'uri' : child.page.slug})) }}">
-                        {% if child.page.imageThumbnail %}
-                            <img class="w-full h-auto" src="{{ image_directory ~ child.page.imageThumbnail.name }}" alt="{{ child.page.imageThumbnail.alt ? child.page.imageThumbnail.alt : '' }}"/>
+                        {% if child.page.thumbnail %}
+                            <img class="w-full h-auto" src="{{ image_directory ~ child.page.thumbnail.name }}" alt="{{ child.page.thumbnail.alt ? child.page.thumbnail.alt : '' }}"/>
                         {% elseif child.page.banner %}
                             <img class="w-full h-auto" src="{{ image_directory ~ child.page.banner.name }}" alt="{{ child.page.banner.alt ? child.page.banner.alt : '' }}"/>
                         {% else %}

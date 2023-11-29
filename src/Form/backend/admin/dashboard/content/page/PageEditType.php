@@ -132,7 +132,7 @@ class PageEditType extends AbstractType
                 'placeholder' => 'Sélectionner une image',
                 'required' => false,
             ])
-            ->add('imageThumbnail', EntityType::class, [
+            ->add('thumbnail', EntityType::class, [
                 'class' => 'App\Entity\Image',
                 'label' => 'Image miniature',
                 'choice_label' => 'name',

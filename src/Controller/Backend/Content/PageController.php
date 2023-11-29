@@ -53,17 +53,19 @@ class PageController extends AbstractController
      * @throws NoResultException
      */
     #[Route('/backend/admin/content/page/create', name: 'app_backend_content_page_create', methods: ['GET', 'POST'])]
-    public function pageCreate(Request $request, PageManager $pageManager/*, ImageRepository $imageRepository*/): Response
+    public function pageCreate(Request $request, PageManager $pageManager, ImageRepository $imageRepository): Response
     {
         $page = new Page();
         $form = $this->createForm(PageCreateType::class, $page);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $pageManager->pageCreate($page);
+
+            $bannerImageId = $request->request->get('selected_banner_image_id');
+            $thumbnailImageId = $request->request->get('selected_thumbnail_image_id');
+            $pageManager->pageCreate($page, $bannerImageId, $thumbnailImageId);
 
             $pageName = $page->getName();
-
             $this->addFlash('success', "La page {$pageName} a été créé avec succès.");
 
             return $this->redirectToRoute('app_backend_content_page_list');
@@ -71,7 +73,7 @@ class PageController extends AbstractController
 
         return $this->render('backend/admin/dashboard/content/page/create.html.twig', [
             'form' => $form->createView(),
-            /*'images' => $imageRepository->findAll()*/
+            'images' => $imageRepository->findAll()
         ]);
     }
 

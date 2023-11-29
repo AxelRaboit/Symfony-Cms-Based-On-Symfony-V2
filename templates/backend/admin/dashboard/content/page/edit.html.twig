@@ -182,11 +182,11 @@
                 {% endif %}
             </div>
             <div class="text-xs">
-                {{ form_label(form.imageThumbnail, null, { 'label_attr': { 'class': 'text-gray-900 dark:text-white'}}) }}
-                {{ form_widget(form.imageThumbnail, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500' } }) }}
-                {% if form.imageThumbnail.vars.errors %}
+                {{ form_label(form.thumbnail, null, { 'label_attr': { 'class': 'text-gray-900 dark:text-white'}}) }}
+                {{ form_widget(form.thumbnail, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500' } }) }}
+                {% if form.thumbnail.vars.errors %}
                     <div class="mt-1 text-red-600 text-xs">
-                        {% for error in form.imageThumbnail.vars.errors %}
+                        {% for error in form.thumbnail.vars.errors %}
                             <p>{{ error.message }}</p>
                         {% endfor %}
                     </div>

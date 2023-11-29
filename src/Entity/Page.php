@@ -88,7 +88,7 @@ class Page
     private ?Image $banner = null;
 
     #[ORM\ManyToOne(inversedBy: 'pageThumbnails')]
-    private ?Image $imageThumbnail = null;
+    private ?Image $thumbnail = null;
 
     #[ORM\OneToMany(mappedBy: 'page', targetEntity: PageGallery::class)]
     private Collection $pageGalleries;
@@ -423,14 +423,14 @@ class Page
         return $this;
     }
 
-    public function getImageThumbnail(): ?Image
+    public function getThumbnail(): ?Image
     {
-        return $this->imageThumbnail;
+        return $this->thumbnail;
     }
 
-    public function setImageThumbnail(?Image $imageThumbnail): static
+    public function setThumbnail(?Image $thumbnail): static
     {
-        $this->imageThumbnail = $imageThumbnail;
+        $this->thumbnail = $thumbnail;
 
         return $this;
     }
@@ -488,7 +488,7 @@ class Page
             'ctaText' => $this->getCtaText(),
             'ctaUrl' => $this->getCtaUrl(),
             'banner' => $this->getBanner(),
-            'imageThumbnail' => $this->getImageThumbnail(),
+            'thumbnail' => $this->getThumbnail(),
             'slug' => $this->getSlug(),
             'createdAt' => $this->getCreatedAt(),
             'updatedAt' => $this->getUpdatedAt(),
