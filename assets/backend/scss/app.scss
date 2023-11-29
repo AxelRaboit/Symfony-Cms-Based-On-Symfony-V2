@@ -5,6 +5,8 @@
 @tailwind components;
 @tailwind utilities;
 
+// General
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -27,17 +29,47 @@ p.pacifico-regular {
   font-family: 'Pacifico-regular', serif;
 }
 
+// Scrollbar
+
 @layer utilities {
   @variants responsive {
-    /* Hide scrollbar for Chrome, Safari and Opera */
     .no-scrollbar::-webkit-scrollbar {
       display: none;
     }
 
-    /* Hide scrollbar for IE, Edge and Firefox */
     .no-scrollbar {
-      -ms-overflow-style: none; /* IE and Edge */
-      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
   }
+}
+
+:root {
+  --scrollbar-track-color: theme('colors.white');
+  --scrollbar-thumb-color: theme('colors.gray.800');
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --scrollbar-track-color: theme('colors.gray.800');
+    --scrollbar-thumb-color: theme('colors.white');
+  }
+}
+.scrollbar-custom {
+  scrollbar-width: thin;
+}
+
+.scrollbar-custom::-webkit-scrollbar {
+  width: 12px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: var(--scrollbar-track-color);
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb-color);
+  border-radius: 20px;
+  border: 3px solid transparent;
+  background-clip: content-box;
 }

@@ -3,12 +3,12 @@
 {% block title %}{{ parent() }} - Créer une donnée{% endblock %}
 
 {% block body %}
-    {{ encore_entry_link_tags('backend/admin/dashboard/content/page/create') }}
+    {{ encore_entry_link_tags('backend/admin/dashboard/content/page/edit') }}
 
     {% include 'backend/admin/dashboard/elements/_side-menu.html.twig' %}
     <div class="p-4 sm:ml-64">
         <h1 class="text-2xl font-semibold mb-2 text-gray-900 dark:text-white">Créer une page</h1>
-        {{ form_start(form, {'attr': {'id': 'form-create-page-js'}}) }}
+        {{ form_start(form, {'attr': {'id': 'form-edit-page-js'}}) }}
 
         <h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">Configurations</h2>
 
@@ -287,7 +287,7 @@
 
         <h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">Dev</h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2 mb-2">
+        <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-2 mb-2">
             <div class="text-xs">
                 {{ form_label(form.devCodeRouteName, null, { 'label_attr': { 'class': 'text-gray-900 dark:text-white'}}) }}
                 {{ form_widget(form.devCodeRouteName, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
@@ -305,6 +305,17 @@
                 {% if form.template.vars.errors %}
                     <div class="mt-1 text-red-600 text-xs">
                         {% for error in form.template.vars.errors %}
+                            <p>{{ error.message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="text-xs">
+                {{ form_label(form.devKey, null, { 'label_attr': { 'class': 'text-gray-900 dark:text-white'}}) }}
+                {{ form_widget(form.devKey, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
+                {% if form.devKey.vars.errors %}
+                    <div class="mt-1 text-red-600 text-xs">
+                        {% for error in form.devKey.vars.errors %}
                             <p>{{ error.message }}</p>
                         {% endfor %}
                     </div>
@@ -343,9 +354,9 @@
         <div class="flex flex-wrap">
             <div class="w-full md:w-auto mb-2 md:mb-0">
                 <button type="submit"
-                        id="submit-button-create-page-js"
+                        id="submit-button-edit-page-js"
                         class="w-full text-xs px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
-                    Créer
+                    Modifier
                 </button>
             </div>
 
@@ -362,5 +373,5 @@
         {{ form_end(form) }}
     </div>
 
-    {{ encore_entry_script_tags('backend/admin/dashboard/content/page/create') }}
+    {{ encore_entry_script_tags('backend/admin/dashboard/content/page/edit') }}
 {% endblock %}

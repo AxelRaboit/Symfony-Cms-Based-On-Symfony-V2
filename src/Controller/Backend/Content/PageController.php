@@ -4,6 +4,7 @@ namespace App\Controller\Backend\Content;
 
 use App\Entity\Page;
 use App\Form\backend\admin\dashboard\content\page\PageCreateType;
+use App\Form\backend\admin\dashboard\content\page\PageEditType;
 use App\Manager\Backend\Content\Page\PageManager;
 use App\Repository\PageRepository;
 use App\Service\Utils\StringUtilsService;
@@ -70,6 +71,39 @@ class PageController extends AbstractController
         return $this->render('backend/admin/dashboard/content/page/create.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/backend/admin/content/page/{id}/edit', name: 'app_backend_content_page_edit', methods: ['GET', 'POST'])]
+    public function dataEnumEdit(Page $page, Request $request, PageManager $pageManager): Response
+    {
+        $form = $this->createForm(PageEditType::class, $page);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $pageManager->pageEdit($page);
+
+            $pageName = $page->getName();
+
+            $this->addFlash('success', "La page {$pageName} a été modifiée avec succès.");
+
+            return $this->redirectToRoute('app_backend_admin_content_page_list');
+        }
+
+        return $this->render('backend/admin/dashboard/content/page/edit.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/backend/admin/content/page/{id}/delete', name: 'app_backend_content_page_delete')]
+    public function pageDelete(Page $page, PageManager $pageManager): Response
+    {
+        $pageManager->pageDelete($page);
+
+        $pageName = $page->getName();
+
+        $this->addFlash('success', "La paeg {$pageName} a été supprimée avec succès.");
+
+        return $this->redirectToRoute('app_backend_admin_content_page_list');
     }
 
     #[Route('/backend/admin/content/page/ajax-search', name: 'app_backend_admin_content_page_ajax_search')]
