@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PageController extends AbstractController
 {
-    #[Route('/backend/admin/content/page/list', name: 'app_backend_admin_content_page_list')]
+    #[Route('/backend/admin/content/page/list', name: 'app_backend_content_page_list')]
     public function pageList(
         PageRepository $pageRepository,
         Request $request,
@@ -65,7 +65,7 @@ class PageController extends AbstractController
 
             $this->addFlash('success', "La page {$pageName} a été créé avec succès.");
 
-            return $this->redirectToRoute('app_backend_admin_content_page_list');
+            return $this->redirectToRoute('app_backend_content_page_list');
         }
 
         return $this->render('backend/admin/dashboard/content/page/create.html.twig', [
@@ -86,7 +86,7 @@ class PageController extends AbstractController
 
             $this->addFlash('success', "La page {$pageName} a été modifiée avec succès.");
 
-            return $this->redirectToRoute('app_backend_admin_content_page_list');
+            return $this->redirectToRoute('app_backend_content_page_list');
         }
 
         return $this->render('backend/admin/dashboard/content/page/edit.html.twig', [
@@ -103,10 +103,10 @@ class PageController extends AbstractController
 
         $this->addFlash('success', "La paeg {$pageName} a été supprimée avec succès.");
 
-        return $this->redirectToRoute('app_backend_admin_content_page_list');
+        return $this->redirectToRoute('app_backend_content_page_list');
     }
 
-    #[Route('/backend/admin/content/page/ajax-search', name: 'app_backend_admin_content_page_ajax_search')]
+    #[Route('/backend/admin/content/page/ajax-search', name: 'app_backend_content_page_ajax_search')]
     public function ajaxSearch(Request $request, PageRepository $pageRepository): JsonResponse
     {
         $searchTerm = $request->query->get('term');

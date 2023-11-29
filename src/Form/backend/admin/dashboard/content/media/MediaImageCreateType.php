@@ -13,17 +13,11 @@ class MediaImageCreateType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            /*->add('name')
-            ->add('height')
-            ->add('width')
-            ->add('size')
-            ->add('category')
-            ->add('alt')
-            ->add('title')*/
             ->add('imageFile', VichImageType::class, [
-                'required' => false,
+                'required' => true,
                 'allow_delete' => false,
                 'download_uri' => false,
+                'label' => false,
             ])
         ;
     }

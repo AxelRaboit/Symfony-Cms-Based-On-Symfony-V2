@@ -1,1 +1,1 @@
-import './confirmation_modal';
+import './modal';
