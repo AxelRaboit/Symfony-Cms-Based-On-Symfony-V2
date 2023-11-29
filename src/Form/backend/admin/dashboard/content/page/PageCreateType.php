@@ -152,8 +152,8 @@ class PageCreateType extends AbstractType
                 'label' => 'Type d\'affichage',
                 'required' => true,
                 'choices' => [
-                    'Liste' => 'list',
                     'Détail' => 'detail',
+                    'Liste' => 'list',
                 ],
             ]);
     }
