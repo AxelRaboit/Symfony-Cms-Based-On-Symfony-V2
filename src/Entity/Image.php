@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
+#[Vich\Uploadable()]
 class Image
 {
     #[ORM\Id]

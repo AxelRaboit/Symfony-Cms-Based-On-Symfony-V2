@@ -13,11 +13,11 @@ window.attachConfirmationToButton = function(url, confirmationMessage) {
 };
 
 function openPopup(title, message, onConfirm) {
-    const popup = document.getElementById('confirmation-popup');
-    const titleElement = document.getElementById('confirmation-popup-title');
-    const messageElement = document.getElementById('confirmation-popup-message');
-    const cancelButton = document.getElementById('confirmation-popup-cancel');
-    const confirmButton = document.getElementById('confirmation-popup-confirm');
+    const popup = document.getElementById('confirmation-modal');
+    const titleElement = document.getElementById('confirmation-modal-title');
+    const messageElement = document.getElementById('confirmation-modal-message');
+    const cancelButton = document.getElementById('confirmation-modal-cancel');
+    const confirmButton = document.getElementById('confirmation-modal-confirm');
 
     titleElement.textContent = title;
     messageElement.textContent = message;
@@ -33,6 +33,6 @@ function openPopup(title, message, onConfirm) {
 }
 
 function closePopup() {
-    const popup = document.getElementById('confirmation-popup');
+    const popup = document.getElementById('confirmation-modal');
     popup.classList.add('hidden');
 }

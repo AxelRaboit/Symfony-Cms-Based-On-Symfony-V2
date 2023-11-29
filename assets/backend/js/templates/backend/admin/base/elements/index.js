@@ -1,1 +1,1 @@
-import './confirmation_popup';
+import './confirmation_modal';
