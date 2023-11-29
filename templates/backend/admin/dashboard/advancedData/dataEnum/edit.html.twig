@@ -20,7 +20,8 @@
 
         <div class="mb-2 text-xs">
             {{ form_label(form.name, null, { 'label_attr': { 'class': 'text-gray-900 dark:text-white'}}) }}
-            {{ form_widget(form.name, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
+            <span class="text-red-500 font-semibold">*</span>
+            {{ form_widget(form.name, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500' } }) }}
             {% if form.name.vars.errors %}
                 <div class="mt-1 text-red-600 text-xs">
                     {% for error in form.name.vars.errors %}
@@ -32,7 +33,7 @@
 
         <div class="mb-4 text-xs">
             {{ form_label(form.category, null, { 'label_attr': { 'class': 'text-gray-900 dark:text-white'}}) }}
-            {{ form_widget(form.category, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
+            {{ form_widget(form.category, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500' } }) }}
             {% if form.category.vars.errors %}
                 <div class="mt-1 text-red-600 text-xs">
                     {% for error in form.category.vars.errors %}
@@ -44,7 +45,7 @@
 
         <div class="mb-4 text-xs">
             {{ form_label(form.value, null, { 'label_attr': { 'class': 'text-gray-900 dark:text-white'}}) }}
-            {{ form_widget(form.value, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
+            {{ form_widget(form.value, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500' } }) }}
             {% if form.value.vars.errors %}
                 <div class="mt-1 text-red-600 text-xs">
                     {% for error in form.value.vars.errors %}
@@ -56,7 +57,8 @@
 
         <div class="mb-4 text-xs">
             {{ form_label(form.devKey, null, { 'label_attr': { 'class': 'text-gray-900 dark:text-white'}}) }}
-            {{ form_widget(form.devKey, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500' } }) }}
+            <span class="text-red-500 font-semibold">*</span>
+            {{ form_widget(form.devKey, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500' } }) }}
             {% if form.devKey.vars.errors %}
                 <div class="mt-1 text-red-600 text-xs">
                     {% for error in form.devKey.vars.errors %}
