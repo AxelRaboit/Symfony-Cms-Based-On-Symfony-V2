@@ -6,6 +6,7 @@ use App\Entity\Page;
 use App\Form\backend\admin\dashboard\content\page\PageCreateType;
 use App\Form\backend\admin\dashboard\content\page\PageEditType;
 use App\Manager\Backend\Content\Page\PageManager;
+use App\Repository\ImageRepository;
 use App\Repository\PageRepository;
 use App\Service\Utils\StringUtilsService;
 use Doctrine\ORM\NonUniqueResultException;
@@ -52,7 +53,7 @@ class PageController extends AbstractController
      * @throws NoResultException
      */
     #[Route('/backend/admin/content/page/create', name: 'app_backend_content_page_create', methods: ['GET', 'POST'])]
-    public function pageCreate(Request $request, PageManager $pageManager): Response
+    public function pageCreate(Request $request, PageManager $pageManager/*, ImageRepository $imageRepository*/): Response
     {
         $page = new Page();
         $form = $this->createForm(PageCreateType::class, $page);
@@ -70,6 +71,7 @@ class PageController extends AbstractController
 
         return $this->render('backend/admin/dashboard/content/page/create.html.twig', [
             'form' => $form->createView(),
+            /*'images' => $imageRepository->findAll()*/
         ]);
     }
 

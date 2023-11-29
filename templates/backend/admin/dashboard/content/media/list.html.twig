@@ -6,10 +6,12 @@
     {{ encore_entry_link_tags('backend/admin/dashboard/content/media/list') }}
 
     {% include 'backend/admin/dashboard/elements/_side-menu.html.twig' %}
-    {% include 'backend/admin/base/elements/modal/_import-media-modal.html.twig' %}
+    {% include 'backend/admin/dashboard/content/media/elements/modal/_import-media-modal.html.twig' %}
 
     <div class="p-2 sm:ml-64">
-        {% include 'backend/admin/dashboard/content/media/elements/_create-media-image-button.html.twig' %}
+        <div class="p-2">
+            {% include 'backend/admin/dashboard/content/media/elements/_create-media-image-button.html.twig' %}
+        </div>
     </div>
 
     {{ encore_entry_script_tags('backend/admin/dashboard/content/media/list') }}

@@ -35,6 +35,7 @@ Encore
     .addEntry('backend/admin/dashboard/content/page/edit', './assets/backend/js/templates/backend/admin/dashboard/content/page/edit.js')
 
     .addEntry('backend/admin/dashboard/content/media/list', './assets/backend/js/templates/backend/admin/dashboard/content/media/list.js')
+    .addEntry('backend/admin/dashboard/content/media/modal/importMedia', './assets/backend/js/templates/backend/admin/dashboard/content/media/modal/import-media-modal.js')
 
     // dashboard - advancedData
     .addEntry('backend/admin/dashboard/advancedData/dataEnum/list', './assets/backend/js/templates/backend/admin/dashboard/advancedData/dataEnum/list.js')
