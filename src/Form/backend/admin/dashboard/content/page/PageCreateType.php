@@ -166,7 +166,7 @@ class PageCreateType extends AbstractType
                 ->addViolation();
         }
 
-        if (str_starts_with($slug, '/')) {
+        if ($slug !== '/' && str_starts_with($slug, '/')) {
             $context->buildViolation('Le slug ne doit pas commencer par un slash.')
                 ->atPath('slug')
                 ->addViolation();

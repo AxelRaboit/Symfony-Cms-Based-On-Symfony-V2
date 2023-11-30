@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PageController extends AbstractController
 {
-    public function __construct(private string $imageDirectory){}
+    public function __construct(private readonly string $imageDirectory){}
 
     #[Route('/backend/admin/content/page/list', name: 'app_backend_content_page_list')]
     public function pageList(
@@ -64,8 +64,8 @@ class PageController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $bannerImageId = $request->request->get('selected_banner_image_id');
-            $thumbnailImageId = $request->request->get('selected_thumbnail_image_id');
+            $bannerImageId = (int) $request->request->get('selected_banner_image_id');
+            $thumbnailImageId = (int) $request->request->get('selected_thumbnail_image_id');
             $pageManager->pageCreate($page, $bannerImageId, $thumbnailImageId);
 
             $pageName = $page->getName();
