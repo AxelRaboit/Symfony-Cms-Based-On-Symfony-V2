@@ -169,7 +169,7 @@
 
         <h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">Bannière et miniature</h2>
 
-        {% include 'backend/admin/dashboard/content/page/elements/modal/_gallery-media-modal.html.twig' with {'images': images} %}
+        {% include 'backend/admin/dashboard/content/page/elements/modal/_gallery-media-modal.html.twig' with {'pagination': pagination} %}
 
         <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2 mb-2">
             <input type="hidden" id="selected-banner-image-id" name="selected_banner_image_id">

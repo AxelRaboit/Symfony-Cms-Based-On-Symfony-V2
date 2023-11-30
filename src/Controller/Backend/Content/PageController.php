@@ -53,7 +53,7 @@ class PageController extends AbstractController
      * @throws NoResultException
      */
     #[Route('/backend/admin/content/page/create', name: 'app_backend_content_page_create', methods: ['GET', 'POST'])]
-    public function pageCreate(Request $request, PageManager $pageManager, ImageRepository $imageRepository): Response
+    public function pageCreate(Request $request, PageManager $pageManager, ImageRepository $imageRepository, PaginatorInterface $paginator): Response
     {
         $page = new Page();
         $form = $this->createForm(PageCreateType::class, $page);
@@ -71,9 +71,13 @@ class PageController extends AbstractController
             return $this->redirectToRoute('app_backend_content_page_list');
         }
 
+        $currentPage = $request->query->getInt('page', 1);
+        $queryBuilder = $imageRepository->createQueryBuilder('i')->orderBy('i.id', 'ASC');
+        $pagination = $paginator->paginate($queryBuilder, $currentPage, 18); // 18 par page par exemple
+
         return $this->render('backend/admin/dashboard/content/page/create.html.twig', [
             'form' => $form->createView(),
-            'images' => $imageRepository->findAll()
+            'pagination' => $pagination // Envoyez la pagination à la vue
         ]);
     }
 
@@ -128,4 +132,30 @@ class PageController extends AbstractController
 
         return new JsonResponse($responseData);
     }
+
+    #[Route('/backend/admin/content/page/gallery/ajax', name: 'app_backend_content_page_gallery_ajax')]
+    public function galleryAjax(Request $request, ImageRepository $imageRepository, PaginatorInterface $paginator): JsonResponse
+    {
+        $queryBuilder = $imageRepository->createQueryBuilder('i')->orderBy('i.id', 'ASC');
+        $page = max(1, $request->query->getInt('page', 1));
+        $limit = 18;
+
+        $pagination = $paginator->paginate($queryBuilder, $page, $limit);
+
+        $imagesData = [];
+        foreach ($pagination->getItems() as $image) {
+            // Adaptez cette partie selon les attributs de votre entité Image
+            $imagesData[] = [
+                'id' => $image->getId(),
+                'url' => '/assets/images/medias/' . $image->getName(), // Mettez ici le chemin correct de vos images
+                'alt' => $image->getAlt() // ou tout autre texte alternatif que vous avez
+            ];
+        }
+
+        return new JsonResponse([
+            'images' => $imagesData,
+            'nextPage' => $page < $pagination->getPageCount() ? $page + 1 : null
+        ]);
+    }
+
 }
