@@ -84,24 +84,37 @@ class PageController extends AbstractController
         ]);
     }
 
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
     #[Route('/backend/admin/content/page/{id}/edit', name: 'app_backend_content_page_edit', methods: ['GET', 'POST'])]
-    public function dataEnumEdit(Page $page, Request $request, PageManager $pageManager): Response
+    public function dataEnumEdit(Page $page, Request $request, PageManager $pageManager, ImageRepository $imageRepository, PaginatorInterface $paginator): Response
     {
         $form = $this->createForm(PageEditType::class, $page);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $pageManager->pageEdit($page);
+
+            $bannerImageId = (int) $request->request->get('selected_banner_image_id');
+            $thumbnailImageId = (int) $request->request->get('selected_thumbnail_image_id');
+
+            $pageManager->pageEdit($page, $bannerImageId, $thumbnailImageId);
 
             $pageName = $page->getName();
-
             $this->addFlash('success', "La page $pageName a été modifiée avec succès.");
 
             return $this->redirectToRoute('app_backend_content_page_list');
         }
 
+        $currentPage = $request->query->getInt('page', 1);
+        $queryBuilder = $imageRepository->createQueryBuilder('i')->orderBy('i.id', 'ASC');
+        $pagination = $paginator->paginate($queryBuilder, $currentPage, 18);
+
         return $this->render('backend/admin/dashboard/content/page/edit/edit.html.twig', [
             'form' => $form->createView(),
+            'pagination' => $pagination,
+            'page' => $page
         ]);
     }
 

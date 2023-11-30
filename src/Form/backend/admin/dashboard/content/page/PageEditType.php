@@ -125,20 +125,6 @@ class PageEditType extends AbstractType
                 'placeholder' => 'Sélectionner une page parent',
                 'required' => false,
             ])
-            ->add('banner', EntityType::class, [
-                'class' => 'App\Entity\Image',
-                'label' => 'Bannière',
-                'choice_label' => 'name',
-                'placeholder' => 'Sélectionner une image',
-                'required' => false,
-            ])
-            ->add('thumbnail', EntityType::class, [
-                'class' => 'App\Entity\Image',
-                'label' => 'Image miniature',
-                'choice_label' => 'name',
-                'placeholder' => 'Sélectionner une image',
-                'required' => false,
-            ])
             ->add('website', EntityType::class, [
                 'class' => 'App\Entity\Website',
                 'choice_label' => 'name',

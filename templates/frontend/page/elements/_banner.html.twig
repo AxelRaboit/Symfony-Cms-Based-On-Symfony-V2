@@ -1,11 +1,11 @@
-<div>
-    <img src="{{ image_directory ~ page.banner.name }}" alt="{{ pageElements.bannerAlt ? pageElements.bannerAlt : '' }}" />
+<div class="w-full h-[votreHauteur]">
+    <img src="{{ image_directory ~ page.banner.name }}" alt="{{ pageElements.bannerAlt ? pageElements.bannerAlt : '' }}" class="w-full h-96 object-cover"/>
     {% if pageElements.bannerTitle is not null %}
         <p>{{ pageElements.bannerTitle|raw }}</p>
     {% endif %}
     {% if pageElements.ctaTitle %}
         <a target="_blank" href="{{page.ctaUrl}}">
-            <button>{{ pageElements.ctaTitle|raw }}</button>
+            <button class="btn-primary">{{ pageElements.ctaTitle|raw }}</button>
         </a>
     {% endif %}
 </div>

@@ -1,3 +1,5 @@
+import {galleryMediaModal, closePopup, initGallery} from '../modal/gallery-media-modal.js';
+
 const formSubmitButton = document.getElementById("form-edit-page-js");
 const submitFormButton = document.getElementById("submit-button-edit-page-js");
 
@@ -6,3 +8,5 @@ submitFormButton.addEventListener('click', function(event) {
     event.preventDefault();
     attachConfirmationToForm(formSubmitButton, "Êtes-vous sûr de vouloir effectuer cette action ?");
 });
+
+initGallery();

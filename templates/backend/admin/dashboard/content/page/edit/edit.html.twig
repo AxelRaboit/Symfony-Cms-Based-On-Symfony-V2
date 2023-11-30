@@ -1,13 +1,13 @@
 {% extends "backend/admin/base/base.html.twig" %}
 
-{% block title %}{{ parent() }} - Créer une donnée{% endblock %}
+{% block title %}{{ parent() }} - Modifier la page{% endblock %}
 
 {% block body %}
     {{ encore_entry_link_tags('backend/admin/dashboard/content/page/edit') }}
 
     {% include 'backend/admin/dashboard/elements/_side-menu.html.twig' %}
     <div class="p-4 sm:ml-64">
-        <h1 class="text-2xl font-semibold mb-2 text-gray-900 dark:text-white">Créer une page</h1>
+        <h1 class="text-2xl font-semibold mb-2 text-gray-900 dark:text-white">Modifier la page</h1>
         {{ form_start(form, {'attr': {'id': 'form-edit-page-js'}}) }}
 
         <h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">Configurations</h2>
@@ -167,32 +167,7 @@
             {% endif %}
         </div>
 
-        <h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">Bannière et miniature</h2>
-
-        <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2 mb-2">
-            <div class="text-xs">
-                {{ form_label(form.banner, null, { 'label_attr': { 'class': 'text-gray-900 dark:text-white'}}) }}
-                {{ form_widget(form.banner, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500' } }) }}
-                {% if form.banner.vars.errors %}
-                    <div class="mt-1 text-red-600 text-xs">
-                        {% for error in form.banner.vars.errors %}
-                            <p>{{ error.message }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            </div>
-            <div class="text-xs">
-                {{ form_label(form.thumbnail, null, { 'label_attr': { 'class': 'text-gray-900 dark:text-white'}}) }}
-                {{ form_widget(form.thumbnail, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500' } }) }}
-                {% if form.thumbnail.vars.errors %}
-                    <div class="mt-1 text-red-600 text-xs">
-                        {% for error in form.thumbnail.vars.errors %}
-                            <p>{{ error.message }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            </div>
-        </div>
+        {% include 'backend/admin/dashboard/content/page/edit/edit-banner-thumbnail.html.twig' %}
 
         <h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">CTA</h2>
 

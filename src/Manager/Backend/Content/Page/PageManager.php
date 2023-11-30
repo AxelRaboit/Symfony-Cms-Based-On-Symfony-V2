@@ -48,8 +48,32 @@ class PageManager extends AbstractManager
         $this->remove($page);
     }
 
-    public function pageEdit(Page $page): void
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
+    public function pageEdit(Page $page, int $bannerId = null, int $thumbnailId = null): void
     {
+        // Create and set dev key
+        $devKey = $this->pageRepository->createDevKey();
+        $page->setDevKey($devKey);
+
+        // Set banner
+        if (null === $bannerId) {
+            $page->setBanner(null);
+        } else {
+            $banner = $this->imageRepository->find($bannerId);
+            $page->setBanner($banner);
+        }
+
+        // Set thumbnail
+        if (null === $thumbnailId) {
+            $page->setThumbnail(null);
+        } else {
+            $thumbnail = $this->imageRepository->find($thumbnailId);
+            $page->setThumbnail($thumbnail);
+        }
+
         $this->save($page);
     }
 }
