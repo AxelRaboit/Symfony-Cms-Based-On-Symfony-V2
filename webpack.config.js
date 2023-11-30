@@ -30,9 +30,9 @@ Encore
     .addEntry('backend/admin/dashboard', './assets/backend/js/templates/backend/admin/dashboard/dashboard.js')
 
     // dashboard - content
-    .addEntry('backend/admin/dashboard/content/page/list', './assets/backend/js/templates/backend/admin/dashboard/content/page/list.js')
-    .addEntry('backend/admin/dashboard/content/page/create', './assets/backend/js/templates/backend/admin/dashboard/content/page/create.js')
-    .addEntry('backend/admin/dashboard/content/page/edit', './assets/backend/js/templates/backend/admin/dashboard/content/page/edit.js')
+    .addEntry('backend/admin/dashboard/content/page/list', './assets/backend/js/templates/backend/admin/dashboard/content/page/list/list.js')
+    .addEntry('backend/admin/dashboard/content/page/create', './assets/backend/js/templates/backend/admin/dashboard/content/page/create/create.js')
+    .addEntry('backend/admin/dashboard/content/page/edit', './assets/backend/js/templates/backend/admin/dashboard/content/page/edit/edit.js')
     .addEntry('backend/admin/dashboard/content/page/modal/galleryMedia', './assets/backend/js/templates/backend/admin/dashboard/content/page/modal/gallery-media-modal.js')
 
     .addEntry('backend/admin/dashboard/content/media/list', './assets/backend/js/templates/backend/admin/dashboard/content/media/list.js')

@@ -19,6 +19,14 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+
+    # Controllers
+    App\Controller\Backend\Content\PageController:
+        arguments:
+            $imageDirectory: '%image_directory%'
+
+    # Listeners
+
     App\EventListener\BackendRedirectListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request }
@@ -30,9 +38,13 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
 
+    # Subscribers
+
     App\EventSubscriber\LastLoginSubscriber:
         tags:
             - { name: 'kernel.event_subscriber' }
+
+    # Twig
 
     App\Twig\AppExtension:
         arguments:

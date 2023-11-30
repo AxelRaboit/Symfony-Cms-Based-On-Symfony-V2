@@ -1,4 +1,4 @@
-import {galleryMediaModal, closePopup} from './modal/gallery-media-modal.js';
+import {galleryMediaModal, closePopup} from '../modal/gallery-media-modal.js';
 
 const formSubmitButton = document.getElementById("form-create-page-js");
 const submitFormButton = document.getElementById("submit-button-create-page-js");

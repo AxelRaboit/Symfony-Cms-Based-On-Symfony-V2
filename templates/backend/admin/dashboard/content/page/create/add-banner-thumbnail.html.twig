@@ -1,0 +1,32 @@
+<h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">Bannière et miniature</h2>
+
+{% include 'backend/admin/dashboard/content/page/elements/modal/_gallery-media-modal.html.twig' with {'pagination': pagination} %}
+
+<div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2 mb-2">
+    <input type="hidden" id="selected-banner-image-id" name="selected_banner_image_id">
+    <div class="flex flex-col sm:max-w-md">
+        <div class="mb-2">
+            <button type="button"
+                    id="button-select-banner-js"
+                    class="w-full md:inline-block text-xs px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                Sélectionner une bannière
+            </button>
+        </div>
+        <div id="selected-banner" class="hidden w-full overflow-hidden rounded-md flex justify-center items-center border border-gray-300 cursor-pointer">
+            {# inject selected banner #}
+        </div>
+    </div>
+    <input type="hidden" id="selected-thumbnail-image-id" name="selected_thumbnail_image_id">
+    <div class="flex flex-col sm:max-w-md">
+        <div class="mb-2">
+            <button type="button"
+                    id="button-select-thumbnail-js"
+                    class="w-full md:inline-block text-xs px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                Sélectionner une image miniature
+            </button>
+        </div>
+        <div id="selected-thumbnail" class="hidden w-full overflow-hidden rounded-md flex justify-center items-center border border-gray-300 cursor-pointer">
+            {# inject selected thumbnail #}
+        </div>
+    </div>
+</div>

@@ -20,6 +20,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PageController extends AbstractController
 {
+    public function __construct(private string $imageDirectory){}
+
     #[Route('/backend/admin/content/page/list', name: 'app_backend_content_page_list')]
     public function pageList(
         PageRepository $pageRepository,
@@ -43,7 +45,7 @@ class PageController extends AbstractController
             null // Override default limit per page
         );
 
-        return $this->render('backend/admin/dashboard/content/page/list.html.twig', [
+        return $this->render('backend/admin/dashboard/content/page/list/list.html.twig', [
             'pagination' => $pagination,
         ]);
     }
@@ -73,11 +75,11 @@ class PageController extends AbstractController
 
         $currentPage = $request->query->getInt('page', 1);
         $queryBuilder = $imageRepository->createQueryBuilder('i')->orderBy('i.id', 'ASC');
-        $pagination = $paginator->paginate($queryBuilder, $currentPage, 18); // 18 par page par exemple
+        $pagination = $paginator->paginate($queryBuilder, $currentPage, 18);
 
-        return $this->render('backend/admin/dashboard/content/page/create.html.twig', [
+        return $this->render('backend/admin/dashboard/content/page/create/create.html.twig', [
             'form' => $form->createView(),
-            'pagination' => $pagination // Envoyez la pagination à la vue
+            'pagination' => $pagination
         ]);
     }
 
@@ -92,12 +94,12 @@ class PageController extends AbstractController
 
             $pageName = $page->getName();
 
-            $this->addFlash('success', "La page {$pageName} a été modifiée avec succès.");
+            $this->addFlash('success', "La page $pageName a été modifiée avec succès.");
 
             return $this->redirectToRoute('app_backend_content_page_list');
         }
 
-        return $this->render('backend/admin/dashboard/content/page/edit.html.twig', [
+        return $this->render('backend/admin/dashboard/content/page/edit/edit.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -144,11 +146,10 @@ class PageController extends AbstractController
 
         $imagesData = [];
         foreach ($pagination->getItems() as $image) {
-            // Adaptez cette partie selon les attributs de votre entité Image
             $imagesData[] = [
                 'id' => $image->getId(),
-                'url' => '/assets/images/medias/' . $image->getName(), // Mettez ici le chemin correct de vos images
-                'alt' => $image->getAlt() // ou tout autre texte alternatif que vous avez
+                'url' => $this->imageDirectory . $image->getName(),
+                'alt' => $image->getAlt()
             ];
         }
 
