@@ -11,6 +11,7 @@ use App\Repository\PageRepository;
 use App\Service\Utils\StringUtilsService;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
+use Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -138,13 +139,15 @@ class PageController extends AbstractController
     #[Route('/backend/admin/content/page/gallery/ajax', name: 'app_backend_content_page_gallery_ajax')]
     public function galleryAjax(Request $request, ImageRepository $imageRepository, PaginatorInterface $paginator): JsonResponse
     {
-        $queryBuilder = $imageRepository->createQueryBuilder('i')->orderBy('i.id', 'ASC');
+        $queryBuilder = $imageRepository->createOrderedQueryBuilder();
         $page = max(1, $request->query->getInt('page', 1));
         $limit = 18;
 
+        /** @var SlidingPagination $pagination */
         $pagination = $paginator->paginate($queryBuilder, $page, $limit);
 
         $imagesData = [];
+
         foreach ($pagination->getItems() as $image) {
             $imagesData[] = [
                 'id' => $image->getId(),
