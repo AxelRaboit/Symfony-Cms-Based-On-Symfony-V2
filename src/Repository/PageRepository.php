@@ -70,6 +70,38 @@ class PageRepository extends ServiceEntityRepository
         return (int) $query->getSingleScalarResult();
     }
 
+    public function getPageFromDataNameDevKey(string $dataDevKeyName): ?Page
+    {
+        $dataEnum = $this->em()->createQuery(
+            'SELECT de FROM App\Entity\DataEnum de
+            WHERE de.name = :dataDevKeyName'
+        );
+        $dataEnum->setParameter('dataDevKeyName', $dataDevKeyName);
+
+        $result = $dataEnum->getResult();
+
+
+        if (0 === \count($result)) {
+            return null;
+        }
+        $dataEnumObject = $result[0];
+        $dataEnumValue = $dataEnumObject->getValue();
+
+        $page = $this->em()->createQuery('SELECT p
+                FROM App\Entity\Page p
+                WHERE p.devKey = :dataEnumValue
+            ');
+        $page->setParameter('dataEnumValue', $dataEnumValue);
+
+        $page = $page->getResult();
+
+        if (0 === \count($page)) {
+            return null;
+        }
+
+        return $page[0];
+    }
+
     /**
      * @throws NonUniqueResultException
      */

@@ -77,6 +77,11 @@ class DataEnumManager extends AbstractManager
             $dataEnum->setDevKey($params['dev_key']);
         }
 
+        // IsSystem
+        if (\array_key_exists('is_system', $params)) {
+            $dataEnum->setIsSystem($params['is_system']);
+        }
+
         $this->save($dataEnum);
 
         return $dataEnum;

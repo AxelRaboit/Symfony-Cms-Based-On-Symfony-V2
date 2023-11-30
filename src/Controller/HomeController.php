@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Page;
+use App\Enum\DataEnum;
 use App\Repository\PageRepository;
 use App\Service\Page\PageService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -13,7 +15,10 @@ class HomeController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(PageService $pageService, PageRepository $pageRepository): Response
     {
-        $elements = $pageService->getPageElements($pageRepository->findOneBy(['title' => 'Accueil']));
+        /** @var Page $page */
+        $page = $pageRepository->getPageFromDataNameDevKey(DataEnum::$data[DataEnum::DATA_PAGE_HOMEPAGE_DEV_KEY]['name']);
+
+        $elements = $pageService->getPageElements($page);
 
         return $this->render($elements['template'], $elements);
     }

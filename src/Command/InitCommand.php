@@ -3,7 +3,7 @@
 namespace App\Command;
 
 use App\Enum\DataEnum;
-use App\Manager\Backend\AdvancedData\DataEnum\DataEnumManager;
+use App\Manager\DataEnumManager;
 use App\Repository\DataEnumRepository;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -14,9 +14,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class InitCommand extends Command
 {
     public function __construct(
-        private LoggerInterface $logger,
-        private DataEnumRepository $dataEnumRepository,
-        private DataEnumManager $dataEnumManager,
+        private readonly LoggerInterface    $logger,
+        private readonly DataEnumRepository $dataEnumRepository,
+        private readonly DataEnumManager    $dataEnumManager,
     ) {
         parent::__construct(null);
     }
