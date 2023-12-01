@@ -7,6 +7,7 @@ use App\Form\backend\admin\dashboard\content\media\MediaImageCreateType;
 use App\Manager\Backend\Content\Media\MediaManager;
 use App\Repository\ImageRepository;
 use App\Service\Media\MediaService;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,11 +19,17 @@ class MediaController extends AbstractController
      * @throws \Exception
      */
     #[Route('/backend/admin/content/media/list', name: 'app_backend_content_media_list', methods: ['GET', 'POST'])]
-    public function mediaList(Request $request, MediaService $mediaService, ImageRepository $imageRepository): Response
+    public function mediaList(Request $request, MediaService $mediaService, ImageRepository $imageRepository, PaginatorInterface $paginator): Response
     {
         $image = new Image();
         $form = $this->createForm(MediaImageCreateType::class, $image);
         $form->handleRequest($request);
+
+        $pagination = $paginator->paginate(
+            $imageRepository->findAll(),
+            $request->query->getInt('page', 1),
+            10 // Override default limit per page
+        );
 
         if ($form->isSubmitted() && $form->isValid()) {
             $mediaService->prepareImageForUpload($image);
@@ -36,7 +43,7 @@ class MediaController extends AbstractController
 
         return $this->render('backend/admin/dashboard/content/media/list.html.twig', [
             'form' => $form->createView(),
-            'images' => $imageRepository->findAll(),
+            'pagination' => $pagination,
         ]);
     }
 

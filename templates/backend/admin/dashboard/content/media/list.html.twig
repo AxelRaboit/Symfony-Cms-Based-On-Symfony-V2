@@ -15,9 +15,9 @@
     </div>
 
     <div class="p-2 sm:ml-64">
-        <div class="p-2">
+        <div class="p-2 mb-5">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
-                {% for image in images %}
+                {% for image in pagination %}
                     <div class="card border border-gray-300 rounded">
                         <img class="w-full h-48 object-cover rounded-t" src="{{ image_directory ~ image.name }}" alt="{{ image.alt }}">
                         <div class="p-4">
@@ -42,6 +42,13 @@
                 {% endfor %}
             </div>
         </div>
+
+        {# Pagination #}
+        {% if pagination.items is not empty %}
+            <div class="flex justify-center mb-2">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        {% endif %}
     </div>
 
 
