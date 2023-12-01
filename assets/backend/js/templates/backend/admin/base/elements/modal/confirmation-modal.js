@@ -1,11 +1,18 @@
-// Confirmation message before submiting the form
-// Using "windows." to make the function available in the global scope
+/**
+ *
+ * @param form
+ * @param confirmationMessage
+ */
 window.attachConfirmationToForm = function(form, confirmationMessage) {
     openPopup('Confirmation', confirmationMessage, function() {
         form.submit();
     });
 };
 
+/**
+ * @param url
+ * @param confirmationMessage
+ */
 window.attachConfirmationToButton = function(url, confirmationMessage) {
     openPopup('Confirmation', confirmationMessage, function() {
         window.location.href = url;
