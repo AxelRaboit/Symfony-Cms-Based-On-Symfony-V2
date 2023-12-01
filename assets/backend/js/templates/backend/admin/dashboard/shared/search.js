@@ -1,6 +1,7 @@
 /**
- * @param element
- * @param callback
+ * Attaches a click event to an element.
+ * @param element - The DOM element to attach the event.
+ * @param callback - The callback function to execute on click.
  */
 export function handleClickEvent(element, callback) {
     element.addEventListener('click', function (event) {
@@ -9,8 +10,9 @@ export function handleClickEvent(element, callback) {
 }
 
 /**
- * @param element
- * @param callback
+ * Attaches an input event to an element.
+ * @param element - The DOM element to attach the event.
+ * @param callback - The callback function to execute on input.
  */
 export function handleInputEvent(element, callback) {
     element.addEventListener('input', function (event) {
@@ -19,21 +21,16 @@ export function handleInputEvent(element, callback) {
 }
 
 /**
- * This function is used to display the results of the search in the suggestions list
- * @param data (Data fetched from the database)
- * @param formId (Id of the search form)
- * @param suggestionsList (Suggestions list ul tag element)
- * @param searchFormInput (Search input tag element)
+ * Updates the suggestions list based on fetched data.
+ * @param data - Data fetched from the database.
+ * @param formId - Id of the search form.
+ * @param suggestionsList - Suggestions list ul tag element.
+ * @param searchFormInput - Search input tag element.
  */
-export function updateSuggestionsList(
-    data,
-    formId,
-    suggestionsList,
-    searchFormInput,
-) {
+export function updateSuggestionsList(data, formId, suggestionsList, searchFormInput) {
     const searchForm = document.getElementById(formId);
 
-    suggestionsList.innerHTML = ''; // Delete all the current suggestions
+    suggestionsList.innerHTML = ''; // Clear all the current suggestions
 
     data.forEach(item => {
         const listItem = document.createElement('li');
@@ -42,19 +39,107 @@ export function updateSuggestionsList(
 
         listItem.addEventListener('click', () => {
             searchFormInput.value = item.label; // Update the input with the selected value
-            suggestionsList.innerHTML = ''; // Delete suggestions
+            suggestionsList.innerHTML = ''; // Clear suggestions
             suggestionsList.classList.add('hidden');
-
-            // Submit the form when a suggestion is clicked
-            searchForm.submit();
+            searchForm.submit(); // Submit the form
         });
 
         suggestionsList.appendChild(listItem);
     });
 
-    if (data.length > 0) {
-        suggestionsList.classList.remove('hidden');
-    } else {
-        suggestionsList.classList.add('hidden');
-    }
+    suggestionsList.classList.toggle('hidden', data.length === 0);
+}
+
+/**
+ * Initializes the search page functionality.
+ * @param config - Configuration object containing element IDs and selectors.
+ */
+export function initSearchPage(config) {
+    const {
+        searchFormId,
+        containerResetFormButtonId,
+        resetFormButtonId,
+        searchFormInputId,
+        suggestionsListId,
+        deleteBackendPageLinksSelector
+    } = config;
+
+    console.log(config)
+
+    const searchForm = document.getElementById(searchFormId);
+    const containerResetFormButton = document.getElementById(containerResetFormButtonId);
+    const resetFormButton = document.getElementById(resetFormButtonId);
+    const searchFormInput = document.getElementById(searchFormInputId);
+    const suggestionsList = document.getElementById(suggestionsListId);
+    const deleteBackendPageLinks = document.querySelectorAll(deleteBackendPageLinksSelector);
+
+    setupDeleteButtons(deleteBackendPageLinks);
+    setupResetButton(resetFormButton, searchFormInput, containerResetFormButton, searchForm);
+    setupSearchFormInput(searchFormInput, suggestionsList);
+}
+
+function setupDeleteButtons(deleteBackendPageLinks) {
+    Array.from(deleteBackendPageLinks).forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            const deleteUrl = this.href;
+            // Logic to show a confirmation dialog before deleting
+            console.log(`Delete confirmation for: ${deleteUrl}`);
+        });
+    });
+}
+
+function setupResetButton(resetFormButton, searchFormInput, containerResetFormButton, searchForm) {
+    handleClickEvent(resetFormButton, function () {
+        searchFormInput.value = '';
+        containerResetFormButton.classList.add('hidden');
+        searchForm.submit();
+    });
+}
+
+function setupSearchFormInput(searchFormInput, suggestionsList) {
+    handleInputEvent(searchFormInput, function (event) {
+        const searchTerm = event.target.value;
+
+        if (searchTerm.length >= 1) { // Begin search only if search term is at least 1 characters long
+            fetchSuggestions(searchTerm, suggestionsList, searchFormInput);
+        } else {
+            suggestionsList.innerHTML = ''; // Clear suggestions if search term is too short
+            suggestionsList.classList.add('hidden');
+        }
+    });
+
+    handleClickEvent(document, function (event) {
+        // Hide suggestions if clicked outside
+        if (!searchFormInput.contains(event.target) && !suggestionsList.contains(event.target)) {
+            suggestionsList.classList.add('hidden');
+        }
+    });
+
+    handleClickEvent(searchFormInput, function () {
+        // Show suggestions when input is focused
+        if (suggestionsList.children.length > 0) {
+            suggestionsList.classList.remove('hidden');
+        }
+    });
+}
+
+function fetchSuggestions(searchTerm, suggestionsList, searchFormInput) {
+    fetch(`/backend/admin/content/page/ajax-search?term=${searchTerm}`)
+        .then(response => response.ok ? response.json() : Promise.reject('Network response was not ok'))
+        .then(data => {
+            if (data && Array.isArray(data)) {
+                updateSuggestionsList(
+                    data,
+                    'search-page',
+                    suggestionsList,
+                    searchFormInput
+                );
+            } else {
+                console.error('Invalid data format received:', data);
+            }
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
 }
