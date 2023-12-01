@@ -12,6 +12,22 @@ window.attachConfirmationToButton = function(url, confirmationMessage) {
     });
 };
 
+/**
+ * @param {string} deleteLinksSelector
+ * @param {string} confirmationMessage
+ */
+export function initDeletionFromList(deleteLinksSelector, confirmationMessage) {
+    const deleteButtons = document.querySelectorAll(deleteLinksSelector);
+
+    Array.from(deleteButtons).forEach(button => {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            const deleteUrl = this.href;
+            attachConfirmationToButton(deleteUrl, confirmationMessage);
+        });
+    });
+}
+
 function openPopup(title, message, onConfirm) {
     const popup = document.getElementById('confirmation-modal');
     const titleElement = document.getElementById('confirmation-modal-title');

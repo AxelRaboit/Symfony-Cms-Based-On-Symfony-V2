@@ -1,22 +1,9 @@
 import { initSearchPage } from "../../shared/search";
+import { initDeletionFromList } from "../../../base/elements/modal/confirmation-modal";
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    const deleteDataEnumLinks = document.querySelectorAll('.link-delete-data-enum-js');
-
-    /**
-     * This function is used to display the confirmation modal when the user click on the delete button from the list
-     */
-    Array.from(deleteDataEnumLinks).forEach(button => {
-        const dataIsSystem = button.dataset.isSystem;
-        button.addEventListener('click', function(event) {
-            event.preventDefault();
-            const deleteUrl = this.href;
-            if (dataIsSystem === "false") {
-                attachConfirmationToButton(deleteUrl, "Êtes-vous sûr de vouloir effectuer cette action ?");
-            }
-        });
-    });
+    initDeletionFromList('.link-delete-data-enum-js', "Êtes-vous sûr de vouloir effectuer cette action ?")
 
     initSearchPage({
         searchFormId: 'search-backend-data-enum',

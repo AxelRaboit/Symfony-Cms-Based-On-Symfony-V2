@@ -1,19 +1,9 @@
 import { initSearchPage } from "../../shared/search";
+import { initDeletionFromList } from "../../../base/elements/modal/confirmation-modal";
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    const deleteBackendUserLinks = document.querySelectorAll('.link-delete-backend-user-js');
-
-    /**
-     * This function is used to display the confirmation modal when the user click on the delete button from the list
-     */
-    Array.from(deleteBackendUserLinks).forEach(button => {
-        button.addEventListener('click', function(event) {
-            event.preventDefault();
-            const deleteUrl = this.href;
-            attachConfirmationToButton(deleteUrl, "Êtes-vous sûr de vouloir effectuer cette action ?");
-        });
-    });
+    initDeletionFromList('.link-delete-backend-user-js', "Êtes-vous sûr de vouloir effectuer cette action ?")
 
     initSearchPage({
         searchFormId: 'search-backend-user',
