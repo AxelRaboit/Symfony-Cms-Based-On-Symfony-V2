@@ -30,14 +30,12 @@ class PageController extends AbstractController
         PageRepository     $pageRepository,
         Request            $request,
         PaginatorInterface $paginator,
-        StringUtilsService $stringUtilsService
     ): Response
     {
         $search = $request->query->get('search');
         $published = $request->query->get('published');
 
         if (!empty($search)) {
-            $search = $stringUtilsService->protectQueryString($search);
             $query = $pageRepository->findByCriteria($search, 'DESC');
         } elseif (!empty($published)) {
             $query = $pageRepository->findByIsPublished($published, 'DESC');

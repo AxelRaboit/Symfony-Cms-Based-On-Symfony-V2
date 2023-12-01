@@ -19,12 +19,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserBackendController extends AbstractController
 {
     #[Route('/backend/admin/advanced-data/user-backend/list', name: 'app_backend_advanced_data_user_backend_list')]
-    public function userList(UserBackendRepository $userBackendRepository, Request $request, PaginatorInterface $paginator, StringUtilsService $stringUtilsService): Response
+    public function userList(UserBackendRepository $userBackendRepository, Request $request, PaginatorInterface $paginator): Response
     {
         $search = $request->query->get('search');
 
         if (!empty($search)) {
-            $search = $stringUtilsService->protectQueryString($search);
             $query = $userBackendRepository->findByCriteria($search, 'DESC');
         } else {
             $query = $userBackendRepository->findAllOrderBy('DESC');

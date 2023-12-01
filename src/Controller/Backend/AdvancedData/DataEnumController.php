@@ -20,12 +20,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class DataEnumController extends AbstractController
 {
     #[Route('/backend/admin/advanced-data/data-enum/list', name: 'app_backend_advanced_data_data_enum_list')]
-    public function dataEnumList(DataEnumRepository $dataEnumRepository, Request $request, PaginatorInterface $paginator, StringUtilsService $stringUtilsService): Response
+    public function dataEnumList(DataEnumRepository $dataEnumRepository, Request $request, PaginatorInterface $paginator): Response
     {
         $search = $request->query->get('search');
 
         if (!empty($search)) {
-            $search = $stringUtilsService->protectQueryString($search);
             $query = $dataEnumRepository->findByCriteria($search, 'DESC');
         } else {
             $query = $dataEnumRepository->findAllOrderBy('DESC');

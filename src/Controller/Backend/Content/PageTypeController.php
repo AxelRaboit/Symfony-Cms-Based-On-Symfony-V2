@@ -18,13 +18,11 @@ class PageTypeController extends AbstractController
         PageTypeRepository     $pageTypeRepository,
         Request            $request,
         PaginatorInterface $paginator,
-        StringUtilsService $stringUtilsService
     ): Response
     {
         $search = $request->query->get('search');
 
         if (!empty($search)) {
-            $search = $stringUtilsService->protectQueryString($search);
             $query = $pageTypeRepository->findByCriteria($search, 'DESC');
         } else {
             $query = $pageTypeRepository->findAllOrderBy('DESC');
