@@ -41,6 +41,24 @@ class PageRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function findByIsPublished(string $isPublished = 'true', string $order = 'ASC'): array
+    {
+        if ('true' === $isPublished) {
+            $isPublished = true;
+        } elseif ('false' === $isPublished) {
+            $isPublished = false;
+        }
+
+        if ('both' === $isPublished) {
+            return $this->findAllOrderBy($order);
+        }
+
+        $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE p.isPublished = :isPublished ORDER BY p.id ' . $order);
+        $query->setParameter('isPublished', $isPublished);
+
+        return $query->getResult();
+    }
+
     public function getChildren(Page $page): array
     {
         $query = $this->getEntityManager()->createQuery(

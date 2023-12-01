@@ -34,10 +34,13 @@ class PageController extends AbstractController
     ): Response
     {
         $search = $request->query->get('search');
+        $published = $request->query->get('published');
 
         if (!empty($search)) {
             $search = $stringUtilsService->protectQueryString($search);
             $query = $pageRepository->findByCriteria($search, 'DESC');
+        } elseif (!empty($published)) {
+            $query = $pageRepository->findByIsPublished($published, 'DESC');
         } else {
             $query = $pageRepository->findAllOrderBy('DESC');
         }
