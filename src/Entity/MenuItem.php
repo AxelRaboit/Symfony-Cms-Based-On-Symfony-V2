@@ -19,6 +19,7 @@ class MenuItem
     private Collection $menu;
 
     #[ORM\ManyToOne(inversedBy: 'menuItems')]
+    #[ORM\JoinColumn(nullable: true, onDelete: "SET NULL")]
     private ?Page $page = null;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'children')]

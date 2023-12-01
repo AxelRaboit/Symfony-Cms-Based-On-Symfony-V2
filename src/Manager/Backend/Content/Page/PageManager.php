@@ -5,6 +5,7 @@ namespace App\Manager\Backend\Content\Page;
 use App\Entity\Page;
 use App\Manager\AbstractManager;
 use App\Repository\ImageRepository;
+use App\Repository\MenuItemRepository;
 use App\Repository\PageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -15,7 +16,8 @@ class PageManager extends AbstractManager
     public function __construct(
         EntityManagerInterface $em,
         private readonly PageRepository $pageRepository,
-        private readonly ImageRepository $imageRepository
+        private readonly ImageRepository $imageRepository,
+        private readonly MenuItemRepository $menuItemRepository
     )
     {
         parent::__construct($em);

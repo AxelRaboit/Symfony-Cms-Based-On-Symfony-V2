@@ -23,13 +23,11 @@ export function handleInputEvent(element, callback) {
 /**
  * Updates the suggestions list based on fetched data.
  * @param data - Data fetched from the database.
- * @param formId - Id of the search form.
+ * @param searchForm
  * @param suggestionsList - Suggestions list ul tag element.
  * @param searchFormInput - Search input tag element.
  */
-export function updateSuggestionsList(data, formId, suggestionsList, searchFormInput) {
-    const searchForm = document.getElementById(formId);
-
+export function updateSuggestionsList(data, searchForm, suggestionsList, searchFormInput) {
     suggestionsList.innerHTML = ''; // Clear all the current suggestions
 
     data.forEach(item => {
@@ -61,32 +59,17 @@ export function initSearchPage(config) {
         resetFormButtonId,
         searchFormInputId,
         suggestionsListId,
-        deleteBackendPageLinksSelector
+        fetchUrl
     } = config;
-
-    console.log(config)
 
     const searchForm = document.getElementById(searchFormId);
     const containerResetFormButton = document.getElementById(containerResetFormButtonId);
     const resetFormButton = document.getElementById(resetFormButtonId);
     const searchFormInput = document.getElementById(searchFormInputId);
     const suggestionsList = document.getElementById(suggestionsListId);
-    const deleteBackendPageLinks = document.querySelectorAll(deleteBackendPageLinksSelector);
 
-    setupDeleteButtons(deleteBackendPageLinks);
     setupResetButton(resetFormButton, searchFormInput, containerResetFormButton, searchForm);
-    setupSearchFormInput(searchFormInput, suggestionsList);
-}
-
-function setupDeleteButtons(deleteBackendPageLinks) {
-    Array.from(deleteBackendPageLinks).forEach(button => {
-        button.addEventListener('click', function(event) {
-            event.preventDefault();
-            const deleteUrl = this.href;
-            // Logic to show a confirmation dialog before deleting
-            console.log(`Delete confirmation for: ${deleteUrl}`);
-        });
-    });
+    setupSearchFormInput(searchFormInput, suggestionsList, searchForm, fetchUrl);
 }
 
 function setupResetButton(resetFormButton, searchFormInput, containerResetFormButton, searchForm) {
@@ -97,12 +80,12 @@ function setupResetButton(resetFormButton, searchFormInput, containerResetFormBu
     });
 }
 
-function setupSearchFormInput(searchFormInput, suggestionsList) {
+function setupSearchFormInput(searchFormInput, suggestionsList, searchForm, fetchUrl) {
     handleInputEvent(searchFormInput, function (event) {
         const searchTerm = event.target.value;
 
         if (searchTerm.length >= 1) { // Begin search only if search term is at least 1 characters long
-            fetchSuggestions(searchTerm, suggestionsList, searchFormInput);
+            fetchSuggestions(searchTerm, suggestionsList, searchFormInput, searchForm, fetchUrl);
         } else {
             suggestionsList.innerHTML = ''; // Clear suggestions if search term is too short
             suggestionsList.classList.add('hidden');
@@ -124,14 +107,14 @@ function setupSearchFormInput(searchFormInput, suggestionsList) {
     });
 }
 
-function fetchSuggestions(searchTerm, suggestionsList, searchFormInput) {
-    fetch(`/backend/admin/content/page/ajax-search?term=${searchTerm}`)
+function fetchSuggestions(searchTerm, suggestionsList, searchFormInput, searchForm, fetchUrl) {
+    fetch(`${fetchUrl}?term=${searchTerm}`)
         .then(response => response.ok ? response.json() : Promise.reject('Network response was not ok'))
         .then(data => {
             if (data && Array.isArray(data)) {
                 updateSuggestionsList(
                     data,
-                    'search-page',
+                    searchForm,
                     suggestionsList,
                     searchFormInput
                 );
