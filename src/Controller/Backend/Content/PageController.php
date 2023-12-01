@@ -167,11 +167,30 @@ class PageController extends AbstractController
     }
 
     #[Route('/backend/admin/content/page/ajax-search', name: 'app_backend_content_page_ajax_search')]
-    public function ajaxSearch(Request $request, PageRepository $pageRepository): JsonResponse
+    public function pageAjaxSearch(Request $request, PageRepository $pageRepository): JsonResponse
     {
         $searchTerm = $request->query->get('term');
 
         $pages = $pageRepository->findByCriteria($searchTerm);
+
+        $responseData = [];
+
+        foreach ($pages as $page) {
+            $responseData[] = [
+                'id' => $page->getId(),
+                'label' => $page->getName()
+            ];
+        }
+
+        return new JsonResponse($responseData);
+    }
+
+    #[Route('/backend/admin/content/page/page-type/{id}/ajax-search', name: 'app_backend_content_page_page_type_ajax_search')]
+    public function pageTypeAjaxSearch(PageType $pageType, Request $request, PageRepository $pageRepository): JsonResponse
+    {
+        $searchTerm = $request->query->get('term');
+
+        $pages = $pageRepository->findByCriteriaByPageType($searchTerm, $pageType);
 
         $responseData = [];
 

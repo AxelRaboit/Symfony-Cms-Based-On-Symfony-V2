@@ -53,8 +53,7 @@ class PageRepository extends ServiceEntityRepository
     public function findByCriteriaByPageType(string $criteria, PageType $pageType, string $order = 'ASC'): array
     {
         $criteria = trim($criteria);
-
-        $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE p.name LIKE :criteria OR p.slug LIKE :criteria OR p.id LIKE :criteria AND p.pageType = :pageType ORDER BY p.id ' . $order);
+        $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE (p.name LIKE :criteria OR p.slug LIKE :criteria OR p.id LIKE :criteria) AND p.pageType = :pageType ORDER BY p.id ' . $order);
         $query->setParameter('criteria', '%' . $criteria . '%');
         $query->setParameter('pageType', $pageType);
 

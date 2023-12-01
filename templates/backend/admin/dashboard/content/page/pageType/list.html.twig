@@ -3,7 +3,7 @@
 {% block title %}{{ parent() }} - Liste des pages par type{% endblock %}
 
 {% block body %}
-    {{ encore_entry_link_tags('backend/admin/dashboard/content/page/list') }}
+    {{ encore_entry_link_tags('backend/admin/dashboard/content/page/pageType/list') }}
 
     {% include 'backend/admin/dashboard/elements/_side-menu.html.twig' %}
 
@@ -11,7 +11,7 @@
         <div class="p-2">
             <div class="flex flex-wrap">
                 <div id="container-reset-button-js" class="w-full md:w-auto mb-2 md:mb-0">
-                    <button type="button" id="refresh-page-list-js"
+                    <button type="button" id="refresh-page-page-type-list-js"
                             class="w-full text-xs px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
                         Afficher toutes les pages
                     </button>
@@ -28,8 +28,9 @@
             </div>
 
             {# Search by query #}
-            <form action="{{ path('app_backend_content_page_list') }}" method="get" class="mt-2"
-                  id="search-page">
+            <div class="hidden" data-page-type-id="{{ pageType.id }}"></div>
+            <form action="{{ path('app_backend_content_page_page_type_list', {'id': pageType.id}) }}" method="get" class="mt-2"
+                  id="search-page-page-type">
                 <label for="default-search"
                        class="mb-2 text-xs font-medium text-gray-900 sr-only dark:text-white">Search</label>
                 <div class="relative">
@@ -42,9 +43,9 @@
                         </svg>
                     </div>
 
-                    <label for="search-page-input-js"></label>
+                    <label for="search-page-page-type-input-js"></label>
                     <input name="search" value="{{ app.request.query.get('search') }}" type="search"
-                           id="search-page-input-js"
+                           id="search-page-page-type-input-js"
                            autocomplete="off"
                            class="block w-full p-1 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500"
                            placeholder="Rechercher par nom, slug, id...">
@@ -56,7 +57,7 @@
             </form>
 
             <div class="relative">
-                <ul id="search-page-suggestions"
+                <ul id="search-page-page-type-suggestions"
                     class="scrollbar-custom absolute z-10 list-none bg-white w-full max-h-60 overflow-y-auto rounded-md shadow-lg hidden divide-y divide-gray-100">
                     {# Injected search results #}
                 </ul>
@@ -160,7 +161,7 @@
         {% endif %}
     </div>
 
-    {{ encore_entry_script_tags('backend/admin/dashboard/content/page/list') }}
+    {{ encore_entry_script_tags('backend/admin/dashboard/content/page/pageType/list') }}
 {% endblock %}
 
 
