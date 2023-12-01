@@ -4,6 +4,7 @@ namespace App\Controller\Backend\Content;
 
 use App\Entity\Image;
 use App\Form\backend\admin\dashboard\content\media\MediaImageCreateType;
+use App\Form\backend\admin\dashboard\content\media\MediaImageEditType;
 use App\Manager\Backend\Content\Media\MediaManager;
 use App\Repository\ImageRepository;
 use App\Service\Media\MediaService;
@@ -44,6 +45,29 @@ class MediaController extends AbstractController
         return $this->render('backend/admin/dashboard/content/media/list.html.twig', [
             'form' => $form->createView(),
             'pagination' => $pagination,
+        ]);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    #[Route('/backend/admin/content/media/{id}/edit', name: 'app_backend_content_media_edit', methods: ['GET', 'POST'])]
+    public function mediaEdit(Image $image, Request $request, MediaService $mediaService): Response
+    {
+        $form = $this->createForm(MediaImageEditType::class, $image);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $mediaService->prepareImageForUpload($image);
+
+            $imageName = $image->getName();
+            $this->addFlash('success', "L'image $imageName a été modifiée avec succès.");
+
+            return $this->redirectToRoute('app_backend_content_media_list');
+        }
+
+        return $this->render('backend/admin/dashboard/content/media/edit.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 
