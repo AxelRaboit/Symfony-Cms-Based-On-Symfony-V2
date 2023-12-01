@@ -107,6 +107,11 @@
                 </button>
                 <ul id="dropdown-pages" class="hidden py-2 space-y-2">
                     <li>
+                        <a href="{{ path('app_backend_content_page_create') }}"
+                           class="text-xs flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Créer
+                            une nouvelle page</a>
+                    </li>
+                    <li>
                         <a href="{{ path('app_backend_content_page_type_list') }}"
                            class="text-xs flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Types
                             de page</a>
@@ -116,11 +121,15 @@
                            class="text-xs flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Toutes
                             les pages</a>
                     </li>
-                    <li>
-                        <a href="{{ path('app_backend_content_page_create') }}"
-                           class="text-xs flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Créer
-                            une nouvelle page</a>
-                    </li>
+                    <ul>
+                        {% set pageTypes = getPageTypes() %}
+                        {% for pageType in pageTypes %}
+                            <li>
+                                <a href="{{ path('app_backend_content_page_page_type_list', {'id': pageType.id}) }}"
+                                   class="text-xs flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">{{ pageType.name }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </ul>
             </li>
 

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Page;
+use App\Entity\PageType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -31,12 +32,31 @@ class PageRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
+    public function findAllByPageTypeOrderBy(PageType $pageType, string $order = 'ASC'): array
+    {
+        $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE p.pageType = :pageType ORDER BY p.id ' . $order);
+        $query->setParameter('pageType', $pageType);
+
+        return $query->getResult();
+    }
+
     public function findByCriteria(string $criteria, string $order = 'ASC'): array
     {
         $criteria = trim($criteria);
 
         $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE p.name LIKE :criteria OR p.slug LIKE :criteria OR p.id LIKE :criteria ORDER BY p.id ' . $order);
         $query->setParameter('criteria', '%' . $criteria . '%');
+
+        return $query->getResult();
+    }
+
+    public function findByCriteriaByPageType(string $criteria, PageType $pageType, string $order = 'ASC'): array
+    {
+        $criteria = trim($criteria);
+
+        $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE p.name LIKE :criteria OR p.slug LIKE :criteria OR p.id LIKE :criteria AND p.pageType = :pageType ORDER BY p.id ' . $order);
+        $query->setParameter('criteria', '%' . $criteria . '%');
+        $query->setParameter('pageType', $pageType);
 
         return $query->getResult();
     }
@@ -55,6 +75,25 @@ class PageRepository extends ServiceEntityRepository
 
         $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE p.isPublished = :isPublished ORDER BY p.id ' . $order);
         $query->setParameter('isPublished', $isPublished);
+
+        return $query->getResult();
+    }
+
+    public function findByIsPublishedByPageType(PageType $pageType, string $isPublished = 'true', string $order = 'ASC'): array
+    {
+        if ('true' === $isPublished) {
+            $isPublished = true;
+        } elseif ('false' === $isPublished) {
+            $isPublished = false;
+        }
+
+        if ('both' === $isPublished) {
+            return $this->findAllByPageTypeOrderBy($pageType, $order);
+        }
+
+        $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE p.isPublished = :isPublished AND p.pageType = :pageType ORDER BY p.id ' . $order);
+        $query->setParameter('isPublished', $isPublished);
+        $query->setParameter('pageType', $pageType);
 
         return $query->getResult();
     }

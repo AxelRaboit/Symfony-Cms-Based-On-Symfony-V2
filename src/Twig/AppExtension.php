@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Twig;
 
 use App\Entity\Page;
+use App\Entity\PageType;
 use App\Entity\Website;
 use App\Manager\DataEnumManager;
 use App\Repository\MenuItemRepository;
 use App\Repository\PageRepository;
+use App\Repository\PageTypeRepository;
 use App\Service\Page\PageService;
 use App\Service\Website\WebsiteService;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,6 +32,7 @@ class AppExtension extends AbstractExtension
         private readonly WebsiteService $websiteService,
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly PageService $pageService,
+        private readonly PageTypeRepository $pageTypeRepository,
         private readonly string $appEnv,
     ) {
         $this->request = $requestStack->getCurrentRequest();
@@ -52,6 +55,7 @@ class AppExtension extends AbstractExtension
             new TwigFunction('returnReferer', [$this, 'returnRefererFunction']),
             new TwigFunction('getCurrentHour', [$this, 'getCurrentHourFunction']),
             new TwigFunction('getUrlRelativeFinal', [$this, 'getUrlRelativeFinalFunction']),
+            new TwigFunction('getPageTypes', [$this, 'getPageTypesFunction']),
         ];
     }
 
@@ -80,6 +84,11 @@ class AppExtension extends AbstractExtension
         }
 
         return '';
+    }
+
+    public function getPageTypesFunction(): array
+    {
+        return $this->pageTypeRepository->findAll();
     }
 
     /**

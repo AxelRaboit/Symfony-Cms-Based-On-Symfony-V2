@@ -3,11 +3,13 @@
 namespace App\Controller\Backend\Content;
 
 use App\Entity\Page;
+use App\Entity\PageType;
 use App\Form\backend\admin\dashboard\content\page\PageCreateType;
 use App\Form\backend\admin\dashboard\content\page\PageEditType;
 use App\Manager\Backend\Content\Page\PageManager;
 use App\Repository\ImageRepository;
 use App\Repository\PageRepository;
+use App\Repository\PageTypeRepository;
 use App\Service\Utils\StringUtilsService;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -51,6 +53,37 @@ class PageController extends AbstractController
 
         return $this->render('backend/admin/dashboard/content/page/list/list.html.twig', [
             'pagination' => $pagination,
+        ]);
+    }
+
+    #[Route('/backend/admin/content/page/page-type/{id}/list', name: 'app_backend_content_page_page_type_list')]
+    public function pagePageTypeList(
+        PageRepository     $pageRepository,
+        Request            $request,
+        PaginatorInterface $paginator,
+        PageType $pageType
+    ): Response
+    {
+        $search = $request->query->get('search');
+        $published = $request->query->get('published');
+
+        if (!empty($search)) {
+            $query = $pageRepository->findByCriteriaByPageType($search, $pageType,'DESC');
+        } elseif (!empty($published)) {
+            $query = $pageRepository->findByIsPublishedByPageType($pageType, $published, 'DESC');
+        } else {
+            $query = $pageRepository->findAllByPageTypeOrderBy($pageType, 'DESC');
+        }
+
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            null // Override default limit per page
+        );
+
+        return $this->render('backend/admin/dashboard/content/page/pageType/list.html.twig', [
+            'pagination' => $pagination,
+            'pageType' => $pageType
         ]);
     }
 
