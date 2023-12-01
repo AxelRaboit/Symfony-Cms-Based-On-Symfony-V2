@@ -1,0 +1,125 @@
+{% extends 'backend/admin/base/base.html.twig' %}
+
+{% block title %}{{ parent() }} - Liste des types de page{% endblock %}
+
+{% block body %}
+    {{ encore_entry_link_tags('backend/admin/dashboard/content/pageType/list') }}
+
+    {% include 'backend/admin/dashboard/elements/_side-menu.html.twig' %}
+
+    <div class="p-2 sm:ml-64">
+        <div class="p-2">
+            <div class="flex flex-wrap">
+                <div class="flex flex-wrap">
+                    <div id="container-reset-button-js" class="w-full md:w-auto mb-2 md:mb-0">
+                        <button type="button" id="refresh-page-type-list-js"
+                                class="w-full text-xs px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                            Afficher tout les types de page
+                        </button>
+                    </div>
+                </div>
+
+                <div class="w-full md:w-auto mb-2 md:mb-0 md:ml-2">
+                    <a href="{#{{ path('app_backend_content_page_create') }}#}">
+                        <button type="button"
+                                class="w-full md:w-auto text-xs px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:ml-custom">
+                            Créer un type de page
+                        </button>
+                    </a>
+                </div>
+            </div>
+
+            {# Search by query #}
+            <form action="{{ path('app_backend_content_page_type_list') }}" method="get" class="mt-2"
+                  id="search-page-type">
+                <label for="default-search"
+                       class="mb-2 text-xs font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                  stroke-width="2"
+                                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                        </svg>
+                    </div>
+
+                    <label for="search-page-type-input-js"></label>
+                    <input name="search" value="{{ app.request.query.get('search') }}" type="search"
+                           id="search-page-type-input-js"
+                           autocomplete="off"
+                           class="block w-full p-1 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500"
+                           placeholder="Rechercher par nom, slug, id...">
+                    <button type="submit" id="search-backend-page-submit-button-js"
+                            class="text-white absolute right-0 bottom-0 bg-blue-600 hover:bg-blue-500 focus:ring-4 focus:outline-none font-medium text-xs px-2 py-2 dark:bg-blue-600 dark:hover:bg-blue-500 rounded-r-lg">
+                        Rechercher
+                    </button>
+                </div>
+            </form>
+
+            <div class="relative">
+                <ul id="search-page-type-suggestions"
+                    class="scrollbar-custom absolute z-10 list-none bg-white w-full max-h-60 overflow-y-auto rounded-md shadow-lg hidden divide-y divide-gray-100">
+                    {# Injected search results #}
+                </ul>
+            </div>
+
+            <div class="flex-grow my-2">
+                <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
+                    <table class="w-full text-xs text-left text-gray-500 dark:text-gray-400">
+                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                        <tr>
+                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Id</th>
+                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Nom</th>
+                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Préfix</th>
+                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Template</th>
+                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if pagination.items is not empty %}
+                            {% for pageType in pagination %}
+                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ pageType.id }}</td>
+                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ pageType.name }}</td>
+                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ pageType.urlPrefix }}</td>
+                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ pageType.template }}</td>
+                                    <td class="py-2 px-3 md:py-1 md:px-1">
+                                        <div class="flex flex-wrap items-center">
+                                            <a href="{#{{ path('app_backend_content_page_type_edit', {'id': pageType.id}) }}#}"
+                                               class="font-medium text-white dark:text-white rounded p-2 bg-blue-600 hover:bg-blue-500 md:mr-2 my-1"><i
+                                                        class="fa-solid fa-pen-to-square"></i>
+                                            </a>
+                                            <a href="{#{{ path('app_backend_content_page_type_delete', {'id': page.id}) }}#}"
+                                               class="link-delete-page-type-js font-medium text-white dark:text-white rounded p-2 bg-red-600 hover:bg-red-500 md:mr-2 my-1"><i
+                                                        class="fa-solid fa-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <td colspan="4" class="py-2 px-3 md:py-4 md:px-6 text-center">Aucun type de page
+                                    trouvé
+                                </td>
+                            </tr>
+                        {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        {# Pagination #}
+        {% if pagination.items is not empty %}
+            <div class="flex justify-center mb-2">
+                {{ knp_pagination_render(pagination) }}
+            </div>
+        {% endif %}
+    </div>
+
+    {{ encore_entry_script_tags('backend/admin/dashboard/content/pageType/list') }}
+{% endblock %}
+
+

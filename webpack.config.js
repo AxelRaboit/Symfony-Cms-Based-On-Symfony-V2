@@ -35,6 +35,8 @@ Encore
     .addEntry('backend/admin/dashboard/content/page/edit', './assets/backend/js/templates/backend/admin/dashboard/content/page/edit/edit.js')
     .addEntry('backend/admin/dashboard/content/page/modal/galleryMedia', './assets/backend/js/templates/backend/admin/dashboard/content/page/modal/gallery-media-modal.js')
 
+    .addEntry('backend/admin/dashboard/content/pageType/list', './assets/backend/js/templates/backend/admin/dashboard/content/pageType/list/list.js')
+
     .addEntry('backend/admin/dashboard/content/media/list', './assets/backend/js/templates/backend/admin/dashboard/content/media/list/list.js')
     .addEntry('backend/admin/dashboard/content/media/edit', './assets/backend/js/templates/backend/admin/dashboard/content/media/edit/edit.js')
     .addEntry('backend/admin/dashboard/content/media/modal/importMedia', './assets/backend/js/templates/backend/admin/dashboard/content/media/modal/import-media-modal.js')

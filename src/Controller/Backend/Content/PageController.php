@@ -21,12 +21,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PageController extends AbstractController
 {
-    public function __construct(private readonly string $imageDirectory){}
+    public function __construct(private readonly string $imageDirectory)
+    {
+    }
 
     #[Route('/backend/admin/content/page/list', name: 'app_backend_content_page_list')]
     public function pageList(
-        PageRepository $pageRepository,
-        Request $request,
+        PageRepository     $pageRepository,
+        Request            $request,
         PaginatorInterface $paginator,
         StringUtilsService $stringUtilsService
     ): Response
@@ -64,8 +66,8 @@ class PageController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $bannerImageId = (int) $request->request->get('selected_banner_image_id');
-            $thumbnailImageId = (int) $request->request->get('selected_thumbnail_image_id');
+            $bannerImageId = (int)$request->request->get('selected_banner_image_id');
+            $thumbnailImageId = (int)$request->request->get('selected_thumbnail_image_id');
             $pageManager->pageCreate($page, $bannerImageId, $thumbnailImageId);
 
             $pageName = $page->getName();
@@ -96,8 +98,8 @@ class PageController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $bannerImageId = (int) $request->request->get('selected_banner_image_id');
-            $thumbnailImageId = (int) $request->request->get('selected_thumbnail_image_id');
+            $bannerImageId = (int)$request->request->get('selected_banner_image_id');
+            $thumbnailImageId = (int)$request->request->get('selected_thumbnail_image_id');
 
             $pageManager->pageEdit($page, $bannerImageId, $thumbnailImageId);
 
@@ -142,7 +144,7 @@ class PageController extends AbstractController
         foreach ($pages as $page) {
             $responseData[] = [
                 'id' => $page->getId(),
-                'label' =>  $page->getName()
+                'label' => $page->getName()
             ];
         }
 

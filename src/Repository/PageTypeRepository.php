@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\PageType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,28 +22,27 @@ class PageTypeRepository extends ServiceEntityRepository
         parent::__construct($registry, PageType::class);
     }
 
-//    /**
-//     * @return PageType[] Returns an array of PageType objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findAllOrderBy(string $order = 'ASC'): array
+    {
+        $query = $this->em()->createQuery('SELECT pt FROM App\Entity\PageType pt ORDER BY pt.id ' . $order);
 
-//    public function findOneBySomeField($value): ?PageType
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        return $query->getResult();
+    }
+
+    public function findByCriteria(string $criteria, string $order = 'ASC'): array
+    {
+        $criteria = trim($criteria);
+
+        $query = $this->em()->createQuery('SELECT pt FROM App\Entity\PageType pt WHERE pt.name LIKE :criteria OR pt.id LIKE :criteria ORDER BY pt.id ' . $order);
+        $query->setParameter('criteria', '%' . $criteria . '%');
+
+        return $query->getResult();
+    }
+
+    // Base
+
+    private function em(): EntityManagerInterface
+    {
+        return $this->_em;
+    }
 }

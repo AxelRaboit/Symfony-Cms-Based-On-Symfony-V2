@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PageTypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PageTypeRepository::class)]
@@ -32,6 +33,12 @@ class PageType
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $deletedAt = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $template = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $urlPrefix = null;
 
     public function __construct()
     {
@@ -129,6 +136,30 @@ class PageType
     public function setDeletedAt(?\DateTimeImmutable $deletedAt): static
     {
         $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    public function getTemplate(): ?string
+    {
+        return $this->template;
+    }
+
+    public function setTemplate(?string $template): static
+    {
+        $this->template = $template;
+
+        return $this;
+    }
+
+    public function getUrlPrefix(): ?string
+    {
+        return $this->urlPrefix;
+    }
+
+    public function setUrlPrefix(string $urlPrefix): static
+    {
+        $this->urlPrefix = $urlPrefix;
 
         return $this;
     }
