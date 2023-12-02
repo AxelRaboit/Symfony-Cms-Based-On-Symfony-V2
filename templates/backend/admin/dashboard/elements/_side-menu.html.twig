@@ -20,6 +20,14 @@
 
         <hr class="my-2 border-gray-200 dark:border-gray-700" aria-hidden="true">
 
+        <div>
+            <p class="ms-3 text-xs">{{ app.user.username ? app.user.username : app.user.email }}</p>
+        </div>
+
+        <hr class="my-2 border-gray-200 dark:border-gray-700" aria-hidden="true">
+
+        <hr class="my-2 border-gray-200 dark:border-gray-700" aria-hidden="true">
+
         <button id="theme-toggle" type="button"
                 class="w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
             <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
