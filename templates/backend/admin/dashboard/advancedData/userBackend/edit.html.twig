@@ -1,6 +1,6 @@
 {% extends "backend/admin/base/base.html.twig" %}
 
-{% block title %}{{ parent() }} - Modifier l'utilisateur Backend{% endblock %}
+{% block title %}{{ parent() }} - Modifier {{ app.user.id == userBackend.id ? "mon compte" : "l'utilisateur backend" }}{% endblock %}
 
 {% block body %}
     {{ encore_entry_link_tags('backend/admin/dashboard/advancedData/userBackend/edit') }}
@@ -9,7 +9,13 @@
 
     <div class="p-2 sm:ml-64">
         <div class="p-2">
-            <h1 class="text-2xl font-semibold mb-2 text-gray-900 dark:text-white">Modifier l'utilisateur Backend</h1>
+            <h1 class="text-2xl font-semibold mb-2 text-gray-900 dark:text-white">
+                {% if app.user.id == userBackend.id %}
+                    Mon compte
+                {% else %}
+                    Modifier l'utilisateur Backend
+                {% endif %}
+            </h1>
             {{ form_start(form, {'attr': {'id': 'form-edit-backend-user-js'}}) }}
 
             <div class="mb-2 text-xs">
@@ -36,6 +42,27 @@
                     </div>
                 {% endif %}
             </div>
+
+            <div class="text-xs">
+                {{ form_label(form.information.pictureProfileFile, null, { 'label_attr': { 'class': 'text-gray-900 dark:text-white'}}) }}
+                {{ form_widget(form.information.pictureProfileFile, { 'attr': { 'class': 'w-full text-xs p-1 border border-gray-300 rounded focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500' } }) }}
+
+                {% if userBackend.information.pictureProfileName is not null %}
+                    <div class="mt-1">
+                        <img src="{{ picture_profile_directory ~ userBackend.information. pictureProfileName }}" class="w-48 h-48 object-cover rounded" alt="picture profile">
+                    </div>
+                {% endif %}
+
+                {% if form.information.pictureProfileFile.vars.errors %}
+                    <div class="mt-1 text-red-600 text-xs">
+                        {% for error in form.information.pictureProfileFile.vars.errors %}
+                            <p>{{ error.message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+
+
 
             <div class="w-full md:w-auto mb-2 md:mb-0">
                 <button type="button" id="button-edit-password-js"

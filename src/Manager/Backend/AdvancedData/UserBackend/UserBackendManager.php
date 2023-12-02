@@ -4,15 +4,16 @@ namespace App\Manager\Backend\AdvancedData\UserBackend;
 
 use App\Entity\UserBackend;
 use App\Manager\AbstractManager;
+use App\Manager\Backend\AdvancedData\UserBackend\Information\UserBackendInformationManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserBackendManager extends AbstractManager
 {
     public function __construct(
         EntityManagerInterface $em,
-        private readonly UserPasswordHasherInterface $userPasswordHasher
+        private readonly UserPasswordHasherInterface $userPasswordHasher,
+        private readonly UserBackendInformationManager $userBackendInformationManager
     )
     {
         parent::__construct($em);
@@ -46,6 +47,9 @@ class UserBackendManager extends AbstractManager
 
             $userBackend->setPassword($hashedPassword);
         }
+
+        $userInformation = $userBackend->getInformation();
+        $this->userBackendInformationManager->userBackendInformationEdit($userInformation);
 
         $this->save($userBackend);
     }

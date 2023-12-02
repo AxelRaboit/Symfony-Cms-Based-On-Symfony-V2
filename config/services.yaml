@@ -6,6 +6,7 @@
 parameters:
     image_directory: '/assets/images/medias/'
     image_directory_no_slash: 'assets/images/medias'
+    picture_profile_directory: '/assets/images/picturesProfile/'
 services:
     # default  configuration for services in *this* file
     _defaults:

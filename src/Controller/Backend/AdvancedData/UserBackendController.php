@@ -66,7 +66,7 @@ class UserBackendController extends AbstractController
     }
 
     #[Route('/backend/admin/advanced-data/user-backend/{id}/edit', name: 'app_backend_advanced_data_user_backend_edit', methods: ['GET', 'POST'])]
-    public function userEdit(UserBackend $userBackend, Request $request, UserBackendManager $userBackendManager, UserPasswordHasherInterface $userPasswordHasher): Response
+    public function userEdit(UserBackend $userBackend, Request $request, UserBackendManager $userBackendManager): Response
     {
         $form = $this->createForm(UserBackendEditType::class, $userBackend);
         $form->handleRequest($request);
@@ -89,6 +89,7 @@ class UserBackendController extends AbstractController
 
         return $this->render('backend/admin/dashboard/advancedData/userBackend/edit.html.twig', [
             'form' => $form->createView(),
+            'userBackend' => $userBackend,
         ]);
     }
 

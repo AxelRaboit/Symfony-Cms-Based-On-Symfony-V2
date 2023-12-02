@@ -14,13 +14,13 @@ class MediaService
         private readonly string       $imageDirectoryNoSlash
     ){}
 
+
     /**
      * @throws \Exception
      */
     public function prepareMediaForUpload(Image $image): bool
     {
         $extension = $image->getImageFile()->guessExtension();
-        $uniqueName = uniqid() . '.' . $extension;
 
         if (in_array($extension, [
                 MediaEnum::MEDIA_EXTENSION_JPG,
@@ -29,16 +29,6 @@ class MediaService
                 MediaEnum::MEDIA_EXTENSION_WEBP,
             ]
         )) {
-            // Todo: Treatment for simple image
-
-            // Define the new path with the unique name
-            $finalPath = $this->imageDirectoryNoSlash . '/' . $uniqueName;
-            rename($image->getImageFile()->getPathname(), $finalPath);
-
-            $file = new File($finalPath);
-            $image->setImageFile($file);
-            $image->setName($uniqueName);
-
             $this->mediaManager->mediaImageCreate($image);
 
             return true;

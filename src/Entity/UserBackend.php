@@ -42,6 +42,9 @@ class UserBackend implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $lastLoginAt = null;
 
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?UserBackendInformation $information = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -168,6 +171,23 @@ class UserBackend implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastLoginAt(?\DateTimeImmutable $lastLoginAt): static
     {
         $this->lastLoginAt = $lastLoginAt;
+
+        return $this;
+    }
+
+    public function getInformation(): ?UserBackendInformation
+    {
+        return $this->information;
+    }
+
+    public function setInformation(UserBackendInformation $information): static
+    {
+        // set the owning side of the relation if necessary
+        if ($information->getUser() !== $this) {
+            $information->setUser($this);
+        }
+
+        $this->information = $information;
 
         return $this;
     }

@@ -12,6 +12,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class UserBackendEditType extends AbstractType
 {
@@ -37,8 +38,11 @@ class UserBackendEditType extends AbstractType
             ->add('password', UserBackendPasswordEditType::class, [
                 'mapped' => false,
                 'label' => false,
+            ])
+            ->add('information', UserBackendInformationType::class, [
+                'required' => false,
+                'label' => false,
             ]);
-        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -2,6 +2,7 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     globals:
         image_directory: '%image_directory%'
+        picture_profile_directory: '%picture_profile_directory%'
         websiteService: '@App\Service\Website\WebsiteService'
 
 when@test:
