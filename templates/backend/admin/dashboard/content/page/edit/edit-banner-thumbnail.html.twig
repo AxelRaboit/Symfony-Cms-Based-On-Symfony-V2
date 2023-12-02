@@ -1,9 +1,8 @@
 <h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">Bannière et miniature</h2>
 
-<div class="w-full mb-2 bg-gray-100 dark:bg-gray-800 rounded inline-block rounded">
-    <p class="w-full text-xs font-semibold mb-2 bg-gray-900 text-white p-2 rounded-t">Informations</p>
-    <p class="text-xs text-gray-900 dark:text-white p-2">Pour supprimer l'image, cliquez dessus.</p>
-</div>
+{% set informationTitle = "Informations" %}
+{% set informationMessage = "Pour supprimer l'image, cliquez dessus." %}
+{% include 'backend/admin/dashboard/content/page/elements/informations/informations.html.twig' with {'informationTitle': informationTitle, 'informationMessage': informationMessage} %}
 
 {% include 'backend/admin/dashboard/content/page/elements/modal/_gallery-media-modal.html.twig' with {'pagination': pagination} %}
 

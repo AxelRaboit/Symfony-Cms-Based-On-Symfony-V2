@@ -63,7 +63,9 @@ class PageController extends AbstractController
             $elements['children'] = $this->pageService->getChildrenFromPage($page);
             $elements['gallery'] = $this->pageGalleryService->getPageGalleryElements($page);
 
-            // todo: if page has pageType, then render pageType template byt resetting the variable $elements['template']
+            if($page->getPageType() !== null) {
+                $elements['template'] = $page->getPageType()->getTemplate();
+            }
 
             return $this->render($elements['template'], $elements);
         }

@@ -107,10 +107,9 @@
 
         <h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">Contenu</h2>
 
-        <div class="w-full mb-2 bg-gray-100 dark:bg-gray-800 rounded inline-block rounded">
-            <p class="w-full text-xs font-semibold mb-2 bg-gray-900 text-white p-2 rounded-t">Informations</p>
-            <p class="text-xs text-gray-900 dark:text-white p-2">Dans les blocs de contenus, il est possible d'ajouter du texte classique, ainsi que du code HTML et Tailwind.</p>
-        </div>
+        {% set informationTitle = "Informations" %}
+        {% set informationMessage = "Dans les blocs de contenus, il est possible d'ajouter du texte classique, ainsi que du code HTML et Tailwind" %}
+        {% include 'backend/admin/dashboard/content/page/elements/informations/informations.html.twig' with {'informationTitle': informationTitle, 'informationMessage': informationMessage} %}
 
         <div class="mb-2 text-xs">
             {{ form_label(form.description, null, { 'label_attr': { 'class': 'text-gray-900 dark:text-white'}}) }}
