@@ -11,6 +11,7 @@
         {{ form_start(form, {'attr': {'id': 'form-create-page-js'}}) }}
 
         <h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">Configurations</h2>
+        <hr class="mb-3">
 
         <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-2 mb-2">
             <div class="text-xs">
@@ -106,6 +107,7 @@
         </div>
 
         <h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">Contenu</h2>
+        <hr class="mb-3">
 
         {% set informationTitle = "<p>Informations</p>" %}
         {% set informationMessage = "<p class='text-xs text-gray-900 dark:text-white'>Dans les blocs de contenu, il est possible d'ajouter du texte classique, ainsi que du code HTML et Tailwind</p>" %}
@@ -174,6 +176,7 @@
         {% include 'backend/admin/dashboard/content/page/create/add-banner-thumbnail.html.twig' %}
 
         <h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">CTA</h2>
+        <hr class="mb-3">
 
         <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-2 mb-2">
             <div class="text-xs">
@@ -212,6 +215,7 @@
         </div>
 
         <h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">Seo</h2>
+        <hr class="mb-3">
 
         <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2 mb-2">
             <div class="text-xs">
@@ -265,6 +269,7 @@
         </div>
 
         <h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">Dev</h2>
+        <hr class="mb-3">
 
         {% set informationTitle = "Alerte" %}
         {% set informationMessage = "<p class='text-xs text-gray-900 dark:text-white'>Cette section est reservée aux développeurs</p>" %}
@@ -305,6 +310,7 @@
         </div>
 
         <h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">Autres</h2>
+        <hr class="mb-3">
 
         <div class="mb-5">
             {{ form_widget(form.visibleForBackendActions, { 'attr': { 'class': 'mr-2 text-xs p-1 border border-gray-300 rounded focus:ring-gray-800 focus:border-gray-800' } }) }}
@@ -330,6 +336,7 @@
         </div>
 
         <h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">Publication</h2>
+        <hr class="mb-3">
 
         <div class="mb-5">
             {{ form_widget(form.isPublished, { 'attr': { 'class': 'mr-2 text-xs p-1 border border-gray-300 rounded focus:ring-gray-800 focus:border-gray-800' } }) }}
