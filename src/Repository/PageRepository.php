@@ -123,7 +123,7 @@ class PageRepository extends ServiceEntityRepository
             return null;
         }
 
-        return (int) $query->getSingleScalarResult();
+        return (int)$query->getSingleScalarResult();
     }
 
     public function getPageFromDataNameDevKey(string $dataDevKeyName): ?Page
@@ -191,6 +191,48 @@ class PageRepository extends ServiceEntityRepository
         }
 
         return $page[0];
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
+    public function getPageByTypeAndSlug(string $uri): ?Page
+    {
+        $segments = explode('/', trim($uri, '/'));
+        $pageTypePrefix = '';
+        $pageSlug = '';
+
+        // This loop tries to find a matching pageTypePrefix in the database
+        for ($i = 0; $i < count($segments); $i++) {
+            $potentialPageTypePrefix = '/' . implode('/', array_slice($segments, 0, $i + 1));
+
+            // Check if the potentialPageTypePrefix exists in the database
+            $query = $this->em()->createQuery(
+                'SELECT COUNT(pt) FROM App\Entity\PageType pt WHERE pt.urlPrefix = :prefix'
+            );
+            $query->setParameter('prefix', $potentialPageTypePrefix);
+
+            if ($query->getSingleScalarResult() > 0) {
+                $pageTypePrefix = $potentialPageTypePrefix;
+                $pageSlug = implode('/', array_slice($segments, $i + 1));
+                break;
+            }
+        }
+
+        if (empty($pageTypePrefix)) {
+            return null;
+        }
+
+        $finalQuery = $this->em()->createQuery(
+            'SELECT p FROM App\Entity\Page p
+        JOIN p.pageType pt
+        WHERE p.slug = :pageSlug AND pt.urlPrefix = :pageTypePrefix'
+        );
+        $finalQuery->setParameter('pageSlug', $pageSlug);
+        $finalQuery->setParameter('pageTypePrefix', $pageTypePrefix);
+
+        return $finalQuery->getOneOrNullResult();
     }
 
     /**

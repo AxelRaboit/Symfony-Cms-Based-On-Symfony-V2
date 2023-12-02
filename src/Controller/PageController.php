@@ -7,6 +7,7 @@ use App\Service\Page\PageGalleryService;
 use App\Service\Page\PageService;
 use App\Service\Utils\RouteService;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,6 +27,7 @@ class PageController extends AbstractController
 
     /**
      * @throws NonUniqueResultException
+     * @throws NoResultException
      */
     #[Route(
         path: '{uri}',
@@ -36,7 +38,7 @@ class PageController extends AbstractController
     )]
     public function index(string $uri, Request $request): Response
     {
-        $page = $this->pageRepository->getPageBySlug($uri);
+        $page = $this->pageRepository->getPageByTypeAndSlug($uri);
         $routes = $this->routeService->getRoutes();
 
         if (null !== $page) {
@@ -60,6 +62,8 @@ class PageController extends AbstractController
             $elements = $this->pageService->getPageElements($page);
             $elements['children'] = $this->pageService->getChildrenFromPage($page);
             $elements['gallery'] = $this->pageGalleryService->getPageGalleryElements($page);
+
+            // todo: if page has pageType, then render pageType template byt resetting the variable $elements['template']
 
             return $this->render($elements['template'], $elements);
         }
