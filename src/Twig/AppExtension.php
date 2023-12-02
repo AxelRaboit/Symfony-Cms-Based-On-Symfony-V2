@@ -286,15 +286,27 @@ class AppExtension extends AbstractExtension
     {
         $baseUrl = $this->request->getSchemeAndHttpHost();
 
-        $url = $baseUrl. '/' . $page->getSlug();
-        /* This is used to prevent double slash on the homepage */
-        $url = str_replace('//', '/', $url);
+        $pageType = $page->getPageType();
 
-        return $url;
+        if(null !== $pageType) {
+            $pageTypeUrlPrefix = $pageType->getUrlPrefix();
+
+            return $baseUrl . $pageTypeUrlPrefix . '/' . $page->getSlug();
+        }
+
+        return $baseUrl . '/' . $page->getSlug();
     }
 
     public function getUrlRelativeFinalFunction(Page $page): ?string
     {
+        $pageType = $page->getPageType();
+
+        if(null !== $pageType) {
+            $pageTypeUrlPrefix = $pageType->getUrlPrefix();
+
+            return $pageTypeUrlPrefix . '/' . $page->getSlug();
+        }
+
         return '/' . $page->getSlug();
     }
 }

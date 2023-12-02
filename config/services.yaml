@@ -22,11 +22,13 @@ services:
             - '../src/Kernel.php'
 
     # Controllers
+
     App\Controller\Backend\Content\PageController:
         arguments:
             $imageDirectory: '%image_directory%'
 
     # Services
+
     App\Service\Media\MediaService:
         arguments:
             $imageDirectoryNoSlash: '%image_directory_no_slash%'

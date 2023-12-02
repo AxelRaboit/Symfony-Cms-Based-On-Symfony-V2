@@ -262,6 +262,14 @@
 
         <h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">Dev</h2>
 
+        <div class="my-4 bg-gray-100 dark:bg-gray-800 p-2 rounded">
+            <p class="text-gray-900 dark:text-white text-xs"><span class="text-xs font-semibold">Url absolue :</span> {{ getUrlAbsoluteFinal(page) }}</p>
+        </div>
+
+        <div class="my-4 bg-gray-100 dark:bg-gray-800 p-2 rounded">
+            <p class="text-gray-900 dark:text-white text-xs"><span class="text-xs font-semibold">Url relative :</span> {{ getUrlRelativeFinal(page) }}</p>
+        </div>
+
         <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-2 mb-2">
             <div class="text-xs">
                 {{ form_label(form.devCodeRouteName, null, { 'label_attr': { 'class': 'text-gray-900 dark:text-white'}}) }}
