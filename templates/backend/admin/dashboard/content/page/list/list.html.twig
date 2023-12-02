@@ -103,6 +103,7 @@
                             <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Titre</th>
                             <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Slug</th>
                             <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Type</th>
+                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Publication</th>
                             <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Actions</th>
                         </tr>
                         </thead>
@@ -115,6 +116,13 @@
                                     <td class="py-2 px-3 md:py-4 md:px-6">{{ page.title }}</td>
                                     <td class="py-2 px-3 md:py-4 md:px-6">{{ page.slug }}</td>
                                     <td class="py-2 px-3 md:py-4 md:px-6">{{ page.pageType.name }}</td>
+                                    <td class="py-2 px-3 md:py-4 md:px-6 text-center">
+                                        {% if page.isPublished %}
+                                            <p class="bg-white border border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 text-gray-900 font-medium rounded md:mr-2 text-center inline-block p-2"><i class="fa-solid fa-check"></i></p>
+                                        {% else %}
+                                            <p class="bg-white border border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 text-gray-900 font-medium rounded md:mr-2 text-center inline-block p-2"><i class="fa-solid fa-xmark"></i></p>
+                                        {% endif %}
+                                    </td>
                                     <td class="py-2 px-3 md:py-1 md:px-1">
                                         <div class="flex flex-wrap items-center">
                                             <a href="{{ path('app_backend_content_page_edit', {'id': page.id}) }}"
