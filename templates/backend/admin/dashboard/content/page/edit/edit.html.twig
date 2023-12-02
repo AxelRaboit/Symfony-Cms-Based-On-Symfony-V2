@@ -108,7 +108,7 @@
         <h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">Contenu</h2>
 
         {% set informationTitle = "<p>Informations</p>" %}
-        {% set informationMessage = "<p class='text-xs text-gray-900 dark:text-white'>Dans les blocs de contenus, il est possible d'ajouter du texte classique, ainsi que du code HTML et Tailwind</p>" %}
+        {% set informationMessage = "<p class='text-xs text-gray-900 dark:text-white'>Dans les blocs de contenu, il est possible d'ajouter du texte classique, ainsi que du code HTML et Tailwind</p>" %}
         {% include 'backend/admin/dashboard/content/page/elements/informations/informations.html.twig' with {'informationTitle': informationTitle, 'informationMessage': informationMessage} %}
 
         <div class="mb-2 text-xs">
@@ -285,6 +285,15 @@
                         {% endfor %}
                     </div>
                 {% endif %}
+
+                {% set informationTitle = "<p>Informations</p>" %}
+                {% set informationMessage = "
+                <p class='text-xs text-gray-900 dark:text-white'>La route correspond à la route de la méthode du controller.</p>
+                " %}
+                {% include 'backend/admin/dashboard/content/page/elements/informations/informations.html.twig' with {
+                    'informationTitle': informationTitle,
+                    'informationMessage': informationMessage,
+                } %}
             </div>
             <div class="text-xs">
                 {{ form_label(form.template, null, { 'label_attr': { 'class': 'text-gray-900 dark:text-white'}}) }}
@@ -319,6 +328,15 @@
                         {% endfor %}
                     </div>
                 {% endif %}
+
+                {% set informationTitle = "<p>Informations</p>" %}
+                {% set informationMessage = "
+                <p class='text-xs text-gray-900 dark:text-white'>Il est conseillé de ne pas changer la valeur de la clé de dev.</p>
+                " %}
+                {% include 'backend/admin/dashboard/content/page/elements/informations/informations.html.twig' with {
+                    'informationTitle': informationTitle,
+                    'informationMessage': informationMessage,
+                } %}
             </div>
         </div>
 
