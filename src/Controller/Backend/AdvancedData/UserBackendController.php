@@ -5,6 +5,7 @@ namespace App\Controller\Backend\AdvancedData;
 use App\Entity\UserBackend;
 use App\Form\backend\admin\dashboard\advancedData\userBackend\UserBackendCreateType;
 use App\Form\backend\admin\dashboard\advancedData\userBackend\UserBackendEditType;
+use App\Manager\Backend\AdvancedData\UserBackend\Information\UserBackendInformationManager;
 use App\Manager\Backend\AdvancedData\UserBackend\UserBackendManager;
 use App\Repository\UserBackendRepository;
 use App\Service\Utils\StringUtilsService;
@@ -66,19 +67,23 @@ class UserBackendController extends AbstractController
     }
 
     #[Route('/backend/admin/advanced-data/user-backend/{id}/edit', name: 'app_backend_advanced_data_user_backend_edit', methods: ['GET', 'POST'])]
-    public function userEdit(UserBackend $userBackend, Request $request, UserBackendManager $userBackendManager): Response
+    public function userEdit(UserBackend $userBackend, Request $request, UserBackendManager $userBackendManager, UserBackendInformationManager $userBackendInformationManager): Response
     {
         $form = $this->createForm(UserBackendEditType::class, $userBackend);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $passwordData = $form->get('password');
+            $deletePictureProfile = $form->get('deletePictureProfile');
 
             $passwords = [
                 'first' => $passwordData['password']['first']->getData(),
                 'second' => $passwordData['password']['second']->getData()
             ];
 
+            if ($deletePictureProfile->getData()) {
+                $userBackendInformationManager->userBackendPictureProfileDelete($userBackend->getInformation());
+            }
             $userBackendManager->userBackendEdit($userBackend, $passwords);
 
             $userIdentity = $userBackend->getUsername() ?? $userBackend->getEmail();

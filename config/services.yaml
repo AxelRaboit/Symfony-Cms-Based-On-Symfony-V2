@@ -6,7 +6,10 @@
 parameters:
     image_directory: '/assets/images/medias/'
     image_directory_no_slash: 'assets/images/medias'
+    image_elements_directory: '/assets/images/elements/'
+    image_elements_directory_no_slash: 'assets/images/elements'
     picture_profile_directory: '/assets/images/picturesProfile/'
+    picture_profile_directory_no_slash: 'assets/images/picturesProfile'
 services:
     # default  configuration for services in *this* file
     _defaults:
@@ -33,6 +36,9 @@ services:
     App\Service\Media\MediaService:
         arguments:
             $imageDirectoryNoSlash: '%image_directory_no_slash%'
+    App\Service\UserBackend\Information\UserBackendInformationService:
+        arguments:
+            $pictureProfileDirectoryNoSlash: '%picture_profile_directory_no_slash%'
 
     # Listeners
 

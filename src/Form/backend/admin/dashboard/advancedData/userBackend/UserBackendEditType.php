@@ -4,6 +4,7 @@ namespace App\Form\backend\admin\dashboard\advancedData\userBackend;
 
 use App\Entity\UserBackend;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -42,7 +43,13 @@ class UserBackendEditType extends AbstractType
             ->add('information', UserBackendInformationType::class, [
                 'required' => false,
                 'label' => false,
-            ]);
+            ])
+            ->add('deletePictureProfile', CheckboxType::class, [
+                'required' => false,
+                'mapped' => false,
+                'label' => 'Supprimer la photo de profil',
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
