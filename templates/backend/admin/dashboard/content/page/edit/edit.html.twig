@@ -266,15 +266,13 @@
 
         <h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">Dev</h2>
 
-        <div class="my-4 bg-gray-100 dark:bg-gray-800 p-2 rounded">
-            <p class="text-gray-900 dark:text-white text-xs"><span
-                        class="text-xs font-semibold">Url absolue :</span> {{ getUrlAbsoluteFinal(page) }}</p>
-        </div>
+        {% set informationTitle = "Url absolue" %}
+        {% set informationMessage = getUrlAbsoluteFinal(page) %}
+        {% include 'backend/admin/dashboard/content/page/elements/informations/informations.html.twig' with {'informationTitle': informationTitle, 'informationMessage': informationMessage} %}
 
-        <div class="my-4 bg-gray-100 dark:bg-gray-800 p-2 rounded">
-            <p class="text-gray-900 dark:text-white text-xs"><span
-                        class="text-xs font-semibold">Url relative :</span> {{ getUrlRelativeFinal(page) }}</p>
-        </div>
+        {% set informationTitle = "Url relative" %}
+        {% set informationMessage = getUrlRelativeFinal(page) %}
+        {% include 'backend/admin/dashboard/content/page/elements/informations/informations.html.twig' with {'informationTitle': informationTitle, 'informationMessage': informationMessage} %}
 
         <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-2 mb-2">
             <div class="text-xs">
