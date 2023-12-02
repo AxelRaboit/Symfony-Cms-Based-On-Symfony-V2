@@ -266,6 +266,10 @@
 
         <h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">Dev</h2>
 
+        {% set informationTitle = "Alerte" %}
+        {% set informationMessage = "<p class='text-xs text-gray-900 dark:text-white'>Cette section est reservée aux développeurs</p>" %}
+        {% include 'backend/admin/dashboard/content/page/elements/informations/alerts.html.twig' with {'informationTitle': informationTitle, 'informationMessage': informationMessage} %}
+
         {% set informationTitle = "<p>Url absolue</p>" %}
         {% set informationMessage = "<p class='text-xs text-gray-900 dark:text-white'>" ~ getUrlAbsoluteFinal(page) ~ "</p>" %}
         {% include 'backend/admin/dashboard/content/page/elements/informations/informations.html.twig' with {'informationTitle': informationTitle, 'informationMessage': informationMessage} %}
@@ -339,6 +343,8 @@
                 } %}
             </div>
         </div>
+
+        <h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">Autres</h2>
 
         <div class="mb-5">
             {{ form_widget(form.visibleForBackendActions, { 'attr': { 'class': 'mr-2 text-xs p-1 border border-gray-300 rounded focus:ring-gray-800 focus:border-gray-800' } }) }}
