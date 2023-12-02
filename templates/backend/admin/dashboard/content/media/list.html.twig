@@ -26,6 +26,10 @@
                                 <a href="{{ path('app_backend_content_media_edit', {'id': image.id}) }}"
                                    class="mr-2 w-full text-xs flex justify-center items-center hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-white bg-white border border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 text-gray-900 font-medium rounded p-1"><i
                                             class="fa-solid fa-pen-to-square"></i></a>
+                                <a href="{{ path('app_backend_content_media_delete', {'id': image.id}) }}"
+                                   class="link-delete-media-js w-full text-xs flex justify-center items-center hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-white bg-white border border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 text-gray-900 rounded font-medium p-1 mr-2"><i
+                                            class="fa-solid fa-trash"></i>
+                                </a>
                                 <span class="text-xs bg-white border border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 rounded text-gray-900 font-bold px-3 flex items-center justify-center p-1">
                                     {{ image.id }}
                                 </span>

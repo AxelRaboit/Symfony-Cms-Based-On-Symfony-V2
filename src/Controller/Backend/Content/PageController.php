@@ -161,7 +161,7 @@ class PageController extends AbstractController
 
         $pageName = $page->getName();
 
-        $this->addFlash('success', "La paeg {$pageName} a été supprimée avec succès.");
+        $this->addFlash('success', "La page {$pageName} a été supprimée avec succès.");
 
         return $this->redirectToRoute('app_backend_content_page_list');
     }

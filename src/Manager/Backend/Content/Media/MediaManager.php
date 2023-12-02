@@ -22,4 +22,9 @@ class MediaManager extends AbstractManager
     {
         $this->save($image);
     }
+
+    public function mediaImageDelete(Image $image): void
+    {
+        $this->remove($image);
+    }
 }

@@ -73,4 +73,16 @@ class MediaController extends AbstractController
         ]);
     }
 
+    #[Route('/backend/admin/content/media/{id}/delete', name: 'app_backend_content_media_delete')]
+    public function pageDelete(Image $image, MediaManager $mediaManager): Response
+    {
+        $mediaManager->mediaImageDelete($image);
+
+        $imageName = $image->getName();
+
+        $this->addFlash('success', "L'image {$imageName} a été supprimée avec succès.");
+
+        return $this->redirectToRoute('app_backend_content_media_list');
+    }
+
 }
