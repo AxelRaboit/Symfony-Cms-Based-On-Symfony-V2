@@ -205,6 +205,7 @@ class PageRepository extends ServiceEntityRepository
 
         // This loop tries to find a matching pageTypePrefix in the database
         for ($i = 0; $i < count($segments); $i++) {
+            // We build the potential pageTypePrefix
             $potentialPageTypePrefix = '/' . implode('/', array_slice($segments, 0, $i + 1));
 
             // Check if the potentialPageTypePrefix exists in the database

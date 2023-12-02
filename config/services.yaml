@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     image_directory: '/assets/images/medias/'
+    image_directory_no_slash: 'assets/images/medias'
 services:
     # default  configuration for services in *this* file
     _defaults:
@@ -24,6 +25,11 @@ services:
     App\Controller\Backend\Content\PageController:
         arguments:
             $imageDirectory: '%image_directory%'
+
+    # Services
+    App\Service\Media\MediaService:
+        arguments:
+            $imageDirectoryNoSlash: '%image_directory_no_slash%'
 
     # Listeners
 

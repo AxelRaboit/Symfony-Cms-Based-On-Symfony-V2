@@ -69,10 +69,7 @@ class Image
 
     public function setName(?string $name): static
     {
-        $extension = pathinfo($name, PATHINFO_EXTENSION);
-        $uniqName = md5(uniqid()) . '.' . $extension;
-
-        $this->name = $uniqName;
+        $this->name = $name;
 
         return $this;
     }

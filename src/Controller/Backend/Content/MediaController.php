@@ -33,11 +33,13 @@ class MediaController extends AbstractController
         );
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $mediaService->prepareImageForUpload($image);
+            if($mediaService->prepareMediaForUpload($image)) {
+                $this->addFlash('success', "Le media {$image->getName()} a été importé avec succès.");
 
-            $imageName = $image->getName();
-
-            $this->addFlash('success', "L'image {$imageName} a été créé avec succès.");
+                return $this->redirectToRoute('app_backend_content_media_list');
+            } else {
+                $this->addFlash('danger', "Le media {$image->getName()} n'a pas pu être importé.");
+            }
 
             return $this->redirectToRoute('app_backend_content_media_list');
         }
@@ -58,7 +60,7 @@ class MediaController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $mediaService->prepareImageForUpload($image);
+            $mediaService->prepareMediaForUpload($image);
 
             $imageName = $image->getName();
             $this->addFlash('success', "L'image $imageName a été modifiée avec succès.");
