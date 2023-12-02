@@ -10,11 +10,14 @@
     <div class="p-2 sm:ml-64">
         <h1 class="text-2xl font-semibold mb-2 text-gray-900 dark:text-white">Modifier la donnée</h1>
 
-        <div class="mb-4">
-            <h2 class="text-md text-gray-900 dark:text-white">Informations</h2>
-            <p class="text-red-600 text-sm font-semibold">ATTENTION: Ne pas changer la Dev Key (sauf en cas de nécessité).</p>
-            <p class="text-xs text-gray-900 dark:text-white"><span class="font-semibold text-gray-900 dark:text-white">Note: </span> Pour lier une data Enum à un element, modifiez la valeur.</p>
-        </div>
+        {% set informationTitle = "<p>Informations</p>" %}
+        {% set informationMessage = "
+                <p class='text-xs text-gray-900 dark:text-white'><span class='font-semibold'>NOTE : </span> Pour lier une data Enum à un element, modifiez la valeur.</p>
+            " %}
+        {% include 'backend/admin/dashboard/content/page/elements/informations/informations.html.twig' with {
+            'informationTitle': informationTitle,
+            'informationMessage': informationMessage,
+        } %}
 
         {{ form_start(form, {'attr': {'id': 'form-edit-data-enum-js'}}) }}
 
@@ -66,6 +69,15 @@
                     {% endfor %}
                 </div>
             {% endif %}
+
+            {% set informationTitle = "<p>Alerte</p>" %}
+            {% set informationMessage = "
+                <p class='text-xs text-gray-900 dark:text-white'><span class='font-semibold'>ATTENTION : </span> Ne pas changer la Dev Key (sauf en cas de nécessité).</p>
+            " %}
+            {% include 'backend/admin/dashboard/content/page/elements/informations/alerts.html.twig' with {
+                'informationTitle': informationTitle,
+                'informationMessage': informationMessage,
+            } %}
         </div>
 
         <div class="flex flex-wrap mt-4">

@@ -351,11 +351,11 @@
                     </div>
                 {% endif %}
 
-                {% set informationTitle = "<p>Informations</p>" %}
+                {% set informationTitle = "<p>Alerte</p>" %}
                 {% set informationMessage = "
-                <p class='text-xs text-gray-900 dark:text-white'>Il est conseillé de ne pas changer la valeur de la clé de dev.</p>
-                " %}
-                {% include 'backend/admin/dashboard/content/page/elements/informations/informations.html.twig' with {
+                <p class='text-xs text-gray-900 dark:text-white'><span class='font-semibold'>ATTENTION : </span> Ne pas changer la Dev Key (sauf en cas de nécessité).</p>
+            " %}
+                {% include 'backend/admin/dashboard/content/page/elements/informations/alerts.html.twig' with {
                     'informationTitle': informationTitle,
                     'informationMessage': informationMessage,
                 } %}
