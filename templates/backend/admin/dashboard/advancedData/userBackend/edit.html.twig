@@ -49,7 +49,7 @@
 
                 {% if userBackend.information.pictureProfileName is not null %}
                     <div class="mt-1">
-                        <img src="{{ picture_profile_directory ~ userBackend.information. pictureProfileName }}" class="w-48 h-48 object-cover rounded" alt="picture profile">
+                        <img src="{{ picture_profile_directory ~ userBackend.information.pictureProfileName }}" class="w-48 h-48 object-cover rounded" alt="picture profile">
                     </div>
                 {% endif %}
 
@@ -62,18 +62,20 @@
                 {% endif %}
             </div>
 
-            <div class="mb-5">
-                {{ form_widget(form.deletePictureProfile, { 'attr': { 'class': 'mr-2 text-xs p-1 border border-gray-300 rounded focus:ring-gray-800 focus:border-gray-800' } }) }}
-                {{ form_label(form.deletePictureProfile, null, { 'label_attr': { 'class': 'text-xs text-gray-900 dark:text-white' } }) }}
+            {% if userBackend.information.pictureProfileName is not null %}
+                <div class="mb-5">
+                    {{ form_widget(form.deletePictureProfile, { 'attr': { 'class': 'mr-2 text-xs p-1 border border-gray-300 rounded focus:ring-gray-800 focus:border-gray-800' } }) }}
+                    {{ form_label(form.deletePictureProfile, null, { 'label_attr': { 'class': 'text-xs text-gray-900 dark:text-white' } }) }}
 
-                {% if form.deletePictureProfile.vars.errors %}
-                    <div class="mt-1 text-red-600 text-xs">
-                        {% for error in form.deletePictureProfile.vars.errors %}
-                            <p>{{ error.message }}</p>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-            </div>
+                    {% if form.deletePictureProfile.vars.errors %}
+                        <div class="mt-1 text-red-600 text-xs">
+                            {% for error in form.deletePictureProfile.vars.errors %}
+                                <p>{{ error.message }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
 
             <div class="w-full md:w-auto mb-2 md:mb-0">
                 <button type="button" id="button-edit-password-js"

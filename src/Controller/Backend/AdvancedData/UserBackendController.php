@@ -74,15 +74,18 @@ class UserBackendController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $passwordData = $form->get('password');
-            $deletePictureProfile = $form->get('deletePictureProfile');
 
             $passwords = [
                 'first' => $passwordData['password']['first']->getData(),
                 'second' => $passwordData['password']['second']->getData()
             ];
 
-            if ($deletePictureProfile->getData()) {
-                $userBackendInformationManager->userBackendPictureProfileDelete($userBackend->getInformation());
+            if ($form->has('deletePictureProfile') && $form['deletePictureProfile']->getData()) {
+                $deletePictureProfile = $form->get('deletePictureProfile');
+
+                if ($deletePictureProfile->getData()) {
+                    $userBackendInformationManager->userBackendPictureProfileDelete($userBackend->getInformation());
+                }
             }
             $userBackendManager->userBackendEdit($userBackend, $passwords);
 

@@ -10,6 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -44,11 +46,18 @@ class UserBackendEditType extends AbstractType
                 'required' => false,
                 'label' => false,
             ])
-            ->add('deletePictureProfile', CheckboxType::class, [
-                'required' => false,
-                'mapped' => false,
-                'label' => 'Supprimer la photo de profil',
-            ])
+            ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+                $userBackend = $event->getData();
+                $form = $event->getForm();
+
+                if ($userBackend && $userBackend->getInformation()->getPictureProfileName()) {
+                    $form->add('deletePictureProfile', CheckboxType::class, [
+                        'required' => false,
+                        'mapped' => false,
+                        'label' => 'Supprimer la photo de profil',
+                    ]);
+                }
+            });
         ;
     }
 
