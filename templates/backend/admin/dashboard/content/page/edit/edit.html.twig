@@ -107,8 +107,8 @@
 
         <h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">Contenu</h2>
 
-        {% set informationTitle = "Informations" %}
-        {% set informationMessage = "Dans les blocs de contenus, il est possible d'ajouter du texte classique, ainsi que du code HTML et Tailwind" %}
+        {% set informationTitle = "<p>Informations</p>" %}
+        {% set informationMessage = "<p class='text-xs text-gray-900 dark:text-white'>Dans les blocs de contenus, il est possible d'ajouter du texte classique, ainsi que du code HTML et Tailwind</p>" %}
         {% include 'backend/admin/dashboard/content/page/elements/informations/informations.html.twig' with {'informationTitle': informationTitle, 'informationMessage': informationMessage} %}
 
         <div class="mb-2 text-xs">
@@ -266,12 +266,12 @@
 
         <h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">Dev</h2>
 
-        {% set informationTitle = "Url absolue" %}
-        {% set informationMessage = getUrlAbsoluteFinal(page) %}
+        {% set informationTitle = "<p>Url absolue</p>" %}
+        {% set informationMessage = "<p class='text-xs text-gray-900 dark:text-white'>" ~ getUrlAbsoluteFinal(page) ~ "</p>" %}
         {% include 'backend/admin/dashboard/content/page/elements/informations/informations.html.twig' with {'informationTitle': informationTitle, 'informationMessage': informationMessage} %}
 
-        {% set informationTitle = "Url relative" %}
-        {% set informationMessage = getUrlRelativeFinal(page) %}
+        {% set informationTitle = "<p>Url relative</p>" %}
+        {% set informationMessage = "<p class='text-xs text-gray-900 dark:text-white'>" ~ getUrlRelativeFinal(page) ~ "</p>" %}
         {% include 'backend/admin/dashboard/content/page/elements/informations/informations.html.twig' with {'informationTitle': informationTitle, 'informationMessage': informationMessage} %}
 
         <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-3 gap-2 mb-2">
@@ -297,18 +297,17 @@
                     </div>
                 {% endif %}
 
-                {% set informationTitle = "Template utilisé" %}
+                {% set informationTitle = "<p>Template utilisé</p>" %}
                 {% if page.template is not null %}
-                    {% set informationMessage = page.template %}
+                    {% set informationMessage = "<p class='text-xs text-gray-900 dark:text-white'>" ~ page.template ~ "</p>" %}
                 {% else %}
                     {% if page.pageType is not null and page.pageType.template is not null %}
-                        {% set informationMessage = page.pageType.template %}
+                        {% set informationMessage = "<p class='text-xs text-gray-900 dark:text-white'>" ~ page.pageType.template ~ "</p>" %}
                     {% else %}
-                        {% set informationMessage = "Aucun" %}
+                        {% set informationMessage = "<p class='text-xs text-gray-900 dark:text-white'>Aucun</p>" %}
                     {% endif %}
                 {% endif %}
                 {% include 'backend/admin/dashboard/content/page/elements/informations/informations.html.twig' with {'informationTitle': informationTitle, 'informationMessage': informationMessage} %}
-
             </div>
             <div class="text-xs">
                 {{ form_label(form.devKey, null, { 'label_attr': { 'class': 'text-gray-900 dark:text-white'}}) }}
@@ -324,7 +323,7 @@
         </div>
 
         <div class="mb-5">
-            {{ form_widget(form.visibleForBackendActions, { 'attr': { 'class': 'scale-150 mr-2 text-xs p-1 border border-gray-300 rounded focus:ring-gray-800 focus:border-gray-800' } }) }}
+            {{ form_widget(form.visibleForBackendActions, { 'attr': { 'class': 'mr-2 text-xs p-1 border border-gray-300 rounded focus:ring-gray-800 focus:border-gray-800' } }) }}
             {{ form_label(form.visibleForBackendActions, null, { 'label_attr': { 'class': 'text-xs text-gray-900 dark:text-white' } }) }}
 
             {% if form.visibleForBackendActions.vars.errors %}
@@ -334,12 +333,22 @@
                     {% endfor %}
                 </div>
             {% endif %}
+
+            {% set informationTitle = "<p>Informations</p>" %}
+            {% set informationMessage = "
+                <p class='text-xs text-gray-900 dark:text-white'>En cochant cette case, celà permettra d'accéder ou non à la visualisation de la page via la liste des elements dans les boutons d'actions.</p>
+                <p class='text-xs text-gray-900 dark:text-white'>Les boutons d'actions d'édition et de suppression resterons accessible.</p>
+            " %}
+            {% include 'backend/admin/dashboard/content/page/elements/informations/informations.html.twig' with {
+                'informationTitle': informationTitle,
+                'informationMessage': informationMessage,
+            } %}
         </div>
 
         <h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">Publication</h2>
 
         <div class="mb-5">
-            {{ form_widget(form.isPublished, { 'attr': { 'class': 'scale-150 mr-2 text-xs p-1 border border-gray-300 rounded focus:ring-gray-800 focus:border-gray-800' } }) }}
+            {{ form_widget(form.isPublished, { 'attr': { 'class': 'mr-2 text-xs p-1 border border-gray-300 rounded focus:ring-gray-800 focus:border-gray-800' } }) }}
             {{ form_label(form.isPublished, null, { 'label_attr': { 'class': 'text-xs text-gray-900 dark:text-white' } }) }}
 
             {% if form.isPublished.vars.errors %}
