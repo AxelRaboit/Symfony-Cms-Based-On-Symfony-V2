@@ -1,5 +1,10 @@
 <h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">Bannière et miniature</h2>
 
+<div class="w-full mb-2 bg-gray-100 dark:bg-gray-800 rounded inline-block rounded">
+    <p class="w-full text-xs font-semibold mb-2 bg-gray-900 text-white p-2 rounded-t">Informations</p>
+    <p class="text-xs text-gray-900 dark:text-white p-2">Pour supprimer l'image, cliquez dessus.</p>
+</div>
+
 {% include 'backend/admin/dashboard/content/page/elements/modal/_gallery-media-modal.html.twig' with {'pagination': pagination} %}
 
 <div class="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-2 mb-2">
@@ -12,12 +17,9 @@
                 Sélectionner une bannière
             </button>
         </div>
-        <div id="selected-banner" class="{{ page.banner ? '' : 'hidden' }} relative w-full overflow-hidden rounded-md flex justify-center items-center border border-gray-300 cursor-pointer group">
+        <div id="selected-banner" class="{{ page.banner ? '' : 'hidden' }} w-full overflow-hidden rounded-md flex justify-center items-center border border-gray-300 cursor-pointer group">
             {% if page.banner %}
-                <img src="{{ image_directory ~ page.banner.name }}" alt="Selected Image" class="w-64 h-96 object-contain group-hover:opacity-0">
-                <div class="hidden group-hover:flex absolute inset-0 bg-gray-500 bg-opacity-50 items-center justify-center text-white text-lg">
-                    Supprimer
-                </div>
+                <img src="{{ image_directory ~ page.banner.name }}" alt="Selected Image" class="w-64 h-96 object-contain">
             {% endif %}
         </div>
     </div>
@@ -30,12 +32,9 @@
                 Sélectionner une image miniature
             </button>
         </div>
-        <div id="selected-thumbnail" class="{{ page.thumbnail ? '' : 'hidden' }} relative w-full overflow-hidden rounded-md flex justify-center items-center border border-gray-300 cursor-pointer group">
+        <div id="selected-thumbnail" class="{{ page.thumbnail ? '' : 'hidden' }} w-full overflow-hidden rounded-md flex justify-center items-center border border-gray-300 cursor-pointer group">
             {% if page.thumbnail %}
-                <img src="{{ image_directory ~ page.thumbnail.name }}" alt="Selected Image" class="w-64 h-96 object-contain group-hover:opacity-0">
-                <div class="hidden group-hover:flex absolute inset-0 bg-gray-500 bg-opacity-50 items-center justify-center text-white text-lg">
-                    Supprimer
-                </div>
+                <img src="{{ image_directory ~ page.thumbnail.name }}" alt="Selected Image" class="w-64 h-96 object-contain">
             {% endif %}
         </div>
     </div>

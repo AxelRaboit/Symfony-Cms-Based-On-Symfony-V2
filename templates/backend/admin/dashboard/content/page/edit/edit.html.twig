@@ -107,6 +107,11 @@
 
         <h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">Contenu</h2>
 
+        <div class="w-full mb-2 bg-gray-100 dark:bg-gray-800 rounded inline-block rounded">
+            <p class="w-full text-xs font-semibold mb-2 bg-gray-900 text-white p-2 rounded-t">Informations</p>
+            <p class="text-xs text-gray-900 dark:text-white p-2">Dans les blocs de contenus, il est possible d'ajouter du texte classique, ainsi que du code HTML et Tailwind.</p>
+        </div>
+
         <div class="mb-2 text-xs">
             {{ form_label(form.description, null, { 'label_attr': { 'class': 'text-gray-900 dark:text-white'}}) }}
             {{ form_widget(form.description, { 'attr': { 'class': 'text-xs w-full p-1 border border-gray-300 rounded focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500' } }) }}
