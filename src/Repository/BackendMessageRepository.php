@@ -22,7 +22,7 @@ class BackendMessageRepository extends ServiceEntityRepository
         parent::__construct($registry, BackendMessage::class);
     }
 
-    public function findAllMessageReceivedByReceiverId(UserBackend $userBackend): array
+    public function findAllMessageReceivedByReceiver(UserBackend $userBackend): array
     {
         $userBackendId = $userBackend->getId();
 
@@ -36,5 +36,17 @@ class BackendMessageRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findAllMessageSentBySender(UserBackend $userBackend): array
+    {
+        $userBackendId = $userBackend->getId();
 
+        return $this->createQueryBuilder('m')
+            ->join('m.sender', 's')
+            ->andWhere('s.id = :senderId')
+            ->setParameter('senderId', $userBackendId)
+            ->orderBy('m.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

@@ -21,7 +21,7 @@ class UserBackendMessageController extends AbstractController
     public function userBackendProfileMessageList(Request $request, UserBackend $userBackend, BackendMessageRepository $backendMessageRepository, PaginatorInterface $paginator): Response
     {
         if ($this->getUser() instanceof UserBackend) {
-            $query = $backendMessageRepository->findAllMessageReceivedByReceiverId($userBackend);
+            $query = $backendMessageRepository->findAllMessageReceivedByReceiver($userBackend);
         } else {
             $query = null;
         }
@@ -32,7 +32,27 @@ class UserBackendMessageController extends AbstractController
             null // Override default limit per page
         );
 
-        return $this->render('backend/admin/dashboard/userBackend/profile/message/list.html.twig', [
+        return $this->render('backend/admin/dashboard/userBackend/profile/message/received/list.html.twig', [
+            'pagination' => $pagination,
+        ]);
+    }
+
+    #[Route('/backend/admin/user-backend/profile/{id}/message/sent/list', name: 'app_backend_user_backend_profile_message_sent_list')]
+    public function userBackendProfileMessageSent(Request $request, UserBackend $userBackend, BackendMessageRepository $backendMessageRepository, PaginatorInterface $paginator): Response
+    {
+        if ($this->getUser() instanceof UserBackend) {
+            $query = $backendMessageRepository->findAllMessageSentBySender($userBackend);
+        } else {
+            $query = null;
+        }
+
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            null // Override default limit per page
+        );
+
+        return $this->render('backend/admin/dashboard/userBackend/profile/message/sent/list.html.twig', [
             'pagination' => $pagination,
         ]);
     }

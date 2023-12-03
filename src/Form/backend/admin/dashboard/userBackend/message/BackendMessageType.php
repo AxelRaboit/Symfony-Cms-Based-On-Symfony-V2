@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class BackendMessageType extends AbstractType
 {
@@ -30,12 +31,15 @@ class BackendMessageType extends AbstractType
             ])
             ->add('sender', TextType::class, [
                 'mapped' => false,
+                'required' => true,
                 'label' => 'Expéditeur',
                 'data' => $email,
                 'attr' => ['readonly' => true],
             ])
             ->add('receiver', EntityType::class, [
                 'class' => UserBackend::class,
+                'required' => true,
+                'placeholder' => 'Choisir un destinataire',
                 'choice_label' => 'email',
                 'label' => 'Destinataire',
                 'query_builder' => function (EntityRepository $er) use ($email) {
@@ -46,6 +50,13 @@ class BackendMessageType extends AbstractType
             ])
             ->add('message', TextareaType::class, [
                 'label' => 'Message',
+                'attr' => ['rows' => 10],
+                'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez saisir un message',
+                    ]),
+                ],
             ])
         ;
     }
