@@ -69,11 +69,9 @@
                 <div class="flex flex-col">
                     <h2 class="text-xs sm:text-sm text-gray-900 dark:text-white">Nombre de pages publiées</h2>
                     <div>
-                        <a href="{{ path('app_backend_content_page_list') }}">
-                            <p class="text-2xl text-gray-900 dark:text-white">
-                                {{ publishedPageCount ~ '/' ~ pageCount }}
-                            </p>
-                        </a>
+                        <p class="text-2xl text-gray-900 dark:text-white">
+                            {{ publishedPageCount ~ '/' ~ pageCount }}
+                        </p>
                     </div>
                 </div>
                 <div>
@@ -85,11 +83,9 @@
                 <div class="flex flex-col">
                     <h2 class="text-xs sm:text-sm text-gray-900 dark:text-white">Nombre d'images</h2>
                     <div>
-                        <a href="{{ path('app_backend_content_page_list') }}">
-                            <p class="text-2xl text-gray-900 dark:text-white">
-                                {{ imageCount }}
-                            </p>
-                        </a>
+                        <p class="text-2xl text-gray-900 dark:text-white">
+                            {{ imageCount }}
+                        </p>
                     </div>
                 </div>
                 <div>
