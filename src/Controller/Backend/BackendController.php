@@ -2,6 +2,7 @@
 
 namespace App\Controller\Backend;
 
+use App\Enum\PageStateEnum;
 use App\Manager\Backend\UserBackend\Profile\BackendMessageManager;
 use App\Repository\BackendMessageRepository;
 use App\Repository\DataEnumRepository;
@@ -38,7 +39,7 @@ class BackendController extends AbstractController
 
         return $this->render('backend/admin/dashboard/dashboard.html.twig', [
             'pageCount' => $pageRepository->count([]),
-            'publishedPageCount' => $pageRepository->count(['isPublished' => true]),
+            'publishedPageCount' => $pageRepository->count(['state' => PageStateEnum::PUBLISHED]),
             'imageCount' => $imageRepository->count([]),
             'userBackendCount' => $userBackendRepository->count([]),
             'userApplicationCount' => $userApplicationRepository->count([]),

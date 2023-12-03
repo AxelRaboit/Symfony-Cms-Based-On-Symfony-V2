@@ -2,6 +2,7 @@
 
 namespace App\Service\Dashboard;
 
+use App\Enum\PageStateEnum;
 use App\Repository\PageRepository;
 use App\Repository\PageTypeRepository;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
@@ -92,7 +93,7 @@ class DashboardService
         $labelsPublishedPagesByPageTypes = [];
 
         foreach ($pageTypes as $pageType) {
-            $publishedPages = $this->pageRepository->count(['pageType' => $pageType, 'isPublished' => true]);
+            $publishedPages = $this->pageRepository->count(['pageType' => $pageType, 'state' => PageStateEnum::PUBLISHED]);
 
             if ($publishedPages > 0) {
                 $dataPublishedPagesByPageTypes[] = $publishedPages;

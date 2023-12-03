@@ -17,7 +17,7 @@
         {% set informationMessage = "
             <p class='text-xs text-gray-900 dark:text-white'><span class='font-semibold text-xs text-gray-900 dark:text-white'>Date de création : </span>" ~ page.createdAt|date('d/m/Y') ~ " à " ~ page.createdAt|date('H:i') ~ "</p>
             <p class='text-xs text-gray-900 dark:text-white'><span class='font-semibold text-xs text-gray-900 dark:text-white'>Date de dernière modification : </span>" ~ page.updatedAt|date('d/m/Y') ~ " à " ~ page.updatedAt|date('H:i') ~ "</p>
-            <p class='text-xs text-gray-900 dark:text-white'><span class='font-semibold text-xs text-gray-900 dark:text-white'>En ligne : </span> " ~ (page.isPublished ? 'Oui' : 'Non') ~ "</p>
+            <p class='text-xs text-gray-900 dark:text-white'><span class='font-semibold text-xs text-gray-900 dark:text-white'>En ligne : </span> " ~ (isPagePublished(page) ? 'Oui' : 'Non') ~ "</p>
             <p class='text-xs text-gray-900 dark:text-white'><span class='font-semibold text-xs text-gray-900 dark:text-white'>Lié à une page parente : </span> " ~ (page.parent is not null ? 'Oui' : 'Non') ~ "</p>
         " %}
 
@@ -289,7 +289,7 @@
         {% include 'backend/admin/dashboard/content/page/elements/informations/alerts.html.twig' with {'informationTitle': informationTitle, 'informationMessage': informationMessage} %}
 
         {% set informationTitle = "<p>Url absolue</p>" %}
-        {% set informationMessage = "<p class='text-xs text-gray-900 dark:text-white'>" ~ getUrlAbsoluteFinal(page) ~ "</p>" %}
+        {% set informationMessage = "<a href=" ~ getUrlAbsoluteFinal(page) ~ " class='text-xs text-gray-900 dark:text-white'> <span class='underline'>" ~ getUrlAbsoluteFinal(page) ~ "</span></a>" %}
         {% include 'backend/admin/dashboard/content/page/elements/informations/informations.html.twig' with {'informationTitle': informationTitle, 'informationMessage': informationMessage} %}
 
         {% set informationTitle = "<p>Url relative</p>" %}
@@ -391,13 +391,13 @@
         <h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">Publication</h2>
         <hr class="mb-3">
 
-        <div class="mb-5">
-            {{ form_widget(form.isPublished, { 'attr': { 'class': 'mr-2 text-xs p-1 border border-gray-300 rounded focus:ring-gray-800 focus:border-gray-800' } }) }}
-            {{ form_label(form.isPublished, null, { 'label_attr': { 'class': 'text-xs text-gray-900 dark:text-white' } }) }}
-
-            {% if form.isPublished.vars.errors %}
+        <div class="text-xs mb-5">
+            {{ form_label(form.state, null, { 'label_attr': { 'class': 'text-gray-900 dark:text-white'}}) }}
+            <span class="text-red-500 font-semibold">*</span>
+            {{ form_widget(form.state, { 'attr': { 'class': 'w-full text-xs p-1 border border-gray-300 rounded focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500' } }) }}
+            {% if form.state.vars.errors %}
                 <div class="mt-1 text-red-600 text-xs">
-                    {% for error in form.isPublished.vars.errors %}
+                    {% for error in form.state.vars.errors %}
                         <p>{{ error.message }}</p>
                     {% endfor %}
                 </div>

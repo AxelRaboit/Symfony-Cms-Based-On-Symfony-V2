@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Page;
+use App\Enum\PageStateEnum;
 use App\Repository\PageRepository;
 use App\Service\Page\PageGalleryService;
 use App\Service\Page\PageService;
@@ -38,17 +40,18 @@ class PageController extends AbstractController
     )]
     public function index(string $uri, Request $request): Response
     {
+        /** @var Page|null $page */
         $page = $this->pageRepository->getPageByTypeAndSlug($uri);
-
-        if(!$page->getIsPublished()) {
-            return $this->render('frontend/page/page-not-published.html.twig', [
-                'page' => $page,
-            ]);
-        }
 
         $routes = $this->routeService->getRoutes();
 
         if (null !== $page) {
+            if($page->getState() == PageStateEnum::DRAFT) {
+                return $this->render('frontend/page/page-not-published.html.twig', [
+                    'page' => $page,
+                ]);
+            }
+
             if ($page->getDevCodeRouteName()) {
                 $route = $routes[$page->getDevCodeRouteName()];
 

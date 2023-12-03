@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Page;
 use App\Entity\PageType;
+use App\Enum\PageStateEnum;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
@@ -27,7 +28,8 @@ class PageRepository extends ServiceEntityRepository
 
     public function findAllOrderBy(string $order = 'ASC'): array
     {
-        $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p ORDER BY p.id ' . $order);
+        $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE p.state != :state ORDER BY p.id ' . $order);
+        $query->setParameter('state', PageStateEnum::DELETED);
 
         return $query->getResult();
     }
@@ -60,38 +62,26 @@ class PageRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    public function findByIsPublished(string $isPublished = 'true', string $order = 'ASC'): array
+    public function findByState(string $state = PageStateEnum::PUBLISHED, string $order = 'ASC'): array
     {
-        if ('true' === $isPublished) {
-            $isPublished = true;
-        } elseif ('false' === $isPublished) {
-            $isPublished = false;
-        }
-
-        if ('both' === $isPublished) {
+        if (PageStateEnum::DRAFT_AND_PUBLISHED === $state) {
             return $this->findAllOrderBy($order);
         }
 
-        $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE p.isPublished = :isPublished ORDER BY p.id ' . $order);
-        $query->setParameter('isPublished', $isPublished);
+        $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE p.state = :state ORDER BY p.id ' . $order);
+        $query->setParameter('state', $state);
 
         return $query->getResult();
     }
 
-    public function findByIsPublishedByPageType(PageType $pageType, string $isPublished = 'true', string $order = 'ASC'): array
+    public function findByStateAndPageType(PageType $pageType, string $state = PageStateEnum::PUBLISHED, string $order = 'ASC'): array
     {
-        if ('true' === $isPublished) {
-            $isPublished = true;
-        } elseif ('false' === $isPublished) {
-            $isPublished = false;
-        }
-
-        if ('both' === $isPublished) {
+        if (PageStateEnum::DRAFT_AND_PUBLISHED === $state) {
             return $this->findAllByPageTypeOrderBy($pageType, $order);
         }
 
-        $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE p.isPublished = :isPublished AND p.pageType = :pageType ORDER BY p.id ' . $order);
-        $query->setParameter('isPublished', $isPublished);
+        $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE p.state = :state AND p.pageType = :pageType ORDER BY p.id ' . $order);
+        $query->setParameter('state', $state);
         $query->setParameter('pageType', $pageType);
 
         return $query->getResult();
@@ -247,8 +237,6 @@ class PageRepository extends ServiceEntityRepository
             );
             $finalQuery->setParameter('pageSlug', $pageSlug);
         }
-
-        /*AND p.isPublished = true'*/
 
         return $finalQuery->getOneOrNullResult();
     }
