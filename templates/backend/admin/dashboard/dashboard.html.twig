@@ -14,44 +14,109 @@
                 {# Inject current hour #}
             </p>
         </div>
+
         <div class="grid grid-cols-2 gap-4 mb-4">
-            <div class="flex items-center justify-center flex-col h-28 rounded bg-gray-50 dark:bg-gray-800 p-1">
-                <h2 class="text-xs sm:text-sm text-gray-900 dark:text-white text-center">Nombre d'utilisateurs Backend</h2>
+            <div class="flex justify-between items-center rounded bg-gray-50 h-28 dark:bg-gray-800 p-5">
+                <div class="flex flex-col">
+                    <h2 class="text-xs sm:text-sm text-gray-900 dark:text-white">Nombre de pages publiées</h2>
+                    <div>
+                        <a href="{{ path('app_backend_content_page_list') }}">
+                            <p class="text-2xl text-gray-900 dark:text-white">
+                                {{ publishedPageCount ~ '/' ~ pageCount }}
+                            </p>
+                        </a>
+                    </div>
+                </div>
                 <div>
-                    <a href="{{ path('app_backend_advanced_data_user_backend_list') }}">
-                        <p class="text-3xl text-gray-900 dark:text-white">
+                    <i class="fa-solid fa-file-lines text-2xl"></i>
+                </div>
+            </div>
+
+            <div class="flex justify-between items-center rounded bg-gray-50 h-28 dark:bg-gray-800 p-5">
+                <div class="flex flex-col">
+                    <h2 class="text-xs sm:text-sm text-gray-900 dark:text-white">Nombre d'images</h2>
+                    <div>
+                        <a href="{{ path('app_backend_content_page_list') }}">
+                            <p class="text-2xl text-gray-900 dark:text-white">
+                                {{ imageCount }}
+                            </p>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <i class="fa-solid fa-image text-2xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mb-4">
+            <div class="mb-2 bg-gray-100 dark:bg-gray-800 rounded inline-block rounded border border-gray-300">
+                <div class="w-full text-xs font-semibold bg-gray-900 dark:bg-gray-600 text-white p-2 rounded-t">
+                    <h2>Publications</h2>
+                </div>
+                <div class="p-2 h-96">{{ render_chart(chartPublishedPagesByPageTypes, {'class': 'h-full'}) }}</div>
+            </div>
+            <div class="mb-2 bg-gray-100 dark:bg-gray-800 rounded inline-block rounded border border-gray-300">
+                <div class="w-full text-xs font-semibold bg-gray-900 dark:bg-gray-600 text-white p-2 rounded-t">
+                    <h2>Nombre de pages par types</h2>
+                </div>
+                <div class="p-2 h-96">{{ render_chart(chartPageTypes, {'class': 'h-full'}) }}</div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mb-4">
+
+            <div class="flex justify-between items-center rounded bg-gray-50 h-28 dark:bg-gray-800 p-5">
+                <div class="flex flex-col">
+                    <h2 class="text-xs sm:text-sm text-gray-900 dark:text-white">Nombre d'utilisateurs Backend</h2>
+                    <div>
+                        <p class="text-2xl text-gray-900 dark:text-white">
                             {{ userBackendCount }}
                         </p>
-                    </a>
+                    </div>
+                </div>
+                <div>
+                    <i class="fa-solid fa-user text-2xl"></i>
                 </div>
             </div>
-            <div class="flex items-center justify-center flex-col h-28 rounded bg-gray-50 dark:bg-gray-800 p-1">
-                <h2 class="text-xs sm:text-sm text-gray-900 dark:text-white text-center">Nombre d'utilisateurs Frontend</h2>
-                <div>
-                    <p class="text-3xl text-gray-900 dark:text-white">
-                        {{ userApplicationCount }}
-                    </p>
-                </div>
-            </div>
-            <div class="flex items-center justify-center flex-col rounded bg-gray-50 h-28 dark:bg-gray-800 p-1">
-                <h2 class="text-xs sm:text-sm text-gray-900 dark:text-white text-center">Nombre de pages</h2>
-                <div>
-                    <a href="{{ path('app_backend_content_page_list') }}">
-                        <p class="text-3xl text-gray-900 dark:text-white">
-                            {{ pageCount }}
+
+            <div class="flex justify-between items-center rounded bg-gray-50 h-28 dark:bg-gray-800 p-5">
+                <div class="flex flex-col">
+                    <h2 class="text-xs sm:text-sm text-gray-900 dark:text-white">Nombre d'utilisateurs
+                        d'application</h2>
+                    <div>
+                        <p class="text-2xl text-gray-900 dark:text-white">
+                            {{ userApplicationCount }}
                         </p>
-                    </a>
+                    </div>
+                </div>
+                <div>
+                    <i class="fa-solid fa-user text-2xl"></i>
                 </div>
             </div>
-            <div class="flex items-center justify-center flex-col rounded bg-gray-50 h-28 dark:bg-gray-800 p-1">
-                <h2 class="text-xs sm:text-sm text-gray-900 dark:text-white text-center">Nombre de données</h2>
-                <div>
-                    <a href="{{ path('app_backend_advanced_data_data_enum_list') }}">
-                        <p class="text-3xl text-gray-900 dark:text-white">
+
+            <div class="flex justify-between items-center rounded bg-gray-50 h-28 dark:bg-gray-800 p-5">
+                <div class="flex flex-col">
+                    <h2 class="text-xs sm:text-sm text-gray-900 dark:text-white">Nombre de données</h2>
+                    <div>
+                        <p class="text-2xl text-gray-900 dark:text-white">
                             {{ dataEnumCount }}
                         </p>
-                    </a>
+                    </div>
                 </div>
+                <div>
+                    <i class="fa-solid fa-database text-2xl"></i>
+                </div>
+            </div>
+
+            <div class="flex items-center justify-center flex-col h-28 rounded bg-gray-50 dark:bg-gray-800">
+                <p class="text-2xl text-gray-400 dark:text-gray-500">
+                    <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                         viewBox="0 0 18 18">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M9 1v16M1 9h16"/>
+                    </svg>
+                </p>
             </div>
         </div>
         <div class="grid grid-cols-3 gap-4 mb-4">
