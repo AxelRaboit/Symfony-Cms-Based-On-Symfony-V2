@@ -47,6 +47,11 @@ class BackendMessageType extends AbstractType
                         ->where('u.email != :email')
                         ->setParameter('email', $email);
                 },
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez choisir un destinataire',
+                    ]),
+                ],
             ])
             ->add('message', TextareaType::class, [
                 'label' => 'Message',
