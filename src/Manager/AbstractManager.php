@@ -29,4 +29,24 @@ class AbstractManager
         $this->em->remove($entity);
         $this->em->flush();
     }
+
+    protected function softRemoveBySender(object $entity): void
+    {
+        if (method_exists($entity, 'getDeletedBySenderAt')) {
+            $entity->setDeletedBySenderAt(new \DateTimeImmutable());
+        }
+
+        $this->em->persist($entity);
+        $this->em->flush();
+    }
+
+    protected function softRemoveByReceiver(object $entity): void
+    {
+        if (method_exists($entity, 'getDeletedByReceiverAt')) {
+            $entity->setDeletedByReceiverAt(new \DateTimeImmutable());
+        }
+
+        $this->em->persist($entity);
+        $this->em->flush();
+    }
 }

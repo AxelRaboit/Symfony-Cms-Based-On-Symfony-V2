@@ -10,6 +10,7 @@ use App\Repository\BackendMessageRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Knp\Component\Pager\PaginatorInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -83,5 +84,35 @@ class UserBackendMessageController extends AbstractController
             'form' => $form->createView(),
             'userBackend' => $userBackend,
         ]);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    #[Route('/backend/admin/user-backend/profile/{userId}/message/received/{messageId}/delete', name: 'app_backend_user_backend_profile_message_received_delete')]
+    #[ParamConverter('userBackend', options: ['id' => 'userId'])]
+    #[ParamConverter('backendMessage', options: ['id' => 'messageId'])]
+    public function userBackendProfileMessageReceivedDelete(UserBackend $userBackend, BackendMessage $backendMessage, BackendMessageManager $backendMessageManager): Response
+    {
+        $backendMessageManager->messageDeleteFromSender($backendMessage);
+
+        $this->addFlash('success', "Le message a été supprimé avec succès.");
+
+        return $this->redirectToRoute('app_backend_user_backend_profile_message_sent_list', ['id' => $userBackend->getId()]);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    #[Route('/backend/admin/user-backend/profile/{userId}/message/sent/{messageId}/delete', name: 'app_backend_user_backend_profile_message_sent_delete')]
+    #[ParamConverter('userBackend', options: ['id' => 'userId'])]
+    #[ParamConverter('backendMessage', options: ['id' => 'messageId'])]
+    public function userBackendProfileMessageSentDelete(UserBackend $userBackend, BackendMessage $backendMessage, BackendMessageManager $backendMessageManager): Response
+    {
+        $backendMessageManager->messageDeleteFromReceiver($backendMessage);
+
+        $this->addFlash('success', "Le message a été supprimé avec succès.");
+
+        return $this->redirectToRoute('app_backend_user_backend_profile_message_sent_list', ['id' => $userBackend->getId()]);
     }
 }

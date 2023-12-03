@@ -35,6 +35,16 @@ export function initDeletionFromList(deleteLinksSelector, confirmationMessage) {
     });
 }
 
+export function initDeletionFromLink(deleteLinkId, confirmationMessage) {
+    const deleteButton = document.getElementById(deleteLinkId);
+
+    deleteButton.addEventListener('click', function(event) {
+        event.preventDefault();
+        const deleteUrl = this.href;
+        attachConfirmationToButton(deleteUrl, confirmationMessage);
+    });
+}
+
 function openPopup(title, message, onConfirm) {
     const popup = document.getElementById('confirmation-modal');
     const titleElement = document.getElementById('confirmation-modal-title');

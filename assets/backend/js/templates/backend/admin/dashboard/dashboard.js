@@ -1,3 +1,9 @@
+import {initDeletionFromLink} from "../base/elements/modal/confirmation-modal";
+
+document.addEventListener('DOMContentLoaded', function () {
+    initDeletionFromLink('delete-messages-purge-by-sender-and-receiver', "Êtes-vous sûr de vouloir effectuer cette action ?")
+});
+
 document.addEventListener('DOMContentLoaded', function () {
     const franceHourElement = document.getElementById("dashboard-france-hour");
     const quebecHourElement = document.getElementById("dashboard-quebec-hour");

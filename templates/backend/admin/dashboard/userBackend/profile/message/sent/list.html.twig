@@ -3,7 +3,7 @@
 {% block title %}{{ parent() }} - Liste des messages envoyés{% endblock %}
 
 {% block body %}
-    {{ encore_entry_link_tags('backend/admin/dashboard/content/page/list') }}
+    {{ encore_entry_link_tags('backend/admin/dashboard/userBackend/profile/message/sent/list') }}
 
     {% include 'backend/admin/dashboard/elements/_side-menu.html.twig' %}
 
@@ -53,8 +53,8 @@
                                                class="hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-white bg-white border border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 text-gray-900 rounded font-medium p-2 md:mr-2 my-1"><i
                                                         class="fa-solid fa-eye"></i>
                                             </a>
-                                            <a href="{#{{ path('app_backend_content_page_delete', {'id': message.id}) }}#}"
-                                               class="link-delete-page-js hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-white bg-white border border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 text-gray-900 rounded font-medium p-2 md:mr-2 my-1"><i
+                                            <a href="{{ path('app_backend_user_backend_profile_message_sent_delete', {'userId': app.user.id, 'messageId': message.id}) }}"
+                                               class="link-delete-user-backend-message-sent-delete-js hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-white bg-white border border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 text-gray-900 rounded font-medium p-2 md:mr-2 my-1"><i
                                                         class="fa-solid fa-trash"></i>
                                             </a>
                                         </div>
@@ -92,7 +92,7 @@
         {% endif %}
     </div>
 
-    {{ encore_entry_script_tags('backend/admin/dashboard/content/page/list') }}
+    {{ encore_entry_script_tags('backend/admin/dashboard/userBackend/profile/message/sent/list') }}
 {% endblock %}
 
 

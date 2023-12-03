@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\BackendMessage;
 use App\Entity\UserBackend;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -29,6 +31,7 @@ class BackendMessageRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('m')
             ->join('m.receiver', 'r')
             ->andWhere('r.id = :receiverId')
+            ->andWhere('m.deletedBySenderAt IS NULL')
             ->setParameter('receiverId', $userBackendId)
             ->orderBy('m.id', 'DESC')
             ->getQuery()
@@ -43,10 +46,36 @@ class BackendMessageRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('m')
             ->join('m.sender', 's')
             ->andWhere('s.id = :senderId')
+            ->andWhere('m.deletedByReceiverAt IS NULL')
             ->setParameter('senderId', $userBackendId)
             ->orderBy('m.id', 'DESC')
             ->getQuery()
             ->getResult()
+        ;
+    }
+
+    public function findAllMessageDeletedBySenderAndReceiver(): array
+    {
+        return $this->createQueryBuilder('m')
+            ->andWhere('m.deletedBySenderAt IS NOT NULL')
+            ->andWhere('m.deletedByReceiverAt IS NOT NULL')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
+    public function messageDeletedBySenderAndReceiverCount(): int
+    {
+        return $this->createQueryBuilder('m')
+            ->select('count(m.id)')
+            ->andWhere('m.deletedBySenderAt IS NOT NULL')
+            ->andWhere('m.deletedByReceiverAt IS NOT NULL')
+            ->getQuery()
+            ->getSingleScalarResult()
         ;
     }
 }
