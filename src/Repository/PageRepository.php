@@ -228,7 +228,6 @@ class PageRepository extends ServiceEntityRepository
             }
         }
 
-
         if (empty($pageTypePrefix) && empty($pageSlug)) {
             return null;
         }
@@ -248,6 +247,8 @@ class PageRepository extends ServiceEntityRepository
             );
             $finalQuery->setParameter('pageSlug', $pageSlug);
         }
+
+        /*AND p.isPublished = true'*/
 
         return $finalQuery->getOneOrNullResult();
     }

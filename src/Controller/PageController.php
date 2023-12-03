@@ -39,6 +39,13 @@ class PageController extends AbstractController
     public function index(string $uri, Request $request): Response
     {
         $page = $this->pageRepository->getPageByTypeAndSlug($uri);
+
+        if(!$page->getIsPublished()) {
+            return $this->render('frontend/page/page-not-published.html.twig', [
+                'page' => $page,
+            ]);
+        }
+
         $routes = $this->routeService->getRoutes();
 
         if (null !== $page) {

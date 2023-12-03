@@ -496,7 +496,7 @@ class Page
             'pageGalleries' => $this->getPageGalleries(),
             'canonicalUrl' => $this->getCanonicalUrl(),
             'pageType' => $this->getPageType(),
-            'isPublished' => $this->isIsPublished(),
+            'isPublished' => $this->getIsPublished(),
             'publishedAt' => $this->getPublishedAt(),
             'bannerTitle' => $this->getBannerTitle(),
             'visibleForBackendActions' => $this->isVisibleForBackendActions(),
@@ -539,7 +539,7 @@ class Page
         return $this;
     }
 
-    public function isIsPublished(): ?bool
+    public function getIsPublished(): ?bool
     {
         return $this->isPublished;
     }

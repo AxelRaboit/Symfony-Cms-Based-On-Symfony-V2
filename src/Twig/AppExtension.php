@@ -288,10 +288,20 @@ class AppExtension extends AbstractExtension
     {
         $baseUrl = $this->request->getSchemeAndHttpHost();
 
+
         $pageType = $page->getPageType();
 
         if(null !== $pageType) {
             $pageTypeUrlPrefix = $pageType->getUrlPrefix();
+
+            if ($pageTypeUrlPrefix === '/'){
+
+                if ($page->getSlug() === '/') {
+                    return $baseUrl;
+                };
+
+                return $baseUrl . '/' . $page->getSlug();
+            }
 
             return $baseUrl . $pageTypeUrlPrefix . '/' . $page->getSlug();
         }
@@ -305,6 +315,15 @@ class AppExtension extends AbstractExtension
 
         if(null !== $pageType) {
             $pageTypeUrlPrefix = $pageType->getUrlPrefix();
+
+            if ($pageTypeUrlPrefix === '/'){
+
+                if ($page->getSlug() === '/') {
+                    return '/';
+                };
+
+                return '/' . $page->getSlug();
+            }
 
             return $pageTypeUrlPrefix . '/' . $page->getSlug();
         }
