@@ -3,6 +3,7 @@
 namespace App\Form\backend\admin\dashboard\content\page;
 
 use App\Entity\Page;
+use App\Enum\PageStateEnum;
 use App\Repository\PageRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -148,9 +149,13 @@ class PageEditType extends AbstractType
                 'label' => 'Poids',
                 'required' => true,
             ])
-            ->add('isPublished', CheckboxType::class, [
-                'label' => 'Publier la page',
-                'required' => false,
+            ->add('state', ChoiceType::class, [
+                'label' => 'Etat',
+                'required' => true,
+                'choices' => [
+                    'Brouillon' => PageStateEnum::DRAFT,
+                    'Publier' => PageStateEnum::PUBLISHED,
+                ],
             ])
             ->add('visibleForBackendActions', CheckboxType::class, [
                 'label' => 'Visible pour les actions du backoffice',

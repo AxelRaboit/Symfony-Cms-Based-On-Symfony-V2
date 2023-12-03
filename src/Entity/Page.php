@@ -100,9 +100,6 @@ class Page
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $publishedAt = null;
 
-    #[ORM\Column]
-    private ?bool $isPublished = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $bannerTitle = null;
 
@@ -117,6 +114,9 @@ class Page
 
     #[ORM\Column(length: 255)]
     private ?string $displayType = null;
+
+    #[ORM\Column]
+    private ?int $state = null;
 
     public function __construct()
     {
@@ -496,7 +496,7 @@ class Page
             'pageGalleries' => $this->getPageGalleries(),
             'canonicalUrl' => $this->getCanonicalUrl(),
             'pageType' => $this->getPageType(),
-            'isPublished' => $this->getIsPublished(),
+            'state' => $this->getState(),
             'publishedAt' => $this->getPublishedAt(),
             'bannerTitle' => $this->getBannerTitle(),
             'visibleForBackendActions' => $this->isVisibleForBackendActions(),
@@ -504,15 +504,6 @@ class Page
             'weight' => $this->getWeight(),
             'displayType' => $this->getDisplayType(),
         ];
-    }
-
-    public function isPageDeleted(): bool
-    {
-        if (null !== $this->getDeletedAt()) {
-            return true;
-        }
-
-        return false;
     }
 
     public function getWebsite(): ?Website
@@ -535,18 +526,6 @@ class Page
     public function setPublishedAt(?\DateTimeImmutable $publishedAt): static
     {
         $this->publishedAt = $publishedAt;
-
-        return $this;
-    }
-
-    public function getIsPublished(): ?bool
-    {
-        return $this->isPublished;
-    }
-
-    public function setIsPublished(bool $isPublished): static
-    {
-        $this->isPublished = $isPublished;
 
         return $this;
     }
@@ -607,6 +586,18 @@ class Page
     public function setDisplayType(string $displayType): static
     {
         $this->displayType = $displayType;
+
+        return $this;
+    }
+
+    public function getState(): int
+    {
+        return $this->state;
+    }
+
+    public function setState(int $state): static
+    {
+        $this->state = $state;
 
         return $this;
     }

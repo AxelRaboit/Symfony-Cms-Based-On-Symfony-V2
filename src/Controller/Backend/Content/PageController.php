@@ -35,12 +35,12 @@ class PageController extends AbstractController
     ): Response
     {
         $search = $request->query->get('search');
-        $published = $request->query->get('published');
+        $state = $request->query->get('state');
 
         if (!empty($search)) {
             $query = $pageRepository->findByCriteria($search, 'DESC');
-        } elseif (!empty($published)) {
-            $query = $pageRepository->findByIsPublished($published, 'DESC');
+        } elseif (!empty($state)) {
+            $query = $pageRepository->findByState($state, 'DESC');
         } else {
             $query = $pageRepository->findAllOrderBy('DESC');
         }
@@ -65,12 +65,12 @@ class PageController extends AbstractController
     ): Response
     {
         $search = $request->query->get('search');
-        $published = $request->query->get('published');
+        $state = $request->query->get('state');
 
         if (!empty($search)) {
             $query = $pageRepository->findByCriteriaByPageType($search, $pageType,'DESC');
-        } elseif (!empty($published)) {
-            $query = $pageRepository->findByIsPublishedByPageType($pageType, $published, 'DESC');
+        } elseif (!empty($state)) {
+            $query = $pageRepository->findByStateAndPageType($pageType, $state, 'DESC');
         } else {
             $query = $pageRepository->findAllByPageTypeOrderBy($pageType, 'DESC');
         }

@@ -7,6 +7,7 @@ namespace App\Twig;
 use App\Entity\Page;
 use App\Entity\PageType;
 use App\Entity\Website;
+use App\Enum\PageStateEnum;
 use App\Manager\DataEnumManager;
 use App\Repository\MenuItemRepository;
 use App\Repository\PageRepository;
@@ -56,6 +57,7 @@ class AppExtension extends AbstractExtension
             new TwigFunction('getCurrentHour', [$this, 'getCurrentHourFunction']),
             new TwigFunction('getUrlRelativeFinal', [$this, 'getUrlRelativeFinalFunction']),
             new TwigFunction('getPageTypes', [$this, 'getPageTypesFunction']),
+            new TwigFunction('isPagePublished', [$this, 'isPagePublishedFunction']),
         ];
     }
 
@@ -66,6 +68,11 @@ class AppExtension extends AbstractExtension
             new TwigFilter('truncate', [$this, 'truncateFilter']),
             new TwigFilter('applyMd5', [$this, 'applyMd5Filter']),
         ];
+    }
+
+    public function isPagePublishedFunction(Page $page): bool
+    {
+        return $page->getState() === PageStateEnum::PUBLISHED;
     }
 
     public function returnRefererFunction(string $urlPath, $id = null): string {
@@ -183,7 +190,7 @@ class AppExtension extends AbstractExtension
     /**
      * @param Page[] $pages
      */
-    private function getPageElementsFormated($pages): array
+    private function getPageElementsFormatted($pages): array
     {
         $pageFormated = [];
 
@@ -202,14 +209,14 @@ class AppExtension extends AbstractExtension
             throw new \Exception('At least one page is missing, please check the slug that you\'ve provided');
         }
 
-        return $this->getPageElementsFormated($pages);
+        return $this->getPageElementsFormatted($pages);
     }
 
     public function findPagesByCategoryFunction(string $category): array
     {
         $pages = $this->pageRepository->findBy(['category' => $category]);
 
-        return $this->getPageElementsFormated($pages);
+        return $this->getPageElementsFormatted($pages);
     }
 
     /* THIS FUNCTION IS NOT USED */

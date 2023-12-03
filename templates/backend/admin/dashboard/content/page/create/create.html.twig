@@ -338,13 +338,13 @@
         <h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">Publication</h2>
         <hr class="mb-3">
 
-        <div class="mb-5">
-            {{ form_widget(form.isPublished, { 'attr': { 'class': 'mr-2 text-xs p-1 border border-gray-300 rounded focus:ring-gray-800 focus:border-gray-800' } }) }}
-            {{ form_label(form.isPublished, null, { 'label_attr': { 'class': 'text-xs text-gray-900 dark:text-white' } }) }}
-
-            {% if form.isPublished.vars.errors %}
+        <div class="text-xs mb-5">
+            {{ form_label(form.state, null, { 'label_attr': { 'class': 'text-gray-900 dark:text-white'}}) }}
+            <span class="text-red-500 font-semibold">*</span>
+            {{ form_widget(form.state, { 'attr': { 'class': 'w-full text-xs p-1 border border-gray-300 rounded focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500' } }) }}
+            {% if form.state.vars.errors %}
                 <div class="mt-1 text-red-600 text-xs">
-                    {% for error in form.isPublished.vars.errors %}
+                    {% for error in form.state.vars.errors %}
                         <p>{{ error.message }}</p>
                     {% endfor %}
                 </div>
