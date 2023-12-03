@@ -2,15 +2,15 @@
     {% for message in messages %}
 
         {% if label == "success" %}
-            {% set backgroundColor = 'bg-green-500' %}
+            {% set backgroundColor = 'bg-gray-800' %}
         {% elseif label == "danger" %}
-            {% set backgroundColor = 'bg-red-500' %}
+            {% set backgroundColor = 'bg-red-900' %}
         {% elseif label == "warning" %}
-            {% set backgroundColor = 'bg-yellow-500' %}
+            {% set backgroundColor = 'bg-yellow-800' %}
         {% elseif label == "info" %}
-            {% set backgroundColor = 'bg-blue-500' %}
+            {% set backgroundColor = 'bg-blue-800' %}
         {% else %}
-            {% set backgroundColor = 'bg-gray-500' %}
+            {% set backgroundColor = 'bg-gray-800' %}
         {% endif %}
 
         <div class="fixed bottom-0 right-0 p-3 mb-4 mr-4 animate__animated animate__bounce" style="z-index: 50">
