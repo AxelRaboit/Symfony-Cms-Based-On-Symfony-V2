@@ -18,15 +18,16 @@ class DashboardService
     public function createChartPageTypes(): Chart
     {
         $colors = [
-            'rgb(50, 50, 50)',
-            'rgb(70, 70, 70)',
-            'rgb(90, 90, 90)',
-            'rgb(110, 110, 110)',
-            'rgb(130, 130, 130)',
-            'rgb(150, 150, 150)',
-            'rgb(170, 170, 170)',
-            'rgb(190, 190, 190)',
+            'rgb(200, 200, 200)',
+            'rgb(210, 210, 210)',
+            'rgb(220, 220, 220)',
+            'rgb(225, 225, 225)',
+            'rgb(230, 230, 230)',
+            'rgb(235, 235, 235)',
+            'rgb(240, 240, 240)',
+            'rgb(245, 245, 245)'
         ];
+
 
         $chartPageTypes = $this->chartBuilder->createChart(Chart::TYPE_BAR);
 
@@ -72,15 +73,16 @@ class DashboardService
     public function createChartPublishedPagesByPageTypes(): Chart
     {
         $colors = [
-            'rgb(50, 50, 50)',
-            'rgb(70, 70, 70)',
-            'rgb(90, 90, 90)',
-            'rgb(110, 110, 110)',
-            'rgb(130, 130, 130)',
-            'rgb(150, 150, 150)',
-            'rgb(170, 170, 170)',
-            'rgb(190, 190, 190)',
+            'rgb(200, 200, 200)',
+            'rgb(210, 210, 210)',
+            'rgb(220, 220, 220)',
+            'rgb(225, 225, 225)',
+            'rgb(230, 230, 230)',
+            'rgb(235, 235, 235)',
+            'rgb(240, 240, 240)',
+            'rgb(245, 245, 245)'
         ];
+
 
         $chartPublishedPagesByPageTypes = $this->chartBuilder->createChart(Chart::TYPE_PIE);
 
