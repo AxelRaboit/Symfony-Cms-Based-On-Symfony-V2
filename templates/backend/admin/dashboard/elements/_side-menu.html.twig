@@ -25,9 +25,9 @@
                 <button type="button"
                         class="w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     {% if app.user.information.pictureProfileName is not null %}
-                        <img class="rounded-full w-[32px] border border-gray-300" src="{{ picture_profile_directory ~ app.user.information.pictureProfileName }}" alt="picture profile">
+                        <img class="rounded-full w-[32px]" src="{{ picture_profile_directory ~ app.user.information.pictureProfileName }}" alt="picture profile">
                     {% else %}
-                        <img class="rounded-full w-[32px] border border-gray-300" src="{{ image_elements_directory ~ 'default-avatar.jpg' }}" alt="picture profile">
+                        <img class="rounded-full w-[32px]" src="{{ image_elements_directory ~ 'default-avatar.jpg' }}" alt="picture profile">
                     {% endif %}
                     <span class="text-xs ms-3 whitespace-nowrap">{{ app.user.username ? app.user.username : app.user.email }}</span>
                 </button>

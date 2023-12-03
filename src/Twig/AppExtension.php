@@ -68,16 +68,18 @@ class AppExtension extends AbstractExtension
         ];
     }
 
-    public function returnRefererFunction(
-        string $urlPath
-    ): string {
+    public function returnRefererFunction(string $urlPath, $id = null): string {
         $requestStackRequest = $this->requestStack->getCurrentRequest();
         if (null !== $requestStackRequest) {
             $currentUrl = $requestStackRequest->getUri();
             $referer = $requestStackRequest->headers->get('referer');
 
             if (null === $referer || $referer === $currentUrl) {
-                return $this->urlGenerator->generate($urlPath);
+                if ($id !== null) {
+                    return $this->urlGenerator->generate($urlPath, ['id' => $id]);
+                } else {
+                    return $this->urlGenerator->generate($urlPath);
+                }
             }
 
             return $referer;
