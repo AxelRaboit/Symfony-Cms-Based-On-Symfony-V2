@@ -20,24 +20,6 @@
 
         <hr class="my-2 border-gray-200 dark:border-gray-700" aria-hidden="true">
 
-        <div>
-            <a href="{{ path('app_backend_user_backend_profile', {'id': app.user.id}) }}">
-                <button type="button"
-                        class="w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                    {% if app.user.information.pictureProfileName is not null %}
-                        <img class="rounded-full w-[32px]" src="{{ picture_profile_directory ~ app.user.information.pictureProfileName }}" alt="picture profile">
-                    {% else %}
-                        <img class="rounded-full w-[32px]" src="{{ image_elements_directory ~ 'default-avatar.jpg' }}" alt="picture profile">
-                    {% endif %}
-                    <span class="text-xs ms-3 whitespace-nowrap">{{ app.user.username ? app.user.username : app.user.email }}</span>
-                </button>
-            </a>
-        </div>
-
-        <hr class="my-2 border-gray-200 dark:border-gray-700" aria-hidden="true">
-
-        <hr class="my-2 border-gray-200 dark:border-gray-700" aria-hidden="true">
-
         <button id="theme-toggle" type="button"
                 class="w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
             <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
@@ -51,6 +33,30 @@
             </svg>
             <span class="text-xs ms-3 whitespace-nowrap">Theme</span>
         </button>
+
+        <hr class="my-2 border-gray-200 dark:border-gray-700" aria-hidden="true">
+
+        <a href="{{ path('app_backend_user_backend_profile', {'id': app.user.id}) }}">
+            <button type="button"
+                    class="w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                {% if app.user.information.pictureProfileName is defined %}
+                    <img class="rounded-full w-9 h-9" src="{{ picture_profile_directory ~ app.user.information.pictureProfileName }}" alt="picture profile">
+                {% else %}
+                    <img class="rounded-full w-6 h-6" src="{{ image_elements_directory ~ 'default-avatar.jpg' }}" alt="picture profile">
+                {% endif %}
+                <span class="text-xs ms-3 whitespace-nowrap">{{ app.user.username ? app.user.username : app.user.email }}</span>
+            </button>
+        </a>
+
+        <hr class="my-2 border-gray-200 dark:border-gray-700" aria-hidden="true">
+
+        <a href="{{ path('app_backend_user_backend_profile_message_list', {'id': app.user.id}) }}">
+            <button type="button"
+                    class="w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <i class="fa-solid fa-envelope w-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+                <span class="text-xs ms-3 whitespace-nowrap">Messages</span>
+            </button>
+        </a>
 
         <hr class="my-2 border-gray-200 dark:border-gray-700" aria-hidden="true">
 

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserBackendRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -44,6 +46,18 @@ class UserBackend implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?UserBackendInformation $information = null;
+
+    #[ORM\OneToMany(mappedBy: 'sender', targetEntity: BackendMessage::class)]
+    private Collection $backendSentMessages;
+
+    #[ORM\OneToMany(mappedBy: 'receiver', targetEntity: BackendMessage::class)]
+    private Collection $backendReceivedMessages;
+
+    public function __construct()
+    {
+        $this->backendSentMessages = new ArrayCollection();
+        $this->backendReceivedMessages = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -188,6 +202,66 @@ class UserBackend implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->information = $information;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BackendMessage>
+     */
+    public function getBackendSentMessages(): Collection
+    {
+        return $this->backendSentMessages;
+    }
+
+    public function addBackendSentMessage(BackendMessage $backendSentMessage): static
+    {
+        if (!$this->backendSentMessages->contains($backendSentMessage)) {
+            $this->backendSentMessages->add($backendSentMessage);
+            $backendSentMessage->setSender($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBackendSentMessage(BackendMessage $backendSentMessage): static
+    {
+        if ($this->backendSentMessages->removeElement($backendSentMessage)) {
+            // set the owning side to null (unless already changed)
+            if ($backendSentMessage->getSender() === $this) {
+                $backendSentMessage->setSender(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, BackendMessage>
+     */
+    public function getBackendReceivedMessages(): Collection
+    {
+        return $this->backendReceivedMessages;
+    }
+
+    public function addBackendReceivedMessage(BackendMessage $backendReceivedMessage): static
+    {
+        if (!$this->backendReceivedMessages->contains($backendReceivedMessage)) {
+            $this->backendReceivedMessages->add($backendReceivedMessage);
+            $backendReceivedMessage->setReceiver($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBackendReceivedMessage(BackendMessage $backendReceivedMessage): static
+    {
+        if ($this->backendReceivedMessages->removeElement($backendReceivedMessage)) {
+            // set the owning side to null (unless already changed)
+            if ($backendReceivedMessage->getReceiver() === $this) {
+                $backendReceivedMessage->setReceiver(null);
+            }
+        }
 
         return $this;
     }

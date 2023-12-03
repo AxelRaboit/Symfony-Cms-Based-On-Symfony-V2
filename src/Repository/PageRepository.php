@@ -203,12 +203,19 @@ class PageRepository extends ServiceEntityRepository
         $pageTypePrefix = '';
         $pageSlug = '';
 
-        // This loop tries to find a matching pageTypePrefix in the database
+        // Boucle pour trouver un pageTypePrefix correspondant
         for ($i = 0; $i < count($segments); $i++) {
-            // We build the potential pageTypePrefix
+            // Construction du potentialPageTypePrefix
             $potentialPageTypePrefix = '/' . implode('/', array_slice($segments, 0, $i + 1));
 
-            // Check if the potentialPageTypePrefix exists in the database
+            // Si le potentialPageTypePrefix est "/backend", l'ajouter au slug
+            if ($potentialPageTypePrefix === '/backend') {
+                $pageSlug = $potentialPageTypePrefix . '/' . implode('/', array_slice($segments, $i + 1));
+                $pageSlug = substr($pageSlug, 1);
+                break;
+            }
+
+            // Vérifier si le potentialPageTypePrefix existe dans la base de données
             $query = $this->em()->createQuery(
                 'SELECT COUNT(pt) FROM App\Entity\PageType pt WHERE pt.urlPrefix = :prefix'
             );
@@ -221,20 +228,30 @@ class PageRepository extends ServiceEntityRepository
             }
         }
 
-        if (empty($pageTypePrefix)) {
+
+        if (empty($pageTypePrefix) && empty($pageSlug)) {
             return null;
         }
 
-        $finalQuery = $this->em()->createQuery(
-            'SELECT p FROM App\Entity\Page p
-        JOIN p.pageType pt
-        WHERE p.slug = :pageSlug AND pt.urlPrefix = :pageTypePrefix'
-        );
-        $finalQuery->setParameter('pageSlug', $pageSlug);
-        $finalQuery->setParameter('pageTypePrefix', $pageTypePrefix);
+        if (!empty($pageTypePrefix)) {
+            $finalQuery = $this->em()->createQuery(
+                'SELECT p FROM App\Entity\Page p
+                JOIN p.pageType pt
+                WHERE p.slug = :pageSlug AND pt.urlPrefix = :pageTypePrefix'
+            );
+            $finalQuery->setParameter('pageSlug', $pageSlug);
+            $finalQuery->setParameter('pageTypePrefix', $pageTypePrefix);
+        } else {
+            $finalQuery = $this->em()->createQuery(
+                'SELECT p FROM App\Entity\Page p
+                    WHERE p.slug = :pageSlug'
+            );
+            $finalQuery->setParameter('pageSlug', $pageSlug);
+        }
 
         return $finalQuery->getOneOrNullResult();
     }
+
 
     /**
      * @throws NonUniqueResultException
