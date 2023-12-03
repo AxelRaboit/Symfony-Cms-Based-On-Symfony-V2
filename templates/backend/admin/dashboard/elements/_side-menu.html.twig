@@ -47,6 +47,13 @@
                 <span class="text-xs ms-3 whitespace-nowrap">{{ app.user.username ? app.user.username : app.user.email }}</span>
             </button>
         </a>
+        <hr class="my-2 border-gray-200 dark:border-gray-700" aria-hidden="true">
+
+        <a href="{{ path('app_backend_dashboard') }}"
+           class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+            <i class="fa-solid fa-gauge-high w-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+            <span class="text-xs ms-3">Tableau de bord</span>
+        </a>
 
         <hr class="my-2 border-gray-200 dark:border-gray-700" aria-hidden="true">
 
@@ -66,16 +73,6 @@
                    class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     <i class="fa-solid fa-desktop w-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
                     <span class="text-xs flex-1 ms-3 whitespace-nowrap">Voir le site</span>
-                </a>
-            </li>
-
-            <hr class="my-2 border-gray-200 dark:border-gray-700" aria-hidden="true">
-
-            <li>
-                <a href="/backend/admin/dashboard"
-                   class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                    <i class="fa-solid fa-gauge-high w-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                    <span class="text-xs ms-3">Tableau de bord</span>
                 </a>
             </li>
 
