@@ -21,7 +21,7 @@
         <hr class="my-2 border-gray-200 dark:border-gray-700" aria-hidden="true">
 
         <div>
-            <a href="{{ path('app_backend_advanced_data_user_backend_edit', {'id': app.user.id}) }}">
+            <a href="{{ path('app_backend_user_backend_profile', {'id': app.user.id}) }}">
                 <button type="button"
                         class="w-full flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                     {% if app.user.information.pictureProfileName is not null %}
