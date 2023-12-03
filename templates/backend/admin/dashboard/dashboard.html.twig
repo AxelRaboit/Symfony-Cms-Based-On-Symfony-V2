@@ -8,11 +8,60 @@
     {% include 'backend/admin/dashboard/elements/_side-menu.html.twig' %}
 
     <div class="p-4 sm:ml-64">
-        <div class="flex items-center justify-center flex-col h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
-            <h2 class="text-xs sm:text-sm text-gray-900 dark:text-white text-center">Heure</h2>
-            <p class="text-5xl text-gray-900 dark:text-white" id="dashboard-current-hour">
-                {# Inject current hour #}
-            </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <div class="text-center border border-gray-300 dark:border-gray-700 rounded mb-2">
+                <div class="w-full text-xs font-semibold bg-gray-900 dark:bg-gray-600 text-white p-2 rounded-t">
+                    <h2>Heure à Paris</h2>
+                </div>
+                <span class="text-4xl text-gray-900 dark:text-white p-2" id="dashboard-france-hour">
+                    {# Inject hour #}
+                </span>
+            </div>
+
+            <div class="text-center border border-gray-300 dark:border-gray-700 rounded mb-2">
+                <div class="w-full text-xs font-semibold bg-gray-900 dark:bg-gray-600 text-white p-2 rounded-t">
+                    <h2>Heure de Londres</h2>
+                </div>
+                <span class="text-4xl text-gray-900 dark:text-white p-2" id="dashboard-london-hour">
+                    {# Inject hour #}
+                </span>
+            </div>
+
+            <div class="text-center border border-gray-300 dark:border-gray-700 rounded mb-2 lg:mr-2">
+                <div class="w-full text-xs font-semibold bg-gray-900 dark:bg-gray-600 text-white p-2 rounded-t">
+                    <h2>Heure du Québec</h2>
+                </div>
+                <span class="text-4xl text-gray-900 dark:text-white p-2" id="dashboard-quebec-hour">
+                    {# Inject hour #}
+                </span>
+            </div>
+
+            <div class="text-center border border-gray-300 dark:border-gray-700 rounded mb-2 lg:mr-2">
+                <div class="w-full text-xs font-semibold bg-gray-900 dark:bg-gray-600 text-white p-2 rounded-t">
+                    <h2>Heure de Los Angeles</h2>
+                </div>
+                <span class="text-4xl text-gray-900 dark:text-white p-2" id="dashboard-los-angeles-hour">
+                    {# Inject hour #}
+                </span>
+            </div>
+
+            <div class="text-center border border-gray-300 dark:border-gray-700 rounded mb-2 lg:mr-2">
+                <div class="w-full text-xs font-semibold bg-gray-900 dark:bg-gray-600 text-white p-2 rounded-t">
+                    <h2>Heure de Taiwan</h2>
+                </div>
+                <span class="text-4xl text-gray-900 dark:text-white p-2" id="dashboard-taiwan-hour">
+                    {# Inject hour #}
+                </span>
+            </div>
+
+            <div class="text-center border border-gray-300 dark:border-gray-700 rounded mb-2">
+                <div class="w-full text-xs font-semibold bg-gray-900 dark:bg-gray-600 text-white p-2 rounded-t">
+                    <h2>Heure du Japon</h2>
+                </div>
+                <span class="text-4xl text-gray-900 dark:text-white p-2" id="dashboard-japan-hour">
+                    {# Inject hour #}
+                </span>
+            </div>
         </div>
 
         <div class="grid grid-cols-2 gap-4 mb-4">
@@ -64,7 +113,7 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-4 mb-4">
+        <div class="grid grid-cols-3 gap-4 mb-4">
 
             <div class="flex justify-between items-center rounded bg-gray-50 h-28 dark:bg-gray-800 p-5">
                 <div class="flex flex-col">
@@ -107,16 +156,6 @@
                 <div>
                     <i class="fa-solid fa-database text-2xl"></i>
                 </div>
-            </div>
-
-            <div class="flex items-center justify-center flex-col h-28 rounded bg-gray-50 dark:bg-gray-800">
-                <p class="text-2xl text-gray-400 dark:text-gray-500">
-                    <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                         viewBox="0 0 18 18">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M9 1v16M1 9h16"/>
-                    </svg>
-                </p>
             </div>
         </div>
         <div class="grid grid-cols-3 gap-4 mb-4">

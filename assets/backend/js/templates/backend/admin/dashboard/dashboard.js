@@ -1,26 +1,46 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const currentHourElement = document.getElementById("dashboard-current-hour");
+    const franceHourElement = document.getElementById("dashboard-france-hour");
+    const quebecHourElement = document.getElementById("dashboard-quebec-hour");
+    const losAngelesHourElement = document.getElementById("dashboard-los-angeles-hour");
+    const taiwanHourElement = document.getElementById("dashboard-taiwan-hour");
+    const japanHourElement = document.getElementById("dashboard-japan-hour");
+    const londonHourElement = document.getElementById("dashboard-london-hour");
 
-    if (currentHourElement) {
-        // Function to update the hour
-        function updateCurrentHour() {
-            const currentHour = new Date();
-            let hours = currentHour.getHours();
-            let minutes = currentHour.getMinutes();
-            let seconds = currentHour.getSeconds();
+    const timezones = {
+        paris: 'Europe/Paris',
+        london: 'Europe/London',
+        quebec: 'America/Toronto',
+        losAngeles: 'America/Los_Angeles',
+        taiwan: 'Asia/Taipei',
+        japan: 'Asia/Tokyo'
+    };
 
-            // Add a zero in front of the minutes and seconds if they are less than 10
-            minutes = minutes < 10 ? '0' + minutes : minutes;
-            seconds = seconds < 10 ? '0' + seconds : seconds;
+    /**
+     * Update the hour for a given timezone
+     * @param element
+     * @param timezone
+     */
+    function updateLocalHour(element, timezone) {
+        element.innerHTML = new Date().toLocaleTimeString('fr-FR', { timeZone: timezone });
+    }
 
-            // Update HTML element with formatted hour
-            currentHourElement.innerHTML = hours + ":" + minutes + ":" + seconds;
-        }
-
+    if (franceHourElement && londonHourElement && quebecHourElement && losAngelesHourElement && taiwanHourElement && japanHourElement) {
         // Update current hour immediately
-        updateCurrentHour();
+        updateLocalHour(franceHourElement, timezones.paris);
+        updateLocalHour(londonHourElement, timezones.london);
+        updateLocalHour(quebecHourElement, timezones.quebec);
+        updateLocalHour(losAngelesHourElement, timezones.losAngeles);
+        updateLocalHour(taiwanHourElement, timezones.taiwan);
+        updateLocalHour(japanHourElement, timezones.japan);
 
         // Update current hour every second
-        setInterval(updateCurrentHour, 1000);
+        setInterval(function() {
+            updateLocalHour(franceHourElement, timezones.paris);
+            updateLocalHour(londonHourElement, timezones.london);
+            updateLocalHour(quebecHourElement, timezones.quebec);
+            updateLocalHour(losAngelesHourElement, timezones.losAngeles);
+            updateLocalHour(taiwanHourElement, timezones.taiwan);
+            updateLocalHour(japanHourElement, timezones.japan);
+        }, 1000);
     }
 });

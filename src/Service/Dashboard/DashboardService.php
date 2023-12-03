@@ -64,16 +64,6 @@ class DashboardService
                     'display' => false,
                 ],
             ],
-            'scales' => [
-                'yAxes' => [
-                    [
-                        'display' => true,
-                        'ticks' => [
-                            'min' => 0,
-                        ],
-                    ],
-                ],
-            ],
         ]);
 
         return $chartPageTypes;
@@ -125,16 +115,6 @@ class DashboardService
             'plugins' => [
                 'legend' => [
                     'display' => true,
-                ],
-            ],
-            'scales' => [
-                'yAxes' => [
-                    [
-                        'display' => true,
-                        'ticks' => [
-                            'min' => 0,
-                        ],
-                    ],
                 ],
             ],
         ]);
