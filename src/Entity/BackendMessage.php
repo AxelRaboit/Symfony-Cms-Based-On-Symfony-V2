@@ -43,6 +43,9 @@ class BackendMessage
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $deletedByReceiverAt = null;
 
+    #[ORM\Column]
+    private ?bool $isRead = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -152,6 +155,18 @@ class BackendMessage
     public function setDeletedByReceiverAt(?\DateTimeImmutable $deletedByReceiverAt): static
     {
         $this->deletedByReceiverAt = $deletedByReceiverAt;
+
+        return $this;
+    }
+
+    public function isIsRead(): bool
+    {
+        return $this->isRead;
+    }
+
+    public function setIsRead(bool $isRead): static
+    {
+        $this->isRead = $isRead;
 
         return $this;
     }

@@ -26,6 +26,7 @@ class BackendMessageManager extends AbstractManager
     {
         $userBackend = $this->findUserBackendByEmail($sender);
         $backendMessage->setSender($userBackend);
+        $backendMessage->setIsRead(false);
         $this->save($backendMessage);
     }
 

@@ -5,15 +5,18 @@ declare(strict_types=1);
 namespace App\Twig;
 
 use App\Entity\Page;
-use App\Entity\PageType;
+use App\Entity\UserBackend;
 use App\Entity\Website;
 use App\Enum\PageStateEnum;
 use App\Manager\DataEnumManager;
+use App\Repository\BackendMessageRepository;
 use App\Repository\MenuItemRepository;
 use App\Repository\PageRepository;
 use App\Repository\PageTypeRepository;
 use App\Service\Page\PageService;
 use App\Service\Website\WebsiteService;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -34,6 +37,7 @@ class AppExtension extends AbstractExtension
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly PageService $pageService,
         private readonly PageTypeRepository $pageTypeRepository,
+        private readonly BackendMessageRepository $backendMessageRepository,
         private readonly string $appEnv,
     ) {
         $this->request = $requestStack->getCurrentRequest();
@@ -58,6 +62,7 @@ class AppExtension extends AbstractExtension
             new TwigFunction('getUrlRelativeFinal', [$this, 'getUrlRelativeFinalFunction']),
             new TwigFunction('getPageTypes', [$this, 'getPageTypesFunction']),
             new TwigFunction('isPagePublished', [$this, 'isPagePublishedFunction']),
+            new TwigFunction('getUserBackendMessageCount', [$this, 'getUserBackendMessageCountFunction']),
         ];
     }
 
@@ -68,6 +73,15 @@ class AppExtension extends AbstractExtension
             new TwigFilter('truncate', [$this, 'truncateFilter']),
             new TwigFilter('applyMd5', [$this, 'applyMd5Filter']),
         ];
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
+    public function getUserBackendMessageCountFunction(UserBackend $userBackend): int
+    {
+        return $this->backendMessageRepository->findCountMessageNotReadByReceiver($userBackend);
     }
 
     public function isPagePublishedFunction(Page $page): bool

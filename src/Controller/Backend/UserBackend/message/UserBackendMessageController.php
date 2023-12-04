@@ -94,11 +94,11 @@ class UserBackendMessageController extends AbstractController
     #[ParamConverter('backendMessage', options: ['id' => 'messageId'])]
     public function userBackendProfileMessageReceivedDelete(UserBackend $userBackend, BackendMessage $backendMessage, BackendMessageManager $backendMessageManager): Response
     {
-        $backendMessageManager->messageDeleteFromSender($backendMessage);
+        $backendMessageManager->messageDeleteFromReceiver($backendMessage);
 
         $this->addFlash('success', "Le message a été supprimé avec succès.");
 
-        return $this->redirectToRoute('app_backend_user_backend_profile_message_sent_list', ['id' => $userBackend->getId()]);
+        return $this->redirectToRoute('app_backend_user_backend_profile_message_list', ['id' => $userBackend->getId()]);
     }
 
     /**
@@ -109,7 +109,7 @@ class UserBackendMessageController extends AbstractController
     #[ParamConverter('backendMessage', options: ['id' => 'messageId'])]
     public function userBackendProfileMessageSentDelete(UserBackend $userBackend, BackendMessage $backendMessage, BackendMessageManager $backendMessageManager): Response
     {
-        $backendMessageManager->messageDeleteFromReceiver($backendMessage);
+        $backendMessageManager->messageDeleteFromSender($backendMessage);
 
         $this->addFlash('success', "Le message a été supprimé avec succès.");
 

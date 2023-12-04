@@ -31,7 +31,7 @@ class BackendMessageRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('m')
             ->join('m.receiver', 'r')
             ->andWhere('r.id = :receiverId')
-            ->andWhere('m.deletedBySenderAt IS NULL')
+            ->andWhere('m.deletedByReceiverAt IS NULL')
             ->setParameter('receiverId', $userBackendId)
             ->orderBy('m.id', 'DESC')
             ->getQuery()
@@ -46,7 +46,7 @@ class BackendMessageRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('m')
             ->join('m.sender', 's')
             ->andWhere('s.id = :senderId')
-            ->andWhere('m.deletedByReceiverAt IS NULL')
+            ->andWhere('m.deletedBySenderAt IS NULL')
             ->setParameter('senderId', $userBackendId)
             ->orderBy('m.id', 'DESC')
             ->getQuery()
@@ -74,6 +74,26 @@ class BackendMessageRepository extends ServiceEntityRepository
             ->select('count(m.id)')
             ->andWhere('m.deletedBySenderAt IS NOT NULL')
             ->andWhere('m.deletedByReceiverAt IS NOT NULL')
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
+    public function findCountMessageNotReadByReceiver(UserBackend $userBackend): int
+    {
+        $userBackendId = $userBackend->getId();
+
+        return $this->createQueryBuilder('m')
+            ->select('count(m.id)')
+            ->join('m.receiver', 'r')
+            ->andWhere('r.id = :receiverId')
+            ->andWhere('m.isRead = false')
+            ->andWhere('m.deletedByReceiverAt IS NULL')
+            ->setParameter('receiverId', $userBackendId)
             ->getQuery()
             ->getSingleScalarResult()
         ;

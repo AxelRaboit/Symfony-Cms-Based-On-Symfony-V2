@@ -50,7 +50,7 @@ class UserBackendEditType extends AbstractType
                 $userBackend = $event->getData();
                 $form = $event->getForm();
 
-                if ($userBackend && $userBackend->getInformation()->getPictureProfileName()) {
+                if ($userBackend && $userBackend->getInformation() && $userBackend->getInformation()->getPictureProfileName()) {
                     $form->add('deletePictureProfile', CheckboxType::class, [
                         'required' => false,
                         'mapped' => false,
