@@ -38,6 +38,18 @@ class UserBackendMessageController extends AbstractController
         ]);
     }
 
+    #[Route('/backend/admin/user-backend/profile/{userId}/message/received/{messageId}/show', name: 'app_backend_user_backend_profile_message_received_show')]
+    #[ParamConverter('userBackend', options: ['id' => 'userId'])]
+    #[ParamConverter('backendMessage', options: ['id' => 'messageId'])]
+    public function userBackendProfileMessageShow(UserBackend $userBackend, BackendMessage $backendMessage, BackendMessageManager $backendMessageManager): Response
+    {
+        $backendMessageManager->messageRead($backendMessage);
+
+        return $this->render('backend/admin/dashboard/userBackend/profile/message/received/show.html.twig', [
+            'backendMessage' => $backendMessage,
+        ]);
+    }
+
     #[Route('/backend/admin/user-backend/profile/{id}/message/sent/list', name: 'app_backend_user_backend_profile_message_sent_list')]
     public function userBackendProfileMessageSent(Request $request, UserBackend $userBackend, BackendMessageRepository $backendMessageRepository, PaginatorInterface $paginator): Response
     {

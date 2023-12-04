@@ -53,4 +53,10 @@ class BackendMessageManager extends AbstractManager
             $this->remove($message);
         }
     }
+
+    public function messageRead(BackendMessage $backendMessage): void
+    {
+        $backendMessage->setIsRead(true);
+        $this->save($backendMessage);
+    }
 }

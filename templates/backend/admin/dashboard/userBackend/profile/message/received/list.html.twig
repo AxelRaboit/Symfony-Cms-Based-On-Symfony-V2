@@ -48,7 +48,7 @@
                         <tbody>
                         {% if pagination.items is not empty %}
                             {% for message in pagination %}
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                <tr class="{{ message.isRead ? 'bg-gray-100 dark:bg-gray-900' : 'bg-white dark:bg-gray-800' }} border-b dark:border-gray-700">
                                     <td class="py-2 px-3 md:py-4 md:px-6">{{ message.id }}</td>
                                     <td class="py-2 px-3 md:py-4 md:px-6">{{ message.sender.email }}</td>
                                     <td class="py-2 px-3 md:py-4 md:px-6">{{ message.subject }}</td>
@@ -56,7 +56,7 @@
                                     <td class="py-2 px-3 md:py-4 md:px-6">{{ message.createdAt|date('d/m/Y H:i') }}</td>
                                     <td class="py-2 px-3 md:py-1 md:px-1">
                                         <div class="flex flex-wrap items-center">
-                                            <a href="{#{{ path('app_backend_content_page_edit', {'id': message.id}) }}#}"
+                                            <a href="{{ path('app_backend_user_backend_profile_message_received_show', {'userId': app.user.id, 'messageId': message.id}) }}"
                                                class="hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-white bg-white border border-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 text-gray-900 rounded font-medium p-2 md:mr-2 my-1"><i
                                                         class="fa-solid fa-eye"></i>
                                             </a>
