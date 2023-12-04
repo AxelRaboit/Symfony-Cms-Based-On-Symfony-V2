@@ -37,7 +37,7 @@
                     <table class="w-full text-xs text-left text-gray-500 dark:text-gray-400">
                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
-                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Id</th>
+                            <th scope="col" class="py-2 px-3 md:py-3 md:px-6"></th>
                             <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Émetteur</th>
                             <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Sujet</th>
                             <th scope="col" class="py-2 px-3 md:py-3 md:px-6">Message</th>
@@ -48,12 +48,20 @@
                         <tbody>
                         {% if pagination.items is not empty %}
                             {% for message in pagination %}
-                                <tr class="{{ message.isRead ? 'bg-gray-100 dark:bg-gray-900' : 'bg-white dark:bg-gray-800' }} border-b dark:border-gray-700">
-                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ message.id }}</td>
+                                <tr class="bg-white dark:bg-gray-800 dark:border-gray-70 border-b dark:border-gray-700">
+                                    <td class="py-2 px-3 md:py-4 md:px-6">
+                                        <div class="flex flex-wrap items-center">
+                                            {% if message.isRead %}
+                                                <i class="fa-solid fa-envelope-open-text text-gray-300 dark:text-gray-500"></i>
+                                            {% else %}
+                                                <i class="fa-solid fa-envelope text-gray-900 dark:text-white"></i>
+                                            {% endif %}
+                                        </div>
+                                    </td>
                                     <td class="py-2 px-3 md:py-4 md:px-6">{{ message.sender.email }}</td>
-                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ message.subject }}</td>
+                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ message.subject ? message.subject : 'N/A' }}</td>
                                     <td class="py-2 px-3 md:py-4 md:px-6">{{ message.message }}</td>
-                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ message.createdAt|date('d/m/Y H:i') }}</td>
+                                    <td class="py-2 px-3 md:py-4 md:px-6">{{ message.createdAt|date('d/m/Y H:i', 'Europe/Paris') }}</td>
                                     <td class="py-2 px-3 md:py-1 md:px-1">
                                         <div class="flex flex-wrap items-center">
                                             <a href="{{ path('app_backend_user_backend_profile_message_received_show', {'userId': app.user.id, 'messageId': message.id}) }}"

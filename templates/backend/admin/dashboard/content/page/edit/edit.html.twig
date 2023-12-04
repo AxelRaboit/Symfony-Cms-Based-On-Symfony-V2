@@ -15,8 +15,8 @@
 
         {% set informationTitle = "<p>Informations</p>" %}
         {% set informationMessage = "
-            <p class='text-xs text-gray-900 dark:text-white'><span class='font-semibold text-xs text-gray-900 dark:text-white'>Date de création : </span>" ~ page.createdAt|date('d/m/Y') ~ " à " ~ page.createdAt|date('H:i') ~ "</p>
-            <p class='text-xs text-gray-900 dark:text-white'><span class='font-semibold text-xs text-gray-900 dark:text-white'>Date de dernière modification : </span>" ~ page.updatedAt|date('d/m/Y') ~ " à " ~ page.updatedAt|date('H:i') ~ "</p>
+            <p class='text-xs text-gray-900 dark:text-white'><span class='font-semibold text-xs text-gray-900 dark:text-white'>Date de création : </span>" ~ page.createdAt|date('d/m/Y', 'Europe/Paris') ~ " à " ~ page.createdAt|date('H:i', 'Europe/Paris') ~ "</p>
+            <p class='text-xs text-gray-900 dark:text-white'><span class='font-semibold text-xs text-gray-900 dark:text-white'>Date de dernière modification : </span>" ~ page.updatedAt|date('d/m/Y', 'Europe/Paris') ~ " à " ~ page.updatedAt|date('H:i', 'Europe/Paris') ~ "</p>
             <p class='text-xs text-gray-900 dark:text-white'><span class='font-semibold text-xs text-gray-900 dark:text-white'>En ligne : </span> " ~ (isPagePublished(page) ? 'Oui' : 'Non') ~ "</p>
             <p class='text-xs text-gray-900 dark:text-white'><span class='font-semibold text-xs text-gray-900 dark:text-white'>Lié à une page parente : </span> " ~ (page.parent is not null ? 'Oui' : 'Non') ~ "</p>
         " %}
