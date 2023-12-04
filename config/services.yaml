@@ -4,8 +4,8 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    image_directory: '/assets/images/medias/'
-    image_directory_no_slash: 'assets/images/medias'
+    image_directory: '/assets/medias/images/'
+    image_directory_no_slash: 'assets/medias/images'
     image_elements_directory: '/assets/images/elements/'
     image_elements_directory_no_slash: 'assets/images/elements'
     picture_profile_directory: '/assets/images/picturesProfile/'

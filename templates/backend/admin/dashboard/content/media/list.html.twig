@@ -36,7 +36,7 @@
                             </div>
 
                             {% set informationTitle = "<p>Chemin relatif</p>" %}
-                            {% set informationMessage = "<p class='text-xs text-gray-900 dark:text-white'>" ~ image_directory ~ image.name ~ "</p>" %}
+                            {% set informationMessage = "<p class='text-xs text-gray-900 dark:text-white break-words'>" ~ image_directory ~ image.name ~ "</p>" %}
                             <div class="mt-2">
                                 {% include 'backend/admin/dashboard/content/page/elements/informations/informations.html.twig' with {'informationTitle': informationTitle, 'informationMessage': informationMessage} %}
                             </div>
