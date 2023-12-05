@@ -17,14 +17,14 @@ class MediaEnum
     {
         $reflectionClass = new \ReflectionClass(self::class);
 
-        return array_values((array) $reflectionClass->getConstants());
+        return array_values($reflectionClass->getConstants());
     }
 
     public static function getConstants(): array
     {
         $reflectionClass = new \ReflectionClass(self::class);
 
-        return (array) $reflectionClass->getConstants();
+        return $reflectionClass->getConstants();
     }
 
 }

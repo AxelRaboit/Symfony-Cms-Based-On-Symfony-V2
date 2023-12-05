@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\PageRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -63,13 +64,13 @@ class Page
     private string $slug;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $updatedAt = null;
+    private ?DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $deletedAt = null;
+    private ?DateTimeImmutable $deletedAt = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $devKey = null;
@@ -98,7 +99,7 @@ class Page
     private ?Website $website = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $publishedAt = null;
+    private ?DateTimeImmutable $publishedAt = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $bannerTitle = null;
@@ -327,36 +328,36 @@ class Page
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    public function setCreatedAt(DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
+    public function setUpdatedAt(DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getDeletedAt(): ?\DateTimeImmutable
+    public function getDeletedAt(): ?DateTimeImmutable
     {
         return $this->deletedAt;
     }
 
-    public function setDeletedAt(?\DateTimeImmutable $deletedAt): static
+    public function setDeletedAt(?DateTimeImmutable $deletedAt): static
     {
         $this->deletedAt = $deletedAt;
 
@@ -518,12 +519,12 @@ class Page
         return $this;
     }
 
-    public function getPublishedAt(): ?\DateTimeImmutable
+    public function getPublishedAt(): ?DateTimeImmutable
     {
         return $this->publishedAt;
     }
 
-    public function setPublishedAt(?\DateTimeImmutable $publishedAt): static
+    public function setPublishedAt(?DateTimeImmutable $publishedAt): static
     {
         $this->publishedAt = $publishedAt;
 

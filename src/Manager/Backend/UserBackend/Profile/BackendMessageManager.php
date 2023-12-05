@@ -7,6 +7,7 @@ use App\Manager\AbstractManager;
 use App\Repository\BackendMessageRepository;
 use App\Repository\UserBackendRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 
 class BackendMessageManager extends AbstractManager
 {
@@ -20,7 +21,7 @@ class BackendMessageManager extends AbstractManager
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function messageCreate(BackendMessage $backendMessage, string $sender): void
     {

@@ -12,9 +12,9 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
-class ExceptionListener
+readonly class ExceptionListener
 {
-    public function __construct(private readonly Environment $twig, private readonly PageService $pageService){}
+    public function __construct(private Environment $twig, private PageService $pageService){}
 
     /**
      * @throws SyntaxError

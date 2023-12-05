@@ -6,6 +6,7 @@ use App\Entity\Image;
 use App\Enum\MediaEnum;
 use App\Manager\Backend\Content\Media\MediaManager;
 use Symfony\Component\HttpFoundation\File\File;
+use ZipArchive;
 
 class MediaService
 {
@@ -34,7 +35,7 @@ class MediaService
             return true;
 
         } elseif ($extension == MediaEnum::MEDIA_EXTENSION_ZIP) {
-            $zip = new \ZipArchive();
+            $zip = new ZipArchive();
             if ($zip->open($image->getImageFile()->getPathname()) === TRUE) {
                 // Loop through the files inside the zip
                 for ($i = 0; $i < $zip->numFiles; $i++) {

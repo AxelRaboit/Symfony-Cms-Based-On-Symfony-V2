@@ -3,12 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\UserBackendInformationRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
 
 #[ORM\Entity(repositoryClass: UserBackendInformationRepository::class)]
-#[Vich\Uploadable()]
+#[Vich\Uploadable]
 class UserBackendInformation
 {
     #[ORM\Id]
@@ -30,13 +32,13 @@ class UserBackendInformation
     private ?string $pictureProfileName = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $updatedAt = null;
+    private ?DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $deletedAt = null;
+    private ?DateTimeImmutable $deletedAt = null;
 
     public function __serialize(): array
     {
@@ -91,14 +93,15 @@ class UserBackendInformation
      * must be able to accept an instance of 'File' as the bundle will inject one here
      * during Doctrine hydration.
      *
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $pictureProfileFile
+     * @param File|null $pictureProfileFile
+     * @return UserBackendInformation
      */
     public function setPictureProfileFile(?File $pictureProfileFile = null): static
     {
         $this->pictureProfileFile = $pictureProfileFile;
 
         if (null !== $pictureProfileFile) {
-            $this->updatedAt = new \DateTimeImmutable();
+            $this->updatedAt = new DateTimeImmutable();
         }
 
         return $this;
@@ -116,36 +119,36 @@ class UserBackendInformation
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    public function setCreatedAt(DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
+    public function setUpdatedAt(DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getDeletedAt(): ?\DateTimeImmutable
+    public function getDeletedAt(): ?DateTimeImmutable
     {
         return $this->deletedAt;
     }
 
-    public function setDeletedAt(?\DateTimeImmutable $deletedAt): static
+    public function setDeletedAt(?DateTimeImmutable $deletedAt): static
     {
         $this->deletedAt = $deletedAt;
 

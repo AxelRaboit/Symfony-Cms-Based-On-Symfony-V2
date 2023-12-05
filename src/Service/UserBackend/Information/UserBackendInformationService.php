@@ -10,10 +10,10 @@ use Doctrine\ORM\NonUniqueResultException;
 use Exception;
 use Symfony\Component\DomCrawler\Crawler;
 
-class UserBackendInformationService
+readonly class UserBackendInformationService
 {
     public function __construct(
-        private readonly string $pictureProfileDirectoryNoSlash
+        private string $pictureProfileDirectoryNoSlash
     ){}
 
     public function userBackendInformationPictureProfileFileDelete(string $pictureProfileName): void

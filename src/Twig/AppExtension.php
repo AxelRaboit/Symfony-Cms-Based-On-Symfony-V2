@@ -15,14 +15,18 @@ use App\Repository\PageRepository;
 use App\Repository\PageTypeRepository;
 use App\Service\Page\PageService;
 use App\Service\Website\WebsiteService;
+use DateTime;
+use DateTimeZone;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
+use function count;
 
 class AppExtension extends AbstractExtension
 {
@@ -46,23 +50,23 @@ class AppExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('getMenuItems', [$this, 'getMenuItemsFunction']),
-            new TwigFunction('getDataEnumValue', [$this, 'getDataEnumValueFunction']),
-            new TwigFunction('getAllPages', [$this, 'getAllPagesFunction']),
-            new TwigFunction('findPagesBySlug', [$this, 'findPagesBySlugFunction']),
-            new TwigFunction('findPagesByCategory', [$this, 'findPagesByCategoryFunction']),
-            new TwigFunction('urlParser', [$this, 'urlParserFunction']),
-            new TwigFunction('getCanonicalUrlWithLink', [$this, 'getCanonicalUrlWithLinkFunction']),
-            new TwigFunction('getCanonicalUrl', [$this, 'getCanonicalUrlFunction']),
-            new TwigFunction('getWebsite', [$this, 'getWebsiteFunction']),
-            new TwigFunction('getUrlAbsoluteFinal', [$this, 'getUrlAbsoluteFinalFunction']),
             new TwigFunction('fileExists', [$this, 'fileExistsFunction']),
-            new TwigFunction('returnReferer', [$this, 'returnRefererFunction']),
+            new TwigFunction('findPagesByCategory', [$this, 'findPagesByCategoryFunction']),
+            new TwigFunction('findPagesBySlug', [$this, 'findPagesBySlugFunction']),
+            new TwigFunction('getAllPages', [$this, 'getAllPagesFunction']),
+            new TwigFunction('getCanonicalUrl', [$this, 'getCanonicalUrlFunction']),
+            new TwigFunction('getCanonicalUrlWithLink', [$this, 'getCanonicalUrlWithLinkFunction']),
             new TwigFunction('getCurrentHour', [$this, 'getCurrentHourFunction']),
-            new TwigFunction('getUrlRelativeFinal', [$this, 'getUrlRelativeFinalFunction']),
+            new TwigFunction('getDataEnumValue', [$this, 'getDataEnumValueFunction']),
+            new TwigFunction('getMenuItems', [$this, 'getMenuItemsFunction']),
             new TwigFunction('getPageTypes', [$this, 'getPageTypesFunction']),
-            new TwigFunction('isPagePublished', [$this, 'isPagePublishedFunction']),
+            new TwigFunction('getUrlAbsoluteFinal', [$this, 'getUrlAbsoluteFinalFunction']),
             new TwigFunction('getUserBackendMessageCount', [$this, 'getUserBackendMessageCountFunction']),
+            new TwigFunction('getUrlRelativeFinal', [$this, 'getUrlRelativeFinalFunction']),
+            new TwigFunction('getWebsite', [$this, 'getWebsiteFunction']),
+            new TwigFunction('isPagePublished', [$this, 'isPagePublishedFunction']),
+            new TwigFunction('returnReferer', [$this, 'returnRefererFunction']),
+            new TwigFunction('urlParser', [$this, 'urlParserFunction']),
         ];
     }
 
@@ -75,6 +79,132 @@ class AppExtension extends AbstractExtension
         ];
     }
 
+    public function fileExistsFunction(string $path): bool
+    {
+        return file_exists($path);
+    }
+
+    public function findPagesByCategoryFunction(string $category): array
+    {
+        $pages = $this->pageRepository->findBy(['category' => $category]);
+
+        return $this->getPageElementsFormatted($pages);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function findPagesBySlugFunction(array $slugs): array
+    {
+        $pages = $this->pageRepository->findBy(['slug' => $slugs]);
+
+        if (count($slugs) !== count($pages)) {
+            throw new Exception('At least one page is missing, please check the slug that you\'ve provided');
+        }
+
+        return $this->getPageElementsFormatted($pages);
+    }
+
+    public function getAllPagesFunction(): array
+    {
+        return $this->pageRepository->findAll();
+    }
+
+    public function getCanonicalUrlFunction(Page $page): ?string
+    {
+        return $page->getWebsite()->getProtocol().$page->getWebsite()->getDomain().'/'.$page->getCanonicalUrl();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getCanonicalUrlWithLinkFunction(Page $page): object
+    {
+        // Get the hostname
+        $hostname = $this->request->getHost();
+
+        // Get the current website
+        $website = $this->websiteService->getCurrentWebsite($hostname);
+
+        // If homepage
+        if ('/' === $page->getSlug()) {
+            $url = $website->getDomain().'/';
+            // If canonical url is set
+        } elseif (null !== $page->getCanonicalUrl() && '' !== $page->getCanonicalUrl()) {
+            $url = $website->getDomain().'/'.$page->getCanonicalUrl();
+            // If slug is set (The slug is mandatory)
+        } else {
+            $url = $website->getDomain().'/'.$page->getSlug();
+        }
+
+        // Prevent double slash on the url
+        $url = str_replace('//', '/', $url);
+
+        // Add protocol
+        $url = $website->getProtocol().$url;
+
+        // Return the absolute url
+        return new \Twig\Markup(sprintf('<link rel="canonical" href="%s">', $url), 'UTF-8');
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getCurrentHourFunction(string $timezone): string
+    {
+        $timezone = new DateTimeZone($timezone);
+        $date = new DateTime('now', $timezone);
+        return $date->format('H:i:s');
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getDataEnumValueFunction(int $devKey): string|int|bool
+    {
+        return $this->dataEnumManager->getDataEnumValue($devKey);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getMenuItemsFunction(int $devKey): array
+    {
+        return $this->menuItemRepository->getMenuItemsSortedByWeight(
+            $this->dataEnumManager->getDataEnumValue($devKey),
+        );
+    }
+
+    public function getPageTypesFunction(): array
+    {
+        return $this->pageTypeRepository->findAll();
+    }
+
+    public function getUrlAbsoluteFinalFunction(Page $page): ?string
+    {
+        $baseUrl = $this->request->getSchemeAndHttpHost();
+
+
+        $pageType = $page->getPageType();
+
+        if(null !== $pageType) {
+            $pageTypeUrlPrefix = $pageType->getUrlPrefix();
+
+            if ($pageTypeUrlPrefix === '/'){
+
+                if ($page->getSlug() === '/') {
+                    return $baseUrl;
+                };
+
+                return $baseUrl . '/' . $page->getSlug();
+            }
+
+            return $baseUrl . $pageTypeUrlPrefix . '/' . $page->getSlug();
+        }
+
+        return $baseUrl . '/' . $page->getSlug();
+    }
+
     /**
      * @throws NonUniqueResultException
      * @throws NoResultException
@@ -82,6 +212,36 @@ class AppExtension extends AbstractExtension
     public function getUserBackendMessageCountFunction(UserBackend $userBackend): int
     {
         return $this->backendMessageRepository->findCountMessageNotReadByReceiver($userBackend);
+    }
+
+    public function getUrlRelativeFinalFunction(Page $page): ?string
+    {
+        $pageType = $page->getPageType();
+
+        if(null !== $pageType) {
+            $pageTypeUrlPrefix = $pageType->getUrlPrefix();
+
+            if ($pageTypeUrlPrefix === '/'){
+
+                if ($page->getSlug() === '/') {
+                    return '/';
+                };
+
+                return '/' . $page->getSlug();
+            }
+
+            return $pageTypeUrlPrefix . '/' . $page->getSlug();
+        }
+
+        return '/' . $page->getSlug();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getWebsiteFunction(): Website
+    {
+        return $this->websiteService->getCurrentWebsite($this->request->getHost());
     }
 
     public function isPagePublishedFunction(Page $page): bool
@@ -107,26 +267,6 @@ class AppExtension extends AbstractExtension
         }
 
         return '';
-    }
-
-    public function getPageTypesFunction(): array
-    {
-        return $this->pageTypeRepository->findAll();
-    }
-
-    /**
-     * @throws \Exception
-     */
-    public function getCurrentHourFunction(string $timezone): string
-    {
-        $timezone = new \DateTimeZone($timezone);
-        $date = new \DateTime('now', $timezone);
-        return $date->format('H:i:s');
-    }
-
-    public function fileExistsFunction(string $path): bool
-    {
-        return file_exists($path);
     }
 
     public function applyMd5Filter(string $string): string
@@ -161,7 +301,7 @@ class AppExtension extends AbstractExtension
         int $charactersLimit = null,
     ): ?string {
         /* Truncate */
-        if (null !== $charactersLimit && '' !== $charactersLimit) {
+        if (null !== $charactersLimit) {
             if (mb_strlen($string) > $charactersLimit) {
                 return mb_substr($string, 0, $charactersLimit).'...';
             }
@@ -171,66 +311,17 @@ class AppExtension extends AbstractExtension
     }
 
     /**
-     * @throws \Exception
-     */
-    public function getWebsiteFunction(): Website
-    {
-        return $this->websiteService->getCurrentWebsite($this->request->getHost());
-    }
-
-    /**
-     * @throws \Exception
-     */
-    public function getMenuItemsFunction(int $devKey): array
-    {
-        return $this->menuItemRepository->getMenuItemsSortedByWeight(
-            $this->dataEnumManager->getDataEnumValue($devKey),
-        );
-    }
-
-    /**
-     * @throws \Exception
-     */
-    public function getDataEnumValueFunction(int $devKey): string|int|bool
-    {
-        return $this->dataEnumManager->getDataEnumValue($devKey);
-    }
-
-    public function getAllPagesFunction(): array
-    {
-        return $this->pageRepository->findAll();
-    }
-
-    /**
      * @param Page[] $pages
      */
-    private function getPageElementsFormatted($pages): array
+    private function getPageElementsFormatted(array $pages): array
     {
-        $pageFormated = [];
+        $pageFormatted = [];
 
         foreach ($pages as $page) {
-            $pageFormated[] = $this->pageService->getPageElements($page, $this->request);
+            $pageFormatted[] = $this->pageService->getPageElements($page, $this->request);
         }
 
-        return $pageFormated;
-    }
-
-    public function findPagesBySlugFunction(array $slugs): array
-    {
-        $pages = $this->pageRepository->findBy(['slug' => $slugs]);
-
-        if (\count($slugs) !== \count($pages)) {
-            throw new \Exception('At least one page is missing, please check the slug that you\'ve provided');
-        }
-
-        return $this->getPageElementsFormatted($pages);
-    }
-
-    public function findPagesByCategoryFunction(string $category): array
-    {
-        $pages = $this->pageRepository->findBy(['category' => $category]);
-
-        return $this->getPageElementsFormatted($pages);
+        return $pageFormatted;
     }
 
     /* THIS FUNCTION IS NOT USED */
@@ -266,89 +357,5 @@ class AppExtension extends AbstractExtension
         }
 
         return $url;
-    }
-
-    /**
-     * @throws \Exception
-     */
-    public function getCanonicalUrlWithLinkFunction(Page $page): object
-    {
-        // Get the hostname
-        $hostname = $this->request->getHost();
-
-        // Get the current website
-        $website = $this->websiteService->getCurrentWebsite($hostname);
-
-        // If homepage
-        if ('/' === $page->getSlug()) {
-            $url = $website->getDomain().'/';
-            // If canonical url is set
-        } elseif (null !== $page->getCanonicalUrl() && '' !== $page->getCanonicalUrl()) {
-            $url = $website->getDomain().'/'.$page->getCanonicalUrl();
-            // If slug is set (The slug is mandatory)
-        } else {
-            $url = $website->getDomain().'/'.$page->getSlug();
-        }
-
-        // Prevent double slash on the url
-        $url = str_replace('//', '/', $url);
-
-        // Add protocol
-        $url = $website->getProtocol().$url;
-
-        // Return the absolute url
-        return new \Twig\Markup(sprintf('<link rel="canonical" href="%s">', $url), 'UTF-8');
-    }
-
-    public function getCanonicalUrlFunction(Page $page): ?string
-    {
-        return $page->getWebsite()->getProtocol().$page->getWebsite()->getDomain().'/'.$page->getCanonicalUrl();
-    }
-
-    public function getUrlAbsoluteFinalFunction(Page $page): ?string
-    {
-        $baseUrl = $this->request->getSchemeAndHttpHost();
-
-
-        $pageType = $page->getPageType();
-
-        if(null !== $pageType) {
-            $pageTypeUrlPrefix = $pageType->getUrlPrefix();
-
-            if ($pageTypeUrlPrefix === '/'){
-
-                if ($page->getSlug() === '/') {
-                    return $baseUrl;
-                };
-
-                return $baseUrl . '/' . $page->getSlug();
-            }
-
-            return $baseUrl . $pageTypeUrlPrefix . '/' . $page->getSlug();
-        }
-
-        return $baseUrl . '/' . $page->getSlug();
-    }
-
-    public function getUrlRelativeFinalFunction(Page $page): ?string
-    {
-        $pageType = $page->getPageType();
-
-        if(null !== $pageType) {
-            $pageTypeUrlPrefix = $pageType->getUrlPrefix();
-
-            if ($pageTypeUrlPrefix === '/'){
-
-                if ($page->getSlug() === '/') {
-                    return '/';
-                };
-
-                return '/' . $page->getSlug();
-            }
-
-            return $pageTypeUrlPrefix . '/' . $page->getSlug();
-        }
-
-        return '/' . $page->getSlug();
     }
 }

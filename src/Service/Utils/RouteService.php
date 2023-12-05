@@ -4,10 +4,10 @@ namespace App\Service\Utils;
 
 use Symfony\Component\Routing\RouterInterface;
 
-class RouteService
+readonly class RouteService
 {
     public function __construct(
-        private readonly RouterInterface $router,
+        private RouterInterface $router,
     ) {}
 
     public function getRoutes(): array

@@ -4,6 +4,7 @@ namespace App\Form\backend\admin\dashboard\advancedData\dataEnum;
 
 use App\Entity\DataEnum;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -32,7 +33,10 @@ class DataEnumEditType extends AbstractType
                 'required' => false,
                 'label' => 'Valeur'
             ])
-            ->add('devKey', )
+            ->add('devKey', IntegerType::class, [
+                'required' => true,
+                'label' => 'Clé de dev'
+            ])
         ;
     }
 

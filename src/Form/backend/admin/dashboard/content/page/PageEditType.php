@@ -20,9 +20,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class PageEditType extends AbstractType
 {
-    public function __construct(private PageRepository $pageRepository)
-    {
-    }
+    public function __construct(private readonly PageRepository $pageRepository){}
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {

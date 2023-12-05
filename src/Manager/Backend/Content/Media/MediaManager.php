@@ -5,6 +5,7 @@ namespace App\Manager\Backend\Content\Media;
 use App\Entity\Image;
 use App\Manager\AbstractManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 
 class MediaManager extends AbstractManager
 {
@@ -16,7 +17,7 @@ class MediaManager extends AbstractManager
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function mediaImageCreate(Image $image): void
     {

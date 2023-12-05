@@ -4,13 +4,14 @@ namespace App\EventSubscriber;
 
 use App\Entity\UserApplication;
 use App\Entity\UserBackend;
+use DateTimeImmutable;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
-class LastLoginSubscriber implements EventSubscriberInterface
+readonly class LastLoginSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly EntityManagerInterface $entityManager){}
+    public function __construct(private EntityManagerInterface $entityManager){}
 
     public static function getSubscribedEvents(): array
     {
@@ -24,7 +25,7 @@ class LastLoginSubscriber implements EventSubscriberInterface
         $user = $event->getAuthenticationToken()->getUser();
 
         if ($user instanceof UserBackend || $user instanceof UserApplication) {
-            $user->setLastLoginAt(new \DateTimeImmutable());
+            $user->setLastLoginAt(new DateTimeImmutable());
             $this->entityManager->persist($user);
             $this->entityManager->flush();
         }

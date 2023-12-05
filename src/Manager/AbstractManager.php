@@ -2,6 +2,7 @@
 
 namespace App\Manager;
 
+use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 
 class AbstractManager
@@ -12,12 +13,12 @@ class AbstractManager
     {
         if (method_exists($entity, 'getCreatedAt')) {
             if($entity->getCreatedAt() === null) {
-                $entity->setCreatedAt(new \DateTimeImmutable());
+                $entity->setCreatedAt(new DateTimeImmutable());
             }
         }
 
         if (method_exists($entity, 'getUpdatedAt')) {
-            $entity->setUpdatedAt(new \DateTimeImmutable());
+            $entity->setUpdatedAt(new DateTimeImmutable());
         }
 
         $this->em->persist($entity);
@@ -33,7 +34,7 @@ class AbstractManager
     protected function softRemoveBySender(object $entity): void
     {
         if (method_exists($entity, 'getDeletedBySenderAt')) {
-            $entity->setDeletedBySenderAt(new \DateTimeImmutable());
+            $entity->setDeletedBySenderAt(new DateTimeImmutable());
         }
 
         $this->em->persist($entity);
@@ -43,7 +44,7 @@ class AbstractManager
     protected function softRemoveByReceiver(object $entity): void
     {
         if (method_exists($entity, 'getDeletedByReceiverAt')) {
-            $entity->setDeletedByReceiverAt(new \DateTimeImmutable());
+            $entity->setDeletedByReceiverAt(new DateTimeImmutable());
         }
 
         $this->em->persist($entity);

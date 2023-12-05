@@ -7,9 +7,9 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 
-class BackendRedirectListener
+readonly class BackendRedirectListener
 {
-    public function __construct(private readonly Security $security, private readonly UrlGeneratorInterface $urlGenerator){}
+    public function __construct(private Security $security, private UrlGeneratorInterface $urlGenerator){}
 
     public function onKernelRequest(RequestEvent $event): void
     {
