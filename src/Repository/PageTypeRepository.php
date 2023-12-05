@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\PageType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -37,6 +39,25 @@ class PageTypeRepository extends ServiceEntityRepository
         $query->setParameter('criteria', '%' . $criteria . '%');
 
         return $query->getResult();
+    }
+
+    /**
+     * We take the highest devKey and increment it by 1 to get the next available devKey.
+     * We make sure that the devKey is unique.
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
+    public function createDevKey(): int
+    {
+        $query = $this->em()->createQuery('SELECT MAX(pt.devKey) FROM App\Entity\PageType pt');
+
+        $devKey = $query->getSingleScalarResult();
+
+        while ($this->findOneBy(['devKey' => $devKey])) {
+            $devKey++;
+        }
+
+        return $devKey;
     }
 
     // Base
