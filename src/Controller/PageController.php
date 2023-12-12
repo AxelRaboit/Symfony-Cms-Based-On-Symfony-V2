@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Page;
 use App\Enum\PageStateEnum;
+use App\Enum\UtilsEnum;
 use App\Repository\PageRepository;
 use App\Service\Page\PageGalleryService;
 use App\Service\Page\PageService;
@@ -73,8 +74,12 @@ class PageController extends AbstractController
             $elements['children'] = $this->pageService->getChildrenFromPage($page);
             $elements['gallery'] = $this->pageGalleryService->getPageGalleryElements($page);
 
-            if($page->getPageType() !== null) {
-                $elements['template'] = $page->getPageType()->getTemplate();
+            if(null !== $page->getPageType()) {
+                if (null !== $page->getPageType()->getTemplate()) {
+                    $elements['template'] = $page->getPageType()->getTemplate();
+                } else {
+                    $elements['template'] = UtilsEnum::PAGE_DEFAULT_TEMPLATE;
+                }
             }
 
             return $this->render($elements['template'], $elements);
