@@ -60,6 +60,7 @@ class AppExtension extends AbstractExtension
             new TwigFunction('getDataEnumValue', [$this, 'getDataEnumValueFunction']),
             new TwigFunction('getMenuItems', [$this, 'getMenuItemsFunction']),
             new TwigFunction('getPageTypes', [$this, 'getPageTypesFunction']),
+            new TwigFunction('getPageUrl', [$this, 'getPageUrlFunction']),
             new TwigFunction('getUrlAbsoluteFinal', [$this, 'getUrlAbsoluteFinalFunction']),
             new TwigFunction('getUserBackendMessageCount', [$this, 'getUserBackendMessageCountFunction']),
             new TwigFunction('getUrlRelativeFinal', [$this, 'getUrlRelativeFinalFunction']),
@@ -178,6 +179,28 @@ class AppExtension extends AbstractExtension
     public function getPageTypesFunction(): array
     {
         return $this->pageTypeRepository->findAll();
+    }
+
+    public function getPageUrlFunction(Page $page): string
+    {
+        $pageType = $page->getPageType();
+
+        if(null !== $pageType) {
+            $pageTypeUrlPrefix = $pageType->getUrlPrefix();
+
+            if ($pageTypeUrlPrefix === '/'){
+
+                if ($page->getSlug() === '/') {
+                    return '/';
+                };
+
+                return '/' . $page->getSlug();
+            }
+
+            return $pageTypeUrlPrefix . '/' . $page->getSlug();
+        }
+
+        return '/' . $page->getSlug();
     }
 
     public function getUrlAbsoluteFinalFunction(Page $page): ?string

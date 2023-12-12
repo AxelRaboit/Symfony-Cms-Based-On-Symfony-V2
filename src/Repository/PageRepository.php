@@ -193,19 +193,19 @@ class PageRepository extends ServiceEntityRepository
         $pageTypePrefix = '';
         $pageSlug = '';
 
-        // Boucle pour trouver un pageTypePrefix correspondant
+        // Loop to find a matching pageTypePrefix
         for ($i = 0; $i < count($segments); $i++) {
-            // Construction du potentialPageTypePrefix
+            // Build the potentialPageTypePrefix
             $potentialPageTypePrefix = '/' . implode('/', array_slice($segments, 0, $i + 1));
 
-            // Si le potentialPageTypePrefix est "/backend", l'ajouter au slug
+            // If the potentialPageTypePrefix is "/backend", add it to the slug
             if ($potentialPageTypePrefix === '/backend') {
                 $pageSlug = $potentialPageTypePrefix . '/' . implode('/', array_slice($segments, $i + 1));
                 $pageSlug = substr($pageSlug, 1);
                 break;
             }
 
-            // Vérifier si le potentialPageTypePrefix existe dans la base de données
+            // Check if the potentialPageTypePrefix exists in the database
             $query = $this->em()->createQuery(
                 'SELECT COUNT(pt) FROM App\Entity\PageType pt WHERE pt.urlPrefix = :prefix'
             );
@@ -215,6 +215,8 @@ class PageRepository extends ServiceEntityRepository
                 $pageTypePrefix = $potentialPageTypePrefix;
                 $pageSlug = implode('/', array_slice($segments, $i + 1));
                 break;
+            } else {
+                $pageSlug = implode('/', array_slice($segments, $i));
             }
         }
 
