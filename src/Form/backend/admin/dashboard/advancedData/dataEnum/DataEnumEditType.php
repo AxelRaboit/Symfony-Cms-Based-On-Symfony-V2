@@ -20,8 +20,8 @@ class DataEnumEditType extends AbstractType
                 'label' => 'Nom',
                 'constraints' => [
                     new Regex([
-                        'pattern' => '/^DATA_[A-Z_]*$/',
-                        'message' => 'Le nom doit commencer par "DATA_" et ne contenir que des lettres majuscules et des underscores.',
+                        'pattern' => '/^DATA_[A-Z0-9_]*$/',
+                        'message' => 'Le nom doit commencer par "DATA_" et ne contenir que des lettres majuscules, chiffres, et des underscores.',
                     ]),
                 ],
             ])
