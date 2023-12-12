@@ -1,12 +1,14 @@
 {% extends "backend/admin/base/base.html.twig" %}
 
-{% block title %}{{ parent() }} - Mon profil{% endblock %}
+{% set pageTitle = "Mon profil" %}
+
+{% block title %}{{ parent() }} - {{ pageTitle }}{% endblock %}
 
 {% block body %}
     {% include 'backend/admin/dashboard/elements/_side-menu.html.twig' %}
 
     <div class="p-4 sm:ml-64">
-        <h1 class="text-2xl font-semibold mb-2 text-gray-900 dark:text-white">Mon profil</h1>
+        <h1 class="text-2xl font-semibold mb-2 text-gray-900 dark:text-white">{{ pageTitle }}</h1>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 rounded bg-gray-100 dark:bg-gray-800 p-2">
             <div class="flex flex-col md:flex-row">

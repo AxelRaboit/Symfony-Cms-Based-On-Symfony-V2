@@ -1,6 +1,8 @@
 {% extends 'backend/admin/base/base.html.twig' %}
 
-{% block title %}{{ parent() }} - Liste des messages envoyés{% endblock %}
+{% set pageTitle = "Liste des messages envoyés" %}
+
+{% block title %}{{ parent() }} - {{ pageTitle }}{% endblock %}
 
 {% block body %}
     {{ encore_entry_link_tags('backend/admin/dashboard/userBackend/profile/message/sent/list') }}
@@ -10,7 +12,7 @@
     <div class="p-2 sm:ml-64">
         <div class="p-2">
 
-            <h1 class="text-2xl font-semibold mb-2 text-gray-900 dark:text-white">Liste des messages envoyés</h1>
+            <h1 class="text-2xl font-semibold mb-2 text-gray-900 dark:text-white">{{ pageTitle }}</h1>
 
             <div class="mb-2">
                 <a href="{{ path('app_backend_user_backend_profile_message_create', {'id': app.user.id}) }}">

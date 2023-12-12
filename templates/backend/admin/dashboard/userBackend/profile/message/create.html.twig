@@ -1,13 +1,15 @@
 {% extends "backend/admin/base/base.html.twig" %}
 
-{% block title %}{{ parent() }} - Envoyer un message{% endblock %}
+{% set pageTitle = "Envoyer un message" %}
+
+{% block title %}{{ parent() }} - {{ pageTitle }}{% endblock %}
 
 {% block body %}
     {{ encore_entry_link_tags('backend/admin/dashboard/content/page/create') }}
 
     {% include 'backend/admin/dashboard/elements/_side-menu.html.twig' %}
     <div class="p-4 sm:ml-64">
-        <h1 class="text-2xl font-semibold mb-2 text-gray-900 dark:text-white">Envoyer un message</h1>
+        <h1 class="text-2xl font-semibold mb-2 text-gray-900 dark:text-white">{{ pageTitle }}</h1>
         {{ form_start(form, {'attr': {'id': 'form-create-page-js'}}) }}
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-2">

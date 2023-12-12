@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Menu;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,28 +22,25 @@ class MenuRepository extends ServiceEntityRepository
         parent::__construct($registry, Menu::class);
     }
 
-//    /**
-//     * @return Menu[] Returns an array of Menu objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('m.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findAllOrderBy(string $order = 'ASC'): array
+    {
+        $query = $this->em()->createQuery('SELECT pt FROM App\Entity\Menu pt ORDER BY pt.id ' . $order);
 
-//    public function findOneBySomeField($value): ?Menu
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        return $query->getResult();
+    }
+
+    public function findByCriteria(string $criteria, string $order = 'ASC'): array
+    {
+        $criteria = trim($criteria);
+
+        $query = $this->em()->createQuery('SELECT m FROM App\Entity\Menu m WHERE m.name LIKE :criteria OR m.id LIKE :criteria ORDER BY m.id ' . $order);
+        $query->setParameter('criteria', '%' . $criteria . '%');
+
+        return $query->getResult();
+    }
+
+    private function em(): EntityManagerInterface
+    {
+        return $this->_em;
+    }
 }

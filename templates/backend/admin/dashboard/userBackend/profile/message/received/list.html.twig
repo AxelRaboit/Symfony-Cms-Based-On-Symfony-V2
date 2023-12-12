@@ -1,6 +1,8 @@
 {% extends 'backend/admin/base/base.html.twig' %}
 
-{% block title %}{{ parent() }} - Liste des messages reçus{% endblock %}
+{% set pageTitle = "Liste des messages reçus" %}
+
+{% block title %}{{ parent() }} - {{ pageTitle }}{% endblock %}
 
 {% block body %}
     {{ encore_entry_link_tags('backend/admin/dashboard/userBackend/profile/message/received/list') }}
@@ -10,7 +12,7 @@
     <div class="p-2 sm:ml-64">
         <div class="p-2">
 
-            <h1 class="text-2xl font-semibold mb-2 text-gray-900 dark:text-white">Liste des messages reçus</h1>
+            <h1 class="text-2xl font-semibold mb-2 text-gray-900 dark:text-white">{{ pageTitle }}</h1>
 
             <div class="flex flex-wrap mb-2">
                 <div id="container-reset-button-js" class="w-full md:w-auto mb-2 md:mb-0">

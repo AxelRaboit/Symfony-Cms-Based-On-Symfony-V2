@@ -1,6 +1,8 @@
 {% extends 'backend/admin/base/base.html.twig' %}
 
-{% block title %}{{ parent() }} - Tableau de bord{% endblock %}
+{% set pageTitle = "Tableau de bord" %}
+
+{% block title %}{{ parent() }} - {{ pageTitle }}{% endblock %}
 
 {% block body %}
     {{ encore_entry_link_tags('backend/admin/dashboard') }}

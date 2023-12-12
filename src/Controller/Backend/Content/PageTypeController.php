@@ -4,7 +4,7 @@ namespace App\Controller\Backend\Content;
 
 use App\Entity\PageType;
 use App\Form\backend\admin\dashboard\content\pageType\create\PageTypeEditType;
-use App\Manager\Backend\Content\PageType\PageTypeManager;
+use App\Manager\Backend\Content\PageType\MenuManager;
 use App\Repository\PageTypeRepository;
 use App\Service\Utils\StringUtilsService;
 use Doctrine\ORM\NonUniqueResultException;
@@ -49,7 +49,7 @@ class PageTypeController extends AbstractController
      * @throws NoResultException
      */
     #[Route('/backend/admin/content/page-type/create', name: 'app_backend_content_page_type_create', methods: ['GET', 'POST'])]
-    public function pageCreate(Request $request, PageTypeManager $pageManager): Response
+    public function pageTypeCreate(Request $request, MenuManager $pageManager): Response
     {
         $pageType = new PageType();
         $form = $this->createForm(PageTypeEditType::class, $pageType);
@@ -74,7 +74,7 @@ class PageTypeController extends AbstractController
      * @throws NoResultException
      */
     #[Route('/backend/admin/content/page-type/{id}/edit', name: 'app_backend_content_page_type_edit', methods: ['GET', 'POST'])]
-    public function dataEnumEdit(PageType $pageType, Request $request, PageTypeManager $pageTypeManager): Response
+    public function pageTypeEdit(PageType $pageType, Request $request, MenuManager $pageTypeManager): Response
     {
         $form = $this->createForm(PageTypeEditType::class, $pageType);
         $form->handleRequest($request);
@@ -95,7 +95,7 @@ class PageTypeController extends AbstractController
     }
 
     #[Route('/backend/admin/content/page-type/{id}/delete', name: 'app_backend_content_page_type_delete')]
-    public function pageDelete(PageType $pageType, PageTypeManager $pageTypeManager): Response
+    public function pageTypeDelete(PageType $pageType, MenuManager $pageTypeManager): Response
     {
         $pageTypeManager->pageTypeDelete($pageType);
 
