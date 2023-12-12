@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form\backend\admin\dashboard\content\pageType\create;
+namespace App\Form\backend\admin\dashboard\content\pageType\edit;
 
 use App\Entity\PageType;
 use Symfony\Component\Form\AbstractType;
