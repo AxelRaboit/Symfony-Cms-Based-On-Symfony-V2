@@ -107,7 +107,7 @@ class PageController extends AbstractController
             $pageManager->pageCreate($page, $bannerImageId, $thumbnailImageId);
 
             $pageName = $page->getName();
-            $this->addFlash('success', "La page {$pageName} a été créé avec succès.");
+            $this->addFlash('success', "La page $pageName a été créé avec succès.");
 
             return $this->redirectToRoute('app_backend_content_page_list');
         }
@@ -163,7 +163,7 @@ class PageController extends AbstractController
 
         $pageName = $page->getName();
 
-        $this->addFlash('success', "La page {$pageName} a été supprimée avec succès.");
+        $this->addFlash('success', "La page $pageName a été supprimée avec succès.");
 
         return $this->redirectToRoute('app_backend_content_page_list');
     }

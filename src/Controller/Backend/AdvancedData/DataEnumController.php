@@ -57,7 +57,7 @@ class DataEnumController extends AbstractController
 
             $dataEnumName = $dataEnum->getName();
 
-            $this->addFlash('success', "La donnée {$dataEnumName} a été créé avec succès.");
+            $this->addFlash('success', "La donnée $dataEnumName a été créé avec succès.");
 
             return $this->redirectToRoute('app_backend_advanced_data_data_enum_list');
         }
@@ -78,7 +78,7 @@ class DataEnumController extends AbstractController
 
             $dataEnumName = $dataEnum->getName();
 
-            $this->addFlash('success', "La donnée {$dataEnumName} a été modifiée avec succès.");
+            $this->addFlash('success', "La donnée $dataEnumName a été modifiée avec succès.");
 
             return $this->redirectToRoute('app_backend_advanced_data_data_enum_list');
         }
@@ -95,7 +95,7 @@ class DataEnumController extends AbstractController
 
         $dataEnumName = $dataEnum->getName();
 
-        $this->addFlash('success', "La donnée {$dataEnumName} a été supprimée avec succès.");
+        $this->addFlash('success', "La donnée $dataEnumName a été supprimée avec succès.");
 
         return $this->redirectToRoute('app_backend_advanced_data_data_enum_list');
     }

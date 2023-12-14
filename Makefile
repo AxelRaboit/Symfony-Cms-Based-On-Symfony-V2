@@ -28,11 +28,6 @@ SYMFONY_CONSOLE = $(BIN_PHP) bin/console
 ## APPLICATION
 ##--------------------------------------------
 
-#update:
-#	symfony console make:migration --no-interaction
-#	symfony console doctrine:migrations:migrate --no-interaction
-#	yarn encore dev
-
 update: ## Update application
 	- bin/$(ENVIRONNEMENT)/update.sh
 	- make front-production-build
@@ -45,22 +40,6 @@ prepare-to-push: ## Prepare to push running all useful commands
 	make cache-clear
 	make update
 	make quality
-fast-main: ## Fast Push Main
-	make cache-clear
-	make update
-	make front-production-build
-	make quality
-	git add .
-	git commit -m "Fast Push"
-	git push origin main
-fast-develop: ## Fast Push Develop
-	make cache-clear
-	make update
-	make front-production-build
-	make quality
-	git add .
-	git commit -m "Fast Push"
-	git push origin develop
 
 ##--------------------------------------------
 ## TOOLS
@@ -69,7 +48,7 @@ fast-develop: ## Fast Push Develop
 front-dev-build: ## Build front dev
 	yarn install && yarn encore dev
 
-fronte-dev-watch: ## Watch front dev
+front-dev-watch: ## Watch front dev
 	yarn && yarn dev --watch
 
 front-production-build: ## Build front production

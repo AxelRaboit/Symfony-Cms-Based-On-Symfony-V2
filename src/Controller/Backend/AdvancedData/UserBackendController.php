@@ -56,7 +56,7 @@ class UserBackendController extends AbstractController
 
             $userIdentity = $userBackend->getUsername() ?? $userBackend->getEmail();
 
-            $this->addFlash('success', "L'utilisateur {$userIdentity} a été créé avec succès.");
+            $this->addFlash('success', "L'utilisateur $userIdentity a été créé avec succès.");
 
             return $this->redirectToRoute('app_backend_advanced_data_user_backend_list');
         }
@@ -99,7 +99,7 @@ class UserBackendController extends AbstractController
             }
 
             $userIdentity = $userBackend->getUsername() ?? $userBackend->getEmail();
-            $this->addFlash('success', "L'utilisateur {$userIdentity} a été modifié avec succès.");
+            $this->addFlash('success', "L'utilisateur $userIdentity a été modifié avec succès.");
 
             return $this->redirectToRoute('app_backend_advanced_data_user_backend_list');
         }
@@ -117,7 +117,7 @@ class UserBackendController extends AbstractController
 
         $userIdentity = $userBackend->getUsername() ?? $userBackend->getEmail();
 
-        $this->addFlash('success', "L'utilisateur {$userIdentity} a été supprimé avec succès.");
+        $this->addFlash('success', "L'utilisateur $userIdentity a été supprimé avec succès.");
 
         return $this->redirectToRoute('app_backend_advanced_data_user_backend_list');
     }
