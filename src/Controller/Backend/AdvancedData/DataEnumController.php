@@ -7,7 +7,6 @@ use App\Form\backend\admin\dashboard\advancedData\dataEnum\DataEnumCreateType;
 use App\Form\backend\admin\dashboard\advancedData\dataEnum\DataEnumEditType;
 use App\Manager\Backend\AdvancedData\DataEnum\DataEnumManager;
 use App\Repository\DataEnumRepository;
-use App\Service\Utils\StringUtilsService;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Knp\Component\Pager\PaginatorInterface;
@@ -22,6 +21,7 @@ class DataEnumController extends AbstractController
     #[Route('/backend/admin/advanced-data/data-enum/list', name: 'app_backend_advanced_data_data_enum_list')]
     public function dataEnumList(DataEnumRepository $dataEnumRepository, Request $request, PaginatorInterface $paginator): Response
     {
+        /** @var string|null $search */
         $search = $request->query->get('search');
 
         if (!empty($search)) {
@@ -103,6 +103,7 @@ class DataEnumController extends AbstractController
     #[Route('/backend/admin/advanced-data/data-enum/ajax-search', name: 'app_backend_advanced_data_data_enum_ajax_search')]
     public function ajaxSearch(Request $request, DataEnumRepository $dataEnumRepository): JsonResponse
     {
+        /** @var string $searchTerm */
         $searchTerm = $request->query->get('term');
 
         $dataEnums = $dataEnumRepository->findByCriteria($searchTerm);

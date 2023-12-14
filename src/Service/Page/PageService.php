@@ -29,11 +29,19 @@ class PageService
         return $page;
     }
 
-    public function getPageByDevCodeRouteName(string $devCodeRouteName): Page
+    /**
+     * @param string $devCodeRouteName
+     * @return Page|null
+     */
+    public function getPageByDevCodeRouteName(string $devCodeRouteName): ?Page
     {
         return $this->pageRepository->findOneBy(['devCodeRouteName' => $devCodeRouteName]);
     }
 
+    /**
+     * @param Page $page
+     * @return array<string, mixed>
+     */
     public function getPageElements(Page $page): array
     {
         $template = $page->getTemplate() ?: UtilsEnum::PAGE_DEFAULT_TEMPLATE;
@@ -109,6 +117,10 @@ class PageService
         return $content;
     }
 
+    /**
+     * @param Page $page
+     * @return array<array<string, mixed>>
+     */
     public function getChildrenFromPage(Page $page): array
     {
         $children = $this->pageRepository->getChildren($page);

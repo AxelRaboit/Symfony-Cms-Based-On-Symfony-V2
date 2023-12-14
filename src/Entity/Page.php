@@ -105,19 +105,19 @@ class Page
     private ?string $bannerTitle = null;
 
     #[ORM\Column]
-    private ?bool $visibleForBackendActions = null;
+    private bool $visibleForBackendActions;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $metaTitle = null;
 
     #[ORM\Column]
-    private ?int $weight = 0;
+    private int $weight = 0;
 
     #[ORM\Column(length: 255)]
-    private ?string $displayType = null;
+    private string $displayType;
 
     #[ORM\Column]
-    private ?int $state = null;
+    private int $state;
 
     public function __construct()
     {
@@ -468,6 +468,9 @@ class Page
 
     // Others
 
+    /**
+     * @return array<string, mixed>
+     */
     public function toArray(): array
     {
         return [

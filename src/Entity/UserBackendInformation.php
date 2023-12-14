@@ -53,6 +53,17 @@ class UserBackendInformation
         ];
     }
 
+    /**
+     * @param array{
+     *     id: int,
+     *     user: UserBackend,
+     *     pictureProfileName: string|null,
+     *     pictureProfileSize: int|null,
+     *     createdAt: DateTimeImmutable,
+     *     updatedAt: DateTimeImmutable,
+     *     deletedAt: DateTimeImmutable|null
+     * } $data
+     */
     public function __unserialize(array $data): void
     {
         $this->id = $data['id'];
@@ -92,9 +103,8 @@ class UserBackendInformation
      * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
      * must be able to accept an instance of 'File' as the bundle will inject one here
      * during Doctrine hydration.
-     *
      * @param File|null $pictureProfileFile
-     * @return UserBackendInformation
+     * @return static
      */
     public function setPictureProfileFile(?File $pictureProfileFile = null): static
     {

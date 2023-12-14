@@ -92,6 +92,11 @@ class PageController extends AbstractController
         throw new NotFoundHttpException("Page not found");
     }
 
+    /**
+     * @param Request $request
+     * @param array<string, mixed> $routes
+     * @return mixed
+     */
     private function redirectOnRouteSiteMap(Request $request, array $routes): mixed
     {
         if (mb_strstr($request->getRequestUri(), 'sitemap')) {

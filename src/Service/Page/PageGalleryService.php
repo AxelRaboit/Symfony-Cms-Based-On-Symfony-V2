@@ -2,6 +2,7 @@
 
 namespace App\Service\Page;
 
+use App\Entity\Image;
 use App\Entity\Page;
 use App\Repository\PageGalleryRepository;
 
@@ -11,6 +12,17 @@ class PageGalleryService
         private readonly PageGalleryRepository $pageGalleryRepository,
     ) {}
 
+    /**
+     * Retrieves gallery elements for a given page.
+     *
+     * @param Page $page
+     * @return array<int|string, array{
+     *     elements: array{
+     *         gallery: array<string, mixed>,
+     *         imageElements: array<string, mixed>
+     *     }
+     * }>
+     */
     public function getPageGalleryElements(Page $page): array
     {
         $gallery = $this->pageGalleryRepository->getPageGallery($page);
@@ -18,6 +30,7 @@ class PageGalleryService
         $pageElements = [];
 
         foreach ($gallery as $key => $item) {
+            /** @var Image $image */
             $image = $item['image'];
             $itemElement = [];
 

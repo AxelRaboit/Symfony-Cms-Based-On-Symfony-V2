@@ -24,7 +24,11 @@ class UserBackendInformationManager extends AbstractManager
 
     public function userBackendPictureProfileDelete(UserBackendInformation $userBackendInformation): void
     {
-        $this->userBackendInformationService->userBackendInformationPictureProfileFileDelete($userBackendInformation->getPictureProfileName());
+
+        /** @var string $pictureProfileName */
+        $pictureProfileName = $userBackendInformation->getPictureProfileName();
+
+        $this->userBackendInformationService->userBackendInformationPictureProfileFileDelete($pictureProfileName);
         $userBackendInformation->setPictureProfileName(null);
         $userBackendInformation->setPictureProfileSize(null);
 

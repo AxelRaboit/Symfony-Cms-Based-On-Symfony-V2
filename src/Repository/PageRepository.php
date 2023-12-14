@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\DataEnum;
 use App\Entity\Page;
 use App\Entity\PageType;
 use App\Enum\PageStateEnum;
@@ -26,22 +27,43 @@ class PageRepository extends ServiceEntityRepository
         parent::__construct($registry, Page::class);
     }
 
+    /**
+     * @param string $order
+     * @return array<Page>
+     */
     public function findAllOrderBy(string $order = 'ASC'): array
     {
         $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE p.state != :state ORDER BY p.id ' . $order);
         $query->setParameter('state', PageStateEnum::DELETED);
 
-        return $query->getResult();
+        /** @var array<Page> $result */
+        $result = $query->getResult();
+
+        return $result;
     }
 
+
+    /**
+     * @param PageType $pageType
+     * @param string $order
+     * @return array<Page>
+     */
     public function findAllByPageTypeOrderBy(PageType $pageType, string $order = 'ASC'): array
     {
         $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE p.pageType = :pageType ORDER BY p.id ' . $order);
         $query->setParameter('pageType', $pageType);
 
-        return $query->getResult();
+        /** @var array<Page> $result */
+        $result = $query->getResult();
+
+        return $result;
     }
 
+    /**
+     * @param string $criteria
+     * @param string $order
+     * @return array<Page>
+     */
     public function findByCriteria(string $criteria, string $order = 'ASC'): array
     {
         $criteria = trim($criteria);
@@ -49,9 +71,18 @@ class PageRepository extends ServiceEntityRepository
         $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE p.name LIKE :criteria OR p.slug LIKE :criteria OR p.id LIKE :criteria ORDER BY p.id ' . $order);
         $query->setParameter('criteria', '%' . $criteria . '%');
 
-        return $query->getResult();
+        /** @var array<Page> $result */
+        $result = $query->getResult();
+
+        return $result;
     }
 
+    /**
+     * @param string $criteria
+     * @param PageType $pageType
+     * @param string $order
+     * @return array<Page>
+     */
     public function findByCriteriaByPageType(string $criteria, PageType $pageType, string $order = 'ASC'): array
     {
         $criteria = trim($criteria);
@@ -59,10 +90,18 @@ class PageRepository extends ServiceEntityRepository
         $query->setParameter('criteria', '%' . $criteria . '%');
         $query->setParameter('pageType', $pageType);
 
-        return $query->getResult();
+        /** @var array<Page> $result */
+        $result = $query->getResult();
+
+        return $result;
     }
 
-    public function findByState(string $state = PageStateEnum::PUBLISHED, string $order = 'ASC'): array
+    /**
+     * @param int $state
+     * @param string $order
+     * @return array<Page>
+     */
+    public function findByState(int $state = PageStateEnum::PUBLISHED, string $order = 'ASC'): array
     {
         if (PageStateEnum::DRAFT_AND_PUBLISHED === $state) {
             return $this->findAllOrderBy($order);
@@ -71,10 +110,19 @@ class PageRepository extends ServiceEntityRepository
         $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE p.state = :state ORDER BY p.id ' . $order);
         $query->setParameter('state', $state);
 
-        return $query->getResult();
+        /** @var array<Page> $result */
+        $result = $query->getResult();
+
+        return $result;
     }
 
-    public function findByStateAndPageType(PageType $pageType, string $state = PageStateEnum::PUBLISHED, string $order = 'ASC'): array
+    /**
+     * @param PageType $pageType
+     * @param int $state
+     * @param string $order
+     * @return array<Page>
+     */
+    public function findByStateAndPageType(PageType $pageType, int $state = PageStateEnum::PUBLISHED, string $order = 'ASC'): array
     {
         if (PageStateEnum::DRAFT_AND_PUBLISHED === $state) {
             return $this->findAllByPageTypeOrderBy($pageType, $order);
@@ -84,9 +132,16 @@ class PageRepository extends ServiceEntityRepository
         $query->setParameter('state', $state);
         $query->setParameter('pageType', $pageType);
 
-        return $query->getResult();
+        /** @var array<Page> $result */
+        $result = $query->getResult();
+
+        return $result;
     }
 
+    /**
+     * @param Page $page
+     * @return array<Page>
+     */
     public function getChildren(Page $page): array
     {
         $query = $this->getEntityManager()->createQuery(
@@ -96,7 +151,10 @@ class PageRepository extends ServiceEntityRepository
 
         $query->setParameter('parent', $page);
 
-        return $query->getResult();
+        /** @var array<Page> $result */
+        $result = $query->getResult();
+
+        return $result;
     }
 
     /**
@@ -118,13 +176,14 @@ class PageRepository extends ServiceEntityRepository
 
     public function getPageFromDataNameDevKey(string $dataDevKeyName): ?Page
     {
-        $dataEnum = $this->em()->createQuery(
+        $query = $this->em()->createQuery(
             'SELECT de FROM App\Entity\DataEnum de
             WHERE de.name = :dataDevKeyName'
         );
-        $dataEnum->setParameter('dataDevKeyName', $dataDevKeyName);
+        $query->setParameter('dataDevKeyName', $dataDevKeyName);
 
-        $result = $dataEnum->getResult();
+        /** @var array<DataEnum> $result */
+        $result = $query->getResult();
 
 
         if (0 === \count($result)) {
@@ -133,13 +192,14 @@ class PageRepository extends ServiceEntityRepository
         $dataEnumObject = $result[0];
         $dataEnumValue = $dataEnumObject->getValue();
 
-        $page = $this->em()->createQuery('SELECT p
+        $query = $this->em()->createQuery('SELECT p
                 FROM App\Entity\Page p
                 WHERE p.devKey = :dataEnumValue
             ');
-        $page->setParameter('dataEnumValue', $dataEnumValue);
+        $query->setParameter('dataEnumValue', $dataEnumValue);
 
-        $page = $page->getResult();
+        /** @var array<Page> $page */
+        $page = $query->getResult();
 
         if (0 === \count($page)) {
             return null;
@@ -153,13 +213,14 @@ class PageRepository extends ServiceEntityRepository
      */
     public function getPageFromDataDevKey(int $dataDevKey): ?Page
     {
-        $dataEnum = $this->em()->createQuery(
+        $query = $this->em()->createQuery(
             'SELECT de FROM App\Entity\DataEnum de
             WHERE de.devKey = :dataDevKey'
         );
-        $dataEnum->setParameter('dataDevKey', $dataDevKey);
+        $query->setParameter('dataDevKey', $dataDevKey);
 
-        $result = $dataEnum->getResult();
+        /** @var array<DataEnum> $result */
+        $result = $query->getResult();
 
         if (0 === \count($result)) {
             return null;
@@ -167,14 +228,14 @@ class PageRepository extends ServiceEntityRepository
         $dataEnumObject = $result[0];
         $dataEnumValue = $dataEnumObject->getValue();
 
-        $page = $this->em()->createQuery('SELECT p
+        $query = $this->em()->createQuery('SELECT p
                 FROM App\Entity\Page p
                 WHERE p.devKey = :dataEnumValue
             ');
-        $page->setParameter('dataEnumValue', $dataEnumValue);
+        $query->setParameter('dataEnumValue', $dataEnumValue);
 
-        $page = $page->getResult();
-
+        /** @var array<Page> $page */
+        $page = $query->getResult();
 
         if (0 === \count($page)) {
             return null;
@@ -240,7 +301,10 @@ class PageRepository extends ServiceEntityRepository
             $finalQuery->setParameter('pageSlug', $pageSlug);
         }
 
-        return $finalQuery->getOneOrNullResult();
+        /** @var Page|null $result */
+        $result = $finalQuery->getOneOrNullResult();
+
+        return $result;
     }
 
 
@@ -260,7 +324,10 @@ class PageRepository extends ServiceEntityRepository
             return null;
         }
 
-        return $query->getOneOrNullResult();
+        /** @var Page|null $result */
+        $result = $query->getOneOrNullResult();
+
+        return $result;
     }
 
     /**
@@ -279,7 +346,7 @@ class PageRepository extends ServiceEntityRepository
             $devKey++;
         }
 
-        return $devKey;
+        return (int) $devKey;
     }
 
     // Base

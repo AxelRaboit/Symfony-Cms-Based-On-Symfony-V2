@@ -22,13 +22,25 @@ class MenuRepository extends ServiceEntityRepository
         parent::__construct($registry, Menu::class);
     }
 
+    /**
+     * @param string $order
+     * @return Menu[]
+     */
     public function findAllOrderBy(string $order = 'ASC'): array
     {
         $query = $this->em()->createQuery('SELECT pt FROM App\Entity\Menu pt ORDER BY pt.id ' . $order);
 
-        return $query->getResult();
+        /** @var Menu[] $result */
+        $result = $query->getResult();
+
+        return $result;
     }
 
+    /**
+     * @param string $criteria
+     * @param string $order
+     * @return Menu[]
+     */
     public function findByCriteria(string $criteria, string $order = 'ASC'): array
     {
         $criteria = trim($criteria);
@@ -36,7 +48,10 @@ class MenuRepository extends ServiceEntityRepository
         $query = $this->em()->createQuery('SELECT m FROM App\Entity\Menu m WHERE m.name LIKE :criteria OR m.id LIKE :criteria ORDER BY m.id ' . $order);
         $query->setParameter('criteria', '%' . $criteria . '%');
 
-        return $query->getResult();
+        /** @var Menu[] $result */
+        $result = $query->getResult();
+
+        return $result;
     }
 
     private function em(): EntityManagerInterface

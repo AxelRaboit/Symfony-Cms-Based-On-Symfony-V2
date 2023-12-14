@@ -7,6 +7,7 @@ use App\Entity\Page;
 use App\Repository\DataEnumRepository;
 use App\Repository\PageRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 
 class DataEnumManager extends AbstractManager
 {
@@ -20,7 +21,7 @@ class DataEnumManager extends AbstractManager
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function getDataEnumValue(
         int $dataEnum
@@ -29,7 +30,7 @@ class DataEnumManager extends AbstractManager
         $dataEnum = $this->dataEnumRepository->findOneBy(['devKey' => $dataEnum]);
 
         if (!$dataEnum) {
-            throw new \Exception('DataEnum not found');
+            throw new Exception('DataEnum not found');
         }
 
         $value = $dataEnum->getValue();
@@ -41,44 +42,54 @@ class DataEnumManager extends AbstractManager
         return $value;
     }
 
+    /**
+     * @throws Exception
+     */
     public function getPagebyDataDevKey(
         int $pageDevKey
     ): Page {
-        return $this->PageRepository->findOneBy(['devKey' => $pageDevKey]);
+
+        $page = $this->PageRepository->findOneBy(['devKey' => $pageDevKey]);
+
+        if (!$page) {
+            throw new Exception('Page not found');
+        }
+
+        return $page;
     }
 
+    /**
+     * Creates a DataEnum object from an array of parameters.
+     *
+     * @param array<string, mixed> $params
+     * @return DataEnum
+     */
     public function createFromArray(
         array $params = []
     ): DataEnum {
         $dataEnum = new DataEnum();
 
-        // ID
-        if (\array_key_exists('id', $params)) {
+        if (array_key_exists('id', $params) && is_int($params['id'])) {
             $dataEnum->setId($params['id']);
         }
 
-        // Name
-        if (\array_key_exists('name', $params)) {
+        if (array_key_exists('name', $params) && is_string($params['name'])) {
             $dataEnum->setName($params['name']);
         }
 
-        // Category
-        if (\array_key_exists('category', $params)) {
+        if (array_key_exists('category', $params) && (is_string($params['category']) || is_null($params['category']))) {
             $dataEnum->setCategory($params['category']);
         }
 
-        // Value
-        if (\array_key_exists('value', $params)) {
+        if (array_key_exists('value', $params) && (is_string($params['value']) || is_null($params['value']))) {
             $dataEnum->setValue($params['value']);
         }
 
-        // DevKey
-        if (\array_key_exists('dev_key', $params)) {
+        if (array_key_exists('dev_key', $params) && is_int($params['dev_key'])) {
             $dataEnum->setDevKey($params['dev_key']);
         }
 
-        // IsSystem
-        if (\array_key_exists('is_system', $params)) {
+        if (array_key_exists('is_system', $params) && is_bool($params['is_system'])) {
             $dataEnum->setIsSystem($params['is_system']);
         }
 
@@ -86,4 +97,5 @@ class DataEnumManager extends AbstractManager
 
         return $dataEnum;
     }
+
 }

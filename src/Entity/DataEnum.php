@@ -27,7 +27,7 @@ class DataEnum
     private ?int $devKey = null;
 
     #[ORM\Column]
-    private ?bool $isSystem = null;
+    private bool $isSystem;
 
     public function getId(): ?int
     {

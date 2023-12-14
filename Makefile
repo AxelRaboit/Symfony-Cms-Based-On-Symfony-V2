@@ -79,20 +79,11 @@ front-production-build: ## Build front production
 ## QUALITY
 ##--------------------------------------------
 
-#phpstan:
-#	vendor/bin/phpstan analyse src
-#csfixer: .php-cs-fixer.dist.php
-## tools/php-cs-fixer/vendor/bin/php-cs-fixer fix . -vvv --diff --config .php-cs-fixer.dist.php
-#	tools/php-cs-fixer/vendor/bin/php-cs-fixer fix src -vvv --diff --config .php-cs-fixer.dist.php
-#csfixer-dry:
-## tools/php-cs-fixer/vendor/bin/php-cs-fixer fix . --dry-run
-#	tools/php-cs-fixer/vendor/bin/php-cs-fixer fix src --dry-run
-#csfixer-stop:
-## tools/php-cs-fixer/vendor/bin/php-cs-fixer fix . --dry-run --stop-on-violation
-#	tools/php-cs-fixer/vendor/bin/php-cs-fixer fix src --dry-run --stop-on-violation
-#quality:
-#	make csfixer
-#	make phpstan
+quality:
+	make phpstan
+
+phpstan:
+	vendor/bin/phpstan analyse
 
 ##--------------------------------------------
 ## CACHE

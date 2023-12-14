@@ -6,7 +6,7 @@ use App\Entity\MenuItem;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use phpDocumentor\Reflection\Types\Collection;
+use function count;
 
 /**
  * @extends ServiceEntityRepository<MenuItem>
@@ -23,6 +23,12 @@ class MenuItemRepository extends ServiceEntityRepository
         parent::__construct($registry, MenuItem::class);
     }
 
+    /**
+     * Retrieves menu items sorted by weight for a given menu.
+     *
+     * @param string $menu
+     * @return array<int|string, array<string, mixed>>
+     */
     public function getMenuItemsSortedByWeight(
         string $menu,
     ): array {
@@ -34,13 +40,20 @@ class MenuItemRepository extends ServiceEntityRepository
 
         $query->setParameter('menu', $menu);
 
-        /* return (array) $query->execute(); */
-        return $this->sort((array) $query->execute(), true);
+        /** @var MenuItem[] $result */
+        $result = $query->getResult();
+
+        return $this->sort($result, true);
     }
 
+    /**
+     * @param array<MenuItem> $menuItems
+     * @param bool $toArray
+     * @return array<int|string, array<string, mixed>>
+     */
     private function sort(
-        Collection|array $menuItems,
-        bool             $toArray = false
+        array $menuItems,
+        bool $toArray = false
     ): array {
         $data = [];
 
@@ -61,9 +74,9 @@ class MenuItemRepository extends ServiceEntityRepository
                     $menuItemWhile = $menuItemWhile->getParent();
                 }
 
-                if (\count($parentIds) > 0) {
+                if (count($parentIds) > 0) {
                     $pointer = &$data[$parentIds[0]]['children'];
-                    for ($i = 1; $i < \count($parentIds); ++$i) {
+                    for ($i = 1; $i < count($parentIds); ++$i) {
                         $pointer = &$pointer[$parentIds[$i]]['children'];
                     }
                     $pointer[$menuItem->getId()] = $item;
@@ -72,7 +85,9 @@ class MenuItemRepository extends ServiceEntityRepository
         }
 
         usort($data, function ($a, $b) {
-            return $a['current']['weight'] <=> $b['current']['weight'];
+            $weightA = is_array($a['current']) ? $a['current']['weight'] : $a['current']->getWeight();
+            $weightB = is_array($b['current']) ? $b['current']['weight'] : $b['current']->getWeight();
+            return $weightA <=> $weightB;
         });
 
         return $data;

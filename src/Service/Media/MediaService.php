@@ -5,6 +5,7 @@ namespace App\Service\Media;
 use App\Entity\Image;
 use App\Enum\MediaEnum;
 use App\Manager\Backend\Content\Media\MediaManager;
+use Exception;
 use Symfony\Component\HttpFoundation\File\File;
 use ZipArchive;
 
@@ -17,10 +18,14 @@ class MediaService
 
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function prepareMediaForUpload(Image $image): bool
     {
+        if (null === $image->getImageFile()) {
+            throw new Exception('No file provided');
+        }
+
         $extension = $image->getImageFile()->guessExtension();
 
         if (in_array($extension, [
@@ -37,23 +42,22 @@ class MediaService
         } elseif ($extension == MediaEnum::MEDIA_EXTENSION_ZIP) {
             $zip = new ZipArchive();
             if ($zip->open($image->getImageFile()->getPathname()) === TRUE) {
-                // Loop through the files inside the zip
                 for ($i = 0; $i < $zip->numFiles; $i++) {
+                    /** @var string $filename */
                     $filename = $zip->getNameIndex($i);
-                    $fileinfo = pathinfo($filename);
+                    $fileInfo = pathinfo($filename);
 
-                    if (in_array(strtolower($fileinfo['extension']), [
-                        MediaEnum::MEDIA_EXTENSION_JPG,
-                        MediaEnum::MEDIA_EXTENSION_JPEG,
-                        MediaEnum::MEDIA_EXTENSION_PNG,
-                        MediaEnum::MEDIA_EXTENSION_WEBP,
-                    ])) {
-                        // Extract file
+                    if (isset($fileInfo['extension']) && in_array(strtolower($fileInfo['extension']), [
+                            MediaEnum::MEDIA_EXTENSION_JPG,
+                            MediaEnum::MEDIA_EXTENSION_JPEG,
+                            MediaEnum::MEDIA_EXTENSION_PNG,
+                            MediaEnum::MEDIA_EXTENSION_WEBP,
+                        ])) {
+
                         $tmpPath = $this->imageDirectoryNoSlash . '/' . MediaEnum::MEDIA_TEMP_DIRECTORY . '/' . $filename;
                         $zip->extractTo($this->imageDirectoryNoSlash . '/' . MediaEnum::MEDIA_TEMP_DIRECTORY . '/', $filename);
 
-                        // Final path for the file with the unique name
-                        $finalUniqueName = uniqid() . '.' . $fileinfo['extension'];
+                        $finalUniqueName = uniqid() . '.' . $fileInfo['extension'];
                         $finalPath = $this->imageDirectoryNoSlash . '/' . $finalUniqueName;
 
                         rename($tmpPath, $finalPath);
@@ -65,6 +69,7 @@ class MediaService
                         $this->mediaManager->mediaImageCreate($newImage);
                     }
                 }
+
                 $zip->close();
             }
 

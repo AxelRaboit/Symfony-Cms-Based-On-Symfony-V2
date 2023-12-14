@@ -173,7 +173,13 @@ class PageEditType extends AbstractType
             ]);
     }
 
-    public function validateSlug($slug, ExecutionContextInterface $context, $currentObjectId): void
+    /**
+     * @param string $slug
+     * @param ExecutionContextInterface $context
+     * @param int|null $currentObjectId
+     * @return void
+     */
+    public function validateSlug(string $slug, ExecutionContextInterface $context, ?int $currentObjectId): void
     {
         $existingPage = $this->pageRepository->findOneBy(['slug' => $slug]);
 

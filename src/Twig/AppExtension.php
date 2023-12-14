@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Twig;
 
+use App\Entity\MenuItem;
 use App\Entity\Page;
+use App\Entity\PageType;
 use App\Entity\UserBackend;
 use App\Entity\Website;
 use App\Enum\PageStateEnum;
@@ -24,6 +26,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Extension\AbstractExtension;
+use Twig\Markup;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
 use function count;
@@ -33,17 +36,19 @@ class AppExtension extends AbstractExtension
     private ?Request $request;
 
     public function __construct(
-        private readonly DataEnumManager $dataEnumManager,
-        private readonly MenuItemRepository $menuItemRepository,
-        private readonly PageRepository $pageRepository,
-        private readonly RequestStack $requestStack,
-        private readonly WebsiteService $websiteService,
-        private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly PageService $pageService,
-        private readonly PageTypeRepository $pageTypeRepository,
+        private readonly DataEnumManager          $dataEnumManager,
+        private readonly MenuItemRepository       $menuItemRepository,
+        private readonly PageRepository           $pageRepository,
+        private readonly RequestStack             $requestStack,
+        private readonly WebsiteService           $websiteService,
+        private readonly UrlGeneratorInterface    $urlGenerator,
+        private readonly PageService              $pageService,
+        private readonly PageTypeRepository       $pageTypeRepository,
         private readonly BackendMessageRepository $backendMessageRepository,
+        /** @phpstan-ignore-next-line */
         private readonly string $appEnv,
-    ) {
+    )
+    {
         $this->request = $requestStack->getCurrentRequest();
     }
 
@@ -85,6 +90,10 @@ class AppExtension extends AbstractExtension
         return file_exists($path);
     }
 
+    /**
+     * @param string $category
+     * @return array<array<string, mixed>>
+     */
     public function findPagesByCategoryFunction(string $category): array
     {
         $pages = $this->pageRepository->findBy(['category' => $category]);
@@ -93,6 +102,8 @@ class AppExtension extends AbstractExtension
     }
 
     /**
+     * @param string[] $slugs
+     * @return array<array<string, mixed>>
      * @throws Exception
      */
     public function findPagesBySlugFunction(array $slugs): array
@@ -106,46 +117,66 @@ class AppExtension extends AbstractExtension
         return $this->getPageElementsFormatted($pages);
     }
 
+    /**
+     * @return Page[] $pages
+     */
     public function getAllPagesFunction(): array
     {
         return $this->pageRepository->findAll();
     }
 
+    /**
+     * @param Page $page
+     * @return string|null
+     */
     public function getCanonicalUrlFunction(Page $page): ?string
     {
-        return $page->getWebsite()->getProtocol().$page->getWebsite()->getDomain().'/'.$page->getCanonicalUrl();
+        $website = $page->getWebsite();
+
+        if (null !== $website) {
+            $domain = $website->getDomain();
+            $protocol = $website->getProtocol();
+            $canonicalUrl = $page->getCanonicalUrl();
+
+            return $protocol . $domain . '/' . $canonicalUrl;
+        } else {
+            return null;
+        }
     }
 
     /**
+     *
+     * @param Page $page
+     * @return object
      * @throws Exception
      */
     public function getCanonicalUrlWithLinkFunction(Page $page): object
     {
-        // Get the hostname
-        $hostname = $this->request->getHost();
-
-        // Get the current website
-        $website = $this->websiteService->getCurrentWebsite($hostname);
-
-        // If homepage
-        if ('/' === $page->getSlug()) {
-            $url = $website->getDomain().'/';
-            // If canonical url is set
-        } elseif (null !== $page->getCanonicalUrl() && '' !== $page->getCanonicalUrl()) {
-            $url = $website->getDomain().'/'.$page->getCanonicalUrl();
-            // If slug is set (The slug is mandatory)
-        } else {
-            $url = $website->getDomain().'/'.$page->getSlug();
+        if (null === $this->request) {
+            throw new Exception('Request is null');
         }
 
-        // Prevent double slash on the url
-        $url = str_replace('//', '/', $url);
+        $hostname = $this->request->getHost();
+        $website = $this->websiteService->getCurrentWebsite($hostname);
 
-        // Add protocol
-        $url = $website->getProtocol().$url;
+        if ($website instanceof Website) {
+            $url = $website->getDomain();
 
-        // Return the absolute url
-        return new \Twig\Markup(sprintf('<link rel="canonical" href="%s">', $url), 'UTF-8');
+            if ('/' === $page->getSlug()) {
+                $url .= '/';
+            } elseif (null !== $page->getCanonicalUrl() && '' !== $page->getCanonicalUrl()) {
+                $url .= '/' . $page->getCanonicalUrl();
+            } else {
+                $url .= '/' . $page->getSlug();
+            }
+
+            $url = str_replace('//', '/', $url);
+            $url = $website->getProtocol().$url;
+
+            return new Markup(sprintf('<link rel="canonical" href="%s">', htmlspecialchars($url, ENT_QUOTES, 'UTF-8')), 'UTF-8');
+        } else {
+            throw new Exception('Website is null or not of the correct type');
+        }
     }
 
     /**
@@ -163,19 +194,35 @@ class AppExtension extends AbstractExtension
      */
     public function getDataEnumValueFunction(int $devKey): string|int|bool
     {
-        return $this->dataEnumManager->getDataEnumValue($devKey);
+        $dataEnumValue = $this->dataEnumManager->getDataEnumValue($devKey);
+
+        if ($dataEnumValue === null) {
+            throw new Exception('DataEnum value is null');
+        }
+
+        return $dataEnumValue;
     }
 
     /**
      * @throws Exception
+     * @return array<int|string, array<string, mixed>>
      */
     public function getMenuItemsFunction(int $devKey): array
     {
-        return $this->menuItemRepository->getMenuItemsSortedByWeight(
-            $this->dataEnumManager->getDataEnumValue($devKey),
-        );
+
+        /** @var string|null $dataEnumValue */
+        $dataEnumValue = $this->dataEnumManager->getDataEnumValue($devKey);
+
+        if (null === $dataEnumValue) {
+            throw new Exception('DataEnum value is null');
+        }
+
+        return $this->menuItemRepository->getMenuItemsSortedByWeight($dataEnumValue);
     }
 
+    /**
+     * @return array<PageType>
+     */
     public function getPageTypesFunction(): array
     {
         return $this->pageTypeRepository->findAll();
@@ -185,10 +232,10 @@ class AppExtension extends AbstractExtension
     {
         $pageType = $page->getPageType();
 
-        if(null !== $pageType) {
+        if (null !== $pageType) {
             $pageTypeUrlPrefix = $pageType->getUrlPrefix();
 
-            if ($pageTypeUrlPrefix === '/'){
+            if ($pageTypeUrlPrefix === '/') {
 
                 if ($page->getSlug() === '/') {
                     return '/';
@@ -203,17 +250,24 @@ class AppExtension extends AbstractExtension
         return '/' . $page->getSlug();
     }
 
+    /**
+     * @throws Exception
+     */
     public function getUrlAbsoluteFinalFunction(Page $page): ?string
     {
+        if (null === $this->request) {
+            throw new Exception('Request is null');
+        }
+
         $baseUrl = $this->request->getSchemeAndHttpHost();
 
 
         $pageType = $page->getPageType();
 
-        if(null !== $pageType) {
+        if (null !== $pageType) {
             $pageTypeUrlPrefix = $pageType->getUrlPrefix();
 
-            if ($pageTypeUrlPrefix === '/'){
+            if ($pageTypeUrlPrefix === '/') {
 
                 if ($page->getSlug() === '/') {
                     return $baseUrl;
@@ -241,10 +295,10 @@ class AppExtension extends AbstractExtension
     {
         $pageType = $page->getPageType();
 
-        if(null !== $pageType) {
+        if (null !== $pageType) {
             $pageTypeUrlPrefix = $pageType->getUrlPrefix();
 
-            if ($pageTypeUrlPrefix === '/'){
+            if ($pageTypeUrlPrefix === '/') {
 
                 if ($page->getSlug() === '/') {
                     return '/';
@@ -264,7 +318,14 @@ class AppExtension extends AbstractExtension
      */
     public function getWebsiteFunction(): Website
     {
-        return $this->websiteService->getCurrentWebsite($this->request->getHost());
+        if (null === $this->request) {
+            throw new Exception('Request is null');
+        }
+
+        /** @var Website $currentWebsite */
+        $currentWebsite = $this->websiteService->getCurrentWebsite($this->request->getHost());
+
+        return $currentWebsite;
     }
 
     public function isPagePublishedFunction(Page $page): bool
@@ -272,7 +333,13 @@ class AppExtension extends AbstractExtension
         return $page->getState() === PageStateEnum::PUBLISHED;
     }
 
-    public function returnRefererFunction(string $urlPath, $id = null): string {
+    /**
+     * @param string $urlPath
+     * @param int|string|null $id
+     * @return string
+     */
+    public function returnRefererFunction(string $urlPath, int|string $id = null): string
+    {
         $requestStackRequest = $this->requestStack->getCurrentRequest();
         if (null !== $requestStackRequest) {
             $currentUrl = $requestStackRequest->getUri();
@@ -299,9 +366,10 @@ class AppExtension extends AbstractExtension
 
     public function htmlEntityDecodeAndTruncateFilter(
         ?string $string,
-        int $charactersLimit = null,
-        bool $decodeHtmlEntity = true
-    ): ?string {
+        int     $charactersLimit = null,
+        bool    $decodeHtmlEntity = true
+    ): ?string
+    {
         /* Html entity decode */
         if (true === $decodeHtmlEntity && null !== $string) {
             $string = html_entity_decode($string);
@@ -309,10 +377,10 @@ class AppExtension extends AbstractExtension
 
         /* Truncate */
         if (null !== $charactersLimit) {
-            $string = strip_tags((string) $string);
+            $string = strip_tags((string)$string);
 
             if (mb_strlen($string) > $charactersLimit) {
-                return mb_substr($string, 0, $charactersLimit).'...';
+                return mb_substr($string, 0, $charactersLimit) . '...';
             }
         }
 
@@ -321,12 +389,13 @@ class AppExtension extends AbstractExtension
 
     public function truncateFilter(
         ?string $string,
-        int $charactersLimit = null,
-    ): ?string {
+        int     $charactersLimit = null,
+    ): ?string
+    {
         /* Truncate */
-        if (null !== $charactersLimit) {
+        if (null !== $charactersLimit && null !== $string) {
             if (mb_strlen($string) > $charactersLimit) {
-                return mb_substr($string, 0, $charactersLimit).'...';
+                return mb_substr($string, 0, $charactersLimit) . '...';
             }
         }
 
@@ -335,17 +404,19 @@ class AppExtension extends AbstractExtension
 
     /**
      * @param Page[] $pages
+     * @return array<array<string, mixed>>
      */
     private function getPageElementsFormatted(array $pages): array
     {
         $pageFormatted = [];
 
         foreach ($pages as $page) {
-            $pageFormatted[] = $this->pageService->getPageElements($page, $this->request);
+            $pageFormatted[] = $this->pageService->getPageElements($page);
         }
 
         return $pageFormatted;
     }
+
 
     /* THIS FUNCTION IS NOT USED */
     public function urlParserFunction(string $content): string
@@ -363,20 +434,27 @@ class AppExtension extends AbstractExtension
 
         foreach ($urls as $index => $url) {
             $transformedUrl = $this->transformUrl($url);
-            $content = str_replace($links[$index], '<a href="'.$transformedUrl.'"', $content);
+            $content = str_replace($links[$index], '<a href="' . $transformedUrl . '"', $content);
         }
 
         return $content;
     }
 
     /* THIS FUNCTION IS NOT USED */
+    /**
+     * @throws Exception
+     */
     private function transformUrl(string $url): string
     {
+        if (null === $this->request) {
+            throw new Exception('Request is null');
+        }
+
         $locale = $this->request->getLocale();
 
         $parsedUrl = parse_url($url);
         if (empty($parsedUrl['scheme'])) {
-            $url = $this->request->getBaseUrl().'/'.$locale.$url;
+            $url = $this->request->getBaseUrl() . '/' . $locale . $url;
         }
 
         return $url;

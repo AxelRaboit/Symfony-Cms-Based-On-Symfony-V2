@@ -24,6 +24,11 @@ class DataEnumRepository extends ServiceEntityRepository
         parent::__construct($registry, DataEnum::class);
     }
 
+    /**
+     * @param string $criteria
+     * @param string $order
+     * @return DataEnum[]
+     */
     public function findByCriteria(string $criteria, string $order = 'ASC'): array
     {
         $criteria = trim($criteria);
@@ -31,14 +36,24 @@ class DataEnumRepository extends ServiceEntityRepository
         $query = $this->em()->createQuery('SELECT d FROM App\Entity\DataEnum d WHERE d.name LIKE :criteria OR d.value LIKE :criteria OR d.id LIKE :criteria OR d.category LIKE :criteria ORDER BY d.id ' . $order);
         $query->setParameter('criteria', '%' . $criteria . '%');
 
-        return $query->getResult();
+        /** @var DataEnum[] $result */
+        $result = $query->getResult();
+
+        return $result;
     }
 
+    /**
+     * @param string $order
+     * @return DataEnum[]
+     */
     public function findAllOrderBy(string $order = 'ASC'): array
     {
         $query = $this->em()->createQuery('SELECT d FROM App\Entity\DataEnum d ORDER BY d.id ' . $order);
 
-        return $query->getResult();
+        /** @var DataEnum[] $result */
+        $result = $query->getResult();
+
+        return $result;
     }
 
     /**
@@ -57,7 +72,7 @@ class DataEnumRepository extends ServiceEntityRepository
             $devKey++;
         }
 
-        return $devKey;
+        return (int) $devKey;
     }
 
     // base

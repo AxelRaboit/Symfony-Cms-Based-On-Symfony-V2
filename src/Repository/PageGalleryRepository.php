@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Image;
 use App\Entity\Page;
 use App\Entity\PageGallery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -23,37 +24,35 @@ class PageGalleryRepository extends ServiceEntityRepository
         parent::__construct($registry, PageGallery::class);
     }
 
+    /**
+     * Retrieves a gallery associated with a page.
+     *
+     * @param Page $page
+     * @return array<int|string, array<string, mixed>>
+     */
     public function getPageGallery(Page $page): array
     {
         $data = [];
 
-        $pageGallery = $this->em()->createQuery(
-            'SELECT pg FROM App\Entity\PageGallery pg
-            WHERE pg.page = :page'
-        );
-        $pageGallery->setParameter('page', $page);
+        /** @var PageGallery[] $result */
+        $result = $this->em()->createQuery(
+            'SELECT pg FROM App\Entity\PageGallery pg WHERE pg.page = :page'
+        )->setParameter('page', $page)->getResult();
 
-        $result = $pageGallery->getResult();
-        if ([] !== $result) {
-            $result = $pageGallery->getResult();
-
-            foreach ($result as $item) {
-                $data[$item->getId()] = [
-                    'title' => $item->getTitle(),
-                    'subTitle' => $item->getSubTitle(),
-                    'description' => $item->getDescription(),
-                    'imageAlt' => $item->getImageAlt(),
-                    'imageUrl' => $item->getImageUrl(),
-                    'imageTitle' => $item->getImageTitle(),
-                    'ctaText' => $item->getCtaText(),
-                    'ctaTitle' => $item->getCtaTitle(),
-                    'ctaUrl' => $item->getCtaUrl(),
-                    'weight' => $item->getWeight(),
-                    'image' => $item->getImage(),
-                ];
-            }
-
-            return $data;
+        foreach ($result as $item) {
+            $data[$item->getId()] = [
+                'title' => $item->getTitle() ?: null,
+                'subTitle' => $item->getSubTitle() ?: null,
+                'description' => $item->getDescription() ?: null,
+                'imageAlt' => $item->getImageAlt() ?: null,
+                'imageUrl' => $item->getImageUrl() ?: null,
+                'imageTitle' => $item->getImageTitle() ?: null,
+                'ctaText' => $item->getCtaText() ?: null,
+                'ctaTitle' => $item->getCtaTitle() ?: null,
+                'ctaUrl' => $item->getCtaUrl() ?: null,
+                'weight' => $item->getWeight() ?: null,
+                'image' => $item->getImage(),
+            ];
         }
 
         return $data;

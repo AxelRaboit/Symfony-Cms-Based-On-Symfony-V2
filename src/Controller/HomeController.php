@@ -16,7 +16,7 @@ class HomeController extends AbstractController
     public function index(PageService $pageService, PageRepository $pageRepository): Response
     {
         /** @var Page $page */
-        $page = $pageRepository->getPageFromDataNameDevKey(DataEnum::$data[DataEnum::DATA_PAGE_HOMEPAGE_DEV_KEY]['name']);
+        $page = $pageRepository->getPageFromDataNameDevKey((string) DataEnum::$data[DataEnum::DATA_PAGE_HOMEPAGE_DEV_KEY]['name']);
 
         $elements = $pageService->getPageElements($page);
 
