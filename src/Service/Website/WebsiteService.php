@@ -18,6 +18,9 @@ class WebsiteService
     public const DEV_HOSTNAME_LOCALHOST = 'localhost';
 
     /**
+     * @param string $hostname
+     * @param bool $isArray
+     * @return Website|mixed[]|null
      * @throws Exception
      */
     public function getCurrentWebsite(string $hostname, bool $isArray = false): Website|array|null

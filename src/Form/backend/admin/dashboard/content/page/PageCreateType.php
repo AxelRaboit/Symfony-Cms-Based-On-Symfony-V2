@@ -161,7 +161,12 @@ class PageCreateType extends AbstractType
             ]);
     }
 
-    public function validateSlug($slug, ExecutionContextInterface $context): void
+    /**
+     * @param string $slug
+     * @param ExecutionContextInterface $context
+     * @return void
+     */
+    public function validateSlug(string $slug, ExecutionContextInterface $context): void
     {
         if ($this->pageRepository->findOneBy(['slug' => $slug])) {
             $context->buildViolation('Ce slug existe déjà.')

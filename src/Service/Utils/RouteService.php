@@ -2,6 +2,7 @@
 
 namespace App\Service\Utils;
 
+use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouterInterface;
 
 readonly class RouteService
@@ -10,6 +11,9 @@ readonly class RouteService
         private RouterInterface $router,
     ) {}
 
+    /**
+     * @return array<string, Route>
+     */
     public function getRoutes(): array
     {
         $routes = [];

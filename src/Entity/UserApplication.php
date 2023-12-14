@@ -21,6 +21,11 @@ class UserApplication implements UserInterface, PasswordAuthenticatedUserInterfa
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
+    /**
+     * @var string[]
+     *
+     * @ORM\Column(type="json")
+     */
     #[ORM\Column]
     private array $roles = [];
 
@@ -71,6 +76,7 @@ class UserApplication implements UserInterface, PasswordAuthenticatedUserInterfa
 
     /**
      * @see UserInterface
+     * @return string[]
      */
     public function getRoles(): array
     {
@@ -81,6 +87,10 @@ class UserApplication implements UserInterface, PasswordAuthenticatedUserInterfa
         return array_unique($roles);
     }
 
+    /**
+     * @param string[] $roles
+     * @return $this
+     */
     public function setRoles(array $roles): static
     {
         $this->roles = $roles;

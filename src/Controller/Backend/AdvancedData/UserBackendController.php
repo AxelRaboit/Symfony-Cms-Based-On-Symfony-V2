@@ -8,13 +8,12 @@ use App\Form\backend\admin\dashboard\advancedData\userBackend\UserBackendEditTyp
 use App\Manager\Backend\AdvancedData\UserBackend\Information\UserBackendInformationManager;
 use App\Manager\Backend\AdvancedData\UserBackend\UserBackendManager;
 use App\Repository\UserBackendRepository;
-use App\Service\Utils\StringUtilsService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserBackendController extends AbstractController
@@ -22,6 +21,7 @@ class UserBackendController extends AbstractController
     #[Route('/backend/admin/advanced-data/user-backend/list', name: 'app_backend_advanced_data_user_backend_list')]
     public function userList(UserBackendRepository $userBackendRepository, Request $request, PaginatorInterface $paginator): Response
     {
+        /** @var string|null $search */
         $search = $request->query->get('search');
 
         if (!empty($search)) {
@@ -75,19 +75,28 @@ class UserBackendController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $passwordData = $form->get('password');
 
-            $passwords = [
-                'first' => $passwordData['password']['first']->getData(),
-                'second' => $passwordData['password']['second']->getData()
-            ];
+            if (isset($passwordData['password']) && $passwordData['password'] instanceof FormInterface) {
+                $passwordForm = $passwordData['password'];
 
-            if ($form->has('deletePictureProfile') && $form['deletePictureProfile']->getData()) {
+                $passwords = [
+                    'first' => $passwordForm->has('first') ? $passwordForm->get('first')->getData() : null,
+                    'second' => $passwordForm->has('second') ? $passwordForm->get('second')->getData() : null,
+                ];
+
+                $userBackendManager->userBackendEdit($userBackend, $passwords);
+            }
+
+            if ($form->has('deletePictureProfile')) {
                 $deletePictureProfile = $form->get('deletePictureProfile');
 
                 if ($deletePictureProfile->getData()) {
-                    $userBackendInformationManager->userBackendPictureProfileDelete($userBackend->getInformation());
+                    $userBackendInformation = $userBackend->getInformation();
+
+                    if ($userBackendInformation !== null) {
+                        $userBackendInformationManager->userBackendPictureProfileDelete($userBackendInformation);
+                    }
                 }
             }
-            $userBackendManager->userBackendEdit($userBackend, $passwords);
 
             $userIdentity = $userBackend->getUsername() ?? $userBackend->getEmail();
             $this->addFlash('success', "L'utilisateur {$userIdentity} a été modifié avec succès.");
@@ -116,6 +125,7 @@ class UserBackendController extends AbstractController
     #[Route('/backend/admin/advanced-data/user-backend/ajax-search', name: 'app_backend_advanced_data_user_ajax_search')]
     public function ajaxSearch(Request $request, UserBackendRepository $userBackendRepository): JsonResponse
     {
+        /** @var string $searchTerm */
         $searchTerm = $request->query->get('term');
 
         $users = $userBackendRepository->findByCriteria($searchTerm);

@@ -9,8 +9,6 @@ use App\Form\backend\admin\dashboard\content\page\PageEditType;
 use App\Manager\Backend\Content\Page\PageManager;
 use App\Repository\ImageRepository;
 use App\Repository\PageRepository;
-use App\Repository\PageTypeRepository;
-use App\Service\Utils\StringUtilsService;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination;
@@ -34,7 +32,9 @@ class PageController extends AbstractController
         PaginatorInterface $paginator,
     ): Response
     {
+        /** @var string|null $search */
         $search = $request->query->get('search');
+        /** @var int|null $state */
         $state = $request->query->get('state');
 
         if (!empty($search)) {
@@ -64,7 +64,9 @@ class PageController extends AbstractController
         PageType $pageType
     ): Response
     {
+        /** @var string|null $search */
         $search = $request->query->get('search');
+        /** @var int|null $state */
         $state = $request->query->get('state');
 
         if (!empty($search)) {
@@ -169,6 +171,7 @@ class PageController extends AbstractController
     #[Route('/backend/admin/content/page/ajax-search', name: 'app_backend_content_page_ajax_search')]
     public function pageAjaxSearch(Request $request, PageRepository $pageRepository): JsonResponse
     {
+        /** @var string $searchTerm */
         $searchTerm = $request->query->get('term');
 
         $pages = $pageRepository->findByCriteria($searchTerm);
@@ -188,6 +191,7 @@ class PageController extends AbstractController
     #[Route('/backend/admin/content/page/page-type/{id}/ajax-search', name: 'app_backend_content_page_page_type_ajax_search')]
     public function pageTypeAjaxSearch(PageType $pageType, Request $request, PageRepository $pageRepository): JsonResponse
     {
+        /** @var string $searchTerm */
         $searchTerm = $request->query->get('term');
 
         $pages = $pageRepository->findByCriteriaByPageType($searchTerm, $pageType);

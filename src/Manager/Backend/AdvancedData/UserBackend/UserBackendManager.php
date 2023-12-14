@@ -3,6 +3,7 @@
 namespace App\Manager\Backend\AdvancedData\UserBackend;
 
 use App\Entity\UserBackend;
+use App\Entity\UserBackendInformation;
 use App\Manager\AbstractManager;
 use App\Manager\Backend\AdvancedData\UserBackend\Information\UserBackendInformationManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -19,6 +20,10 @@ class UserBackendManager extends AbstractManager
         parent::__construct($em);
     }
 
+    /**
+     * @param string $password
+     * @param UserBackend $userBackend
+     */
     public function userBackendCreate(string $password, UserBackend $userBackend): void
     {
         $userBackend->setPassword(
@@ -37,6 +42,10 @@ class UserBackendManager extends AbstractManager
         $this->remove($userBackend);
     }
 
+    /**
+     * @param UserBackend $userBackend
+     * @param array<string, string> $passwords
+     */
     public function userBackendEdit(UserBackend $userBackend, array $passwords = []): void
     {
         if (!empty($passwords['first']) && $passwords['first'] === $passwords['second']) {
@@ -48,6 +57,7 @@ class UserBackendManager extends AbstractManager
             $userBackend->setPassword($hashedPassword);
         }
 
+        /** @var UserBackendInformation $userInformation */
         $userInformation = $userBackend->getInformation();
         $this->userBackendInformationManager->userBackendInformationEdit($userInformation);
 

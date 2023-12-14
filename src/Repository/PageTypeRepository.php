@@ -24,14 +24,23 @@ class PageTypeRepository extends ServiceEntityRepository
         parent::__construct($registry, PageType::class);
     }
 
-    public function findAllOrderBy(string $order = 'ASC'): array
+    /**
+     * @param string $order
+     * @return mixed
+     */
+    public function findAllOrderBy(string $order = 'ASC'): mixed
     {
         $query = $this->em()->createQuery('SELECT pt FROM App\Entity\PageType pt ORDER BY pt.id ' . $order);
 
         return $query->getResult();
     }
 
-    public function findByCriteria(string $criteria, string $order = 'ASC'): array
+    /**
+     * @param string $criteria
+     * @param string $order
+     * @return mixed
+     */
+    public function findByCriteria(string $criteria, string $order = 'ASC'): mixed
     {
         $criteria = trim($criteria);
 
@@ -57,7 +66,7 @@ class PageTypeRepository extends ServiceEntityRepository
             $devKey++;
         }
 
-        return $devKey;
+        return (int) $devKey;
     }
 
     // Base

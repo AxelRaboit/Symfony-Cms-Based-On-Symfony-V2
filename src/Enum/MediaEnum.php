@@ -13,6 +13,10 @@ class MediaEnum
     public const MEDIA_EXTENSION_ZIP = 'zip';
 
     public const MEDIA_TEMP_DIRECTORY = 'tmp';
+
+    /**
+     * @return array<int, string>
+     */
     public static function getAvailable(): array
     {
         $reflectionClass = new \ReflectionClass(self::class);
@@ -20,6 +24,9 @@ class MediaEnum
         return array_values($reflectionClass->getConstants());
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public static function getConstants(): array
     {
         $reflectionClass = new \ReflectionClass(self::class);

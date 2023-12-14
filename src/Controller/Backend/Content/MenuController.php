@@ -23,6 +23,7 @@ class MenuController extends AbstractController
         PaginatorInterface $paginator,
     ): Response
     {
+        /** @var string|null $search */
         $search = $request->query->get('search');
 
         if (!empty($search)) {
@@ -105,6 +106,7 @@ class MenuController extends AbstractController
     #[Route('/backend/admin/content/menu/ajax-search', name: 'app_backend_content_menu_ajax_search')]
     public function ajaxSearch(Request $request, MenuRepository $menuRepository): JsonResponse
     {
+        /** @var string $searchTerm */
         $searchTerm = $request->query->get('term');
 
         $menus = $menuRepository->findByCriteria($searchTerm);

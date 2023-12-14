@@ -24,44 +24,61 @@ class BackendMessageRepository extends ServiceEntityRepository
         parent::__construct($registry, BackendMessage::class);
     }
 
+    /**
+     * @param UserBackend $userBackend
+     * @return BackendMessage[]
+     */
     public function findAllMessageReceivedByReceiver(UserBackend $userBackend): array
     {
         $userBackendId = $userBackend->getId();
 
-        return $this->createQueryBuilder('m')
+        /** @var BackendMessage[] $result */
+        $result = $this->createQueryBuilder('m')
             ->join('m.receiver', 'r')
             ->andWhere('r.id = :receiverId')
             ->andWhere('m.deletedByReceiverAt IS NULL')
             ->setParameter('receiverId', $userBackendId)
             ->orderBy('m.id', 'DESC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
+
+        return $result;
     }
 
+    /**
+     * @param UserBackend $userBackend
+     * @return BackendMessage[]
+     */
     public function findAllMessageSentBySender(UserBackend $userBackend): array
     {
         $userBackendId = $userBackend->getId();
 
-        return $this->createQueryBuilder('m')
+        /** @var BackendMessage[] $result */
+        $result = $this->createQueryBuilder('m')
             ->join('m.sender', 's')
             ->andWhere('s.id = :senderId')
             ->andWhere('m.deletedBySenderAt IS NULL')
             ->setParameter('senderId', $userBackendId)
             ->orderBy('m.id', 'DESC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
+
+        return $result;
     }
 
+    /**
+     * @return BackendMessage[]
+     */
     public function findAllMessageDeletedBySenderAndReceiver(): array
     {
-        return $this->createQueryBuilder('m')
+        /** @var BackendMessage[] $result */
+        $result = $this->createQueryBuilder('m')
             ->andWhere('m.deletedBySenderAt IS NOT NULL')
             ->andWhere('m.deletedByReceiverAt IS NOT NULL')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
+
+        return $result;
     }
 
     /**
@@ -70,13 +87,14 @@ class BackendMessageRepository extends ServiceEntityRepository
      */
     public function messageDeletedBySenderAndReceiverCount(): int
     {
-        return $this->createQueryBuilder('m')
+        $result = $this->createQueryBuilder('m')
             ->select('count(m.id)')
             ->andWhere('m.deletedBySenderAt IS NOT NULL')
             ->andWhere('m.deletedByReceiverAt IS NOT NULL')
             ->getQuery()
-            ->getSingleScalarResult()
-        ;
+            ->getSingleScalarResult();
+
+        return (int) $result;
     }
 
     /**
@@ -85,9 +103,10 @@ class BackendMessageRepository extends ServiceEntityRepository
      */
     public function findCountMessageNotReadByReceiver(UserBackend $userBackend): int
     {
+        /** @var int $userBackendId */
         $userBackendId = $userBackend->getId();
 
-        return $this->createQueryBuilder('m')
+        $result = $this->createQueryBuilder('m')
             ->select('count(m.id)')
             ->join('m.receiver', 'r')
             ->andWhere('r.id = :receiverId')
@@ -95,7 +114,8 @@ class BackendMessageRepository extends ServiceEntityRepository
             ->andWhere('m.deletedByReceiverAt IS NULL')
             ->setParameter('receiverId', $userBackendId)
             ->getQuery()
-            ->getSingleScalarResult()
-        ;
+            ->getSingleScalarResult();
+
+        return (int) $result;
     }
 }

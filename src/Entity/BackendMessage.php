@@ -44,7 +44,7 @@ class BackendMessage
     private ?\DateTimeImmutable $deletedByReceiverAt = null;
 
     #[ORM\Column]
-    private ?bool $isRead = null;
+    private bool $isRead;
 
     public function getId(): ?int
     {

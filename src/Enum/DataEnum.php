@@ -17,6 +17,9 @@ class DataEnum
     public const DATA_PAGE_ERROR_404_DEV_KEY = 10008;
     public const DATA_PAGE_HOMEPAGE_DEV_KEY = 10009;
 
+    /**
+     * @var array<int, array<string, bool|int|string|null>>
+     */
     public static array $data = [
         self::DATA_PAGE_HOMEPAGE_DEV_KEY => [
             'name' => 'DATA_PAGE_HOMEPAGE_DEV_KEY',
@@ -90,6 +93,9 @@ class DataEnum
         ],
     ];
 
+    /**
+     * @return array<int, string>
+     */
     public static function getAvailable(): array
     {
         $reflectionClass = new \ReflectionClass(self::class);
@@ -97,6 +103,9 @@ class DataEnum
         return array_values($reflectionClass->getConstants());
     }
 
+    /**
+     * @return array<string, mixed>
+     */
     public static function getConstants(): array
     {
         $reflectionClass = new \ReflectionClass(self::class);

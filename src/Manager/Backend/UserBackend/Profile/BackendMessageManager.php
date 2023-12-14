@@ -3,6 +3,7 @@
 namespace App\Manager\Backend\UserBackend\Profile;
 
 use App\Entity\BackendMessage;
+use App\Entity\UserBackend;
 use App\Manager\AbstractManager;
 use App\Repository\BackendMessageRepository;
 use App\Repository\UserBackendRepository;
@@ -22,18 +23,29 @@ class BackendMessageManager extends AbstractManager
 
     /**
      * @throws Exception
+     * @param BackendMessage $backendMessage
+     * @param string $sender
+     * @return void
      */
     public function messageCreate(BackendMessage $backendMessage, string $sender): void
     {
+        /** @var UserBackend $userBackend */
         $userBackend = $this->findUserBackendByEmail($sender);
         $backendMessage->setSender($userBackend);
         $backendMessage->setIsRead(false);
         $this->save($backendMessage);
     }
 
+    /**
+     * @throws Exception
+     */
     public function findUserBackendByEmail(string $email): object
     {
-        return $this->userBackendRepository->findOneBy(['email' => $email]);
+        /** @var UserBackend $userBackend */
+        $userBackend = $this->userBackendRepository->findOneBy(['email' => $email]);
+
+        return $userBackend;
+
     }
 
     public function messageDeleteFromSender(BackendMessage $backendMessage): void
