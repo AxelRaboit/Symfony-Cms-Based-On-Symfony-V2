@@ -16,9 +16,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MenuController extends AbstractController
 {
+    public function __construct(private readonly MenuRepository $menuRepository){}
+
     #[Route('/backend/admin/content/menu/list', name: 'app_backend_content_menu_list')]
     public function menuList(
-        MenuRepository     $menuRepository,
         Request            $request,
         PaginatorInterface $paginator,
     ): Response
@@ -26,11 +27,7 @@ class MenuController extends AbstractController
         /** @var string|null $search */
         $search = $request->query->get('search');
 
-        if (!empty($search)) {
-            $query = $menuRepository->findByCriteria($search, 'DESC');
-        } else {
-            $query = $menuRepository->findAllOrderBy('DESC');
-        }
+        $query = $this->getQueryResults($search);
 
         $pagination = $paginator->paginate(
             $query,
@@ -121,5 +118,23 @@ class MenuController extends AbstractController
         }
 
         return new JsonResponse($responseData);
+    }
+
+    // Private methods
+
+    /**
+     * Get the query results.
+     *
+     * @param string|null $search The search criteria (optional).
+     *
+     * @return Menu[] The query results.
+     */
+    private function getQueryResults(?string $search): array
+    {
+        if (!empty($search)) {
+            return $this->menuRepository->findByCriteria($search, 'DESC');
+        }
+
+        return $this->menuRepository->findAllOrderBy('DESC');
     }
 }

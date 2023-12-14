@@ -18,17 +18,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserBackendController extends AbstractController
 {
+    public function __construct(private readonly UserBackendRepository $userBackendRepository){}
+
     #[Route('/backend/admin/advanced-data/user-backend/list', name: 'app_backend_advanced_data_user_backend_list')]
-    public function userList(UserBackendRepository $userBackendRepository, Request $request, PaginatorInterface $paginator): Response
+    public function userList(Request $request, PaginatorInterface $paginator): Response
     {
         /** @var string|null $search */
         $search = $request->query->get('search');
 
-        if (!empty($search)) {
-            $query = $userBackendRepository->findByCriteria($search, 'DESC');
-        } else {
-            $query = $userBackendRepository->findAllOrderBy('DESC');
-        }
+        $query = $this->getQueryResults($search);
 
         $pagination = $paginator->paginate(
             $query,
@@ -41,6 +39,14 @@ class UserBackendController extends AbstractController
         ]);
     }
 
+    /**
+     * Create a new user for the backend.
+     *
+     * @param Request $request The HTTP request object.
+     * @param UserBackendManager $userBackendManager The user backend manager.
+     *
+     * @return Response          The response object.
+     */
     #[Route('/backend/admin/advanced-data/user-backend/create', name: 'app_backend_advanced_data_user_backend_create', methods: ['GET', 'POST'])]
     public function userCreate(Request $request, UserBackendManager $userBackendManager): Response
     {
@@ -140,5 +146,23 @@ class UserBackendController extends AbstractController
         }
 
         return new JsonResponse($responseData);
+    }
+
+    // Private methods
+
+    /**
+     * Get the query results.
+     *
+     * @param string|null $search The search criteria (optional).
+     *
+     * @return UserBackend[] The query results.
+     */
+    private function getQueryResults(?string $search): array
+    {
+        if (!empty($search)) {
+            return $this->userBackendRepository->findByCriteria($search, 'DESC');
+        }
+
+        return $this->userBackendRepository->findAllOrderBy('DESC');
     }
 }

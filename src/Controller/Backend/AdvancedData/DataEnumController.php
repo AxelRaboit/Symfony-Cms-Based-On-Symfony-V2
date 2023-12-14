@@ -18,17 +18,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DataEnumController extends AbstractController
 {
+    public function __construct(private readonly DataEnumRepository $dataEnumRepository){}
+
     #[Route('/backend/admin/advanced-data/data-enum/list', name: 'app_backend_advanced_data_data_enum_list')]
-    public function dataEnumList(DataEnumRepository $dataEnumRepository, Request $request, PaginatorInterface $paginator): Response
+    public function dataEnumList(Request $request, PaginatorInterface $paginator): Response
     {
         /** @var string|null $search */
         $search = $request->query->get('search');
 
-        if (!empty($search)) {
-            $query = $dataEnumRepository->findByCriteria($search, 'DESC');
-        } else {
-            $query = $dataEnumRepository->findAllOrderBy('DESC');
-        }
+        $query = $this->getQueryResults($search);
 
         $pagination = $paginator->paginate(
             $query,
@@ -118,5 +116,23 @@ class DataEnumController extends AbstractController
         }
 
         return new JsonResponse($responseData);
+    }
+
+    // Private methods
+
+    /**
+     * Get the query results.
+     *
+     * @param string|null $search The search criteria (optional).
+     *
+     * @return DataEnum[] The query results.
+     */
+    private function getQueryResults(?string $search): array
+    {
+        if (!empty($search)) {
+            return $this->dataEnumRepository->findByCriteria($search, 'DESC');
+        }
+
+        return $this->dataEnumRepository->findAllOrderBy('DESC');
     }
 }

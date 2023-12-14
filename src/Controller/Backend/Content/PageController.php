@@ -21,13 +21,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PageController extends AbstractController
 {
-    public function __construct(private readonly string $imageDirectory)
-    {
-    }
+    public function __construct(
+        private readonly string $imageDirectory,
+        private readonly PageRepository $pageRepository
+    ){}
 
     #[Route('/backend/admin/content/page/list', name: 'app_backend_content_page_list')]
     public function pageList(
-        PageRepository     $pageRepository,
         Request            $request,
         PaginatorInterface $paginator,
     ): Response
@@ -37,13 +37,7 @@ class PageController extends AbstractController
         /** @var int|null $state */
         $state = $request->query->get('state');
 
-        if (!empty($search)) {
-            $query = $pageRepository->findByCriteria($search, 'DESC');
-        } elseif (!empty($state)) {
-            $query = $pageRepository->findByState($state, 'DESC');
-        } else {
-            $query = $pageRepository->findAllOrderBy('DESC');
-        }
+        $query = $this->getQueryResults($search, $state);
 
         $pagination = $paginator->paginate(
             $query,
@@ -232,6 +226,28 @@ class PageController extends AbstractController
             'images' => $imagesData,
             'nextPage' => $page < $pagination->getPageCount() ? $page + 1 : null
         ]);
+    }
+
+    // Private methods
+
+    /**
+     * Retrieves query results based on optional search string and state.
+     *
+     * @param string|null $search The search string to be used for filtering the results.
+     * @param int|null $state The state to be used for filtering the results.
+     * @return Page[] An array of query results.
+     */
+    private function getQueryResults(?string $search, ?int $state): array
+    {
+        if (!empty($search)) {
+            return $this->pageRepository->findByCriteria($search, 'DESC');
+        }
+
+        if (!empty($state)) {
+            return $this->pageRepository->findByState($state, 'DESC');
+        }
+
+        return $this->pageRepository->findAllOrderBy('DESC');
     }
 
 }

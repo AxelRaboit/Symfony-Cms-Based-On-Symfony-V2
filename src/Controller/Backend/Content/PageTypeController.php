@@ -17,9 +17,10 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PageTypeController extends AbstractController
 {
+    public function __construct(private readonly PageTypeRepository $pageTypeRepository){}
+
     #[Route('/backend/admin/content/page-type/list', name: 'app_backend_content_page_type_list')]
     public function pageTypeList(
-        PageTypeRepository     $pageTypeRepository,
         Request            $request,
         PaginatorInterface $paginator,
     ): Response
@@ -27,11 +28,7 @@ class PageTypeController extends AbstractController
         /** @var string|null $search */
         $search = $request->query->get('search');
 
-        if (!empty($search)) {
-            $query = $pageTypeRepository->findByCriteria($search, 'DESC');
-        } else {
-            $query = $pageTypeRepository->findAllOrderBy('DESC');
-        }
+        $query = $this->getQueryResults($search);
 
         $pagination = $paginator->paginate(
             $query,
@@ -124,5 +121,25 @@ class PageTypeController extends AbstractController
         }
 
         return new JsonResponse($responseData);
+    }
+
+    // Private methods
+
+    // Private methods
+
+    /**
+     * Get the query results.
+     *
+     * @param string|null $search The search criteria (optional).
+     *
+     * @return PageType[] The query results.
+     */
+    private function getQueryResults(?string $search): array
+    {
+        if (!empty($search)) {
+            return $this->pageTypeRepository->findByCriteria($search, 'DESC');
+        }
+
+        return $this->pageTypeRepository->findAllOrderBy('DESC');
     }
 }
