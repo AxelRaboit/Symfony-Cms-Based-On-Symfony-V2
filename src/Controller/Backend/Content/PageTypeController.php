@@ -21,6 +21,13 @@ class PageTypeController extends AbstractController
     {
     }
 
+    /**
+     * Retrieves a paginated list of page types for the backend admin content page.
+     *
+     * @param Request $request The request object containing the search query parameter.
+     * @param PaginatorInterface $paginator The paginator service to paginate the query results.
+     * @return Response The rendered HTML template with the paginated list of page types.
+     */
     #[Route('/backend/admin/content/page-type/list', name: 'app_backend_content_page_type_list')]
     public function pageTypeList(
         Request $request,
@@ -33,8 +40,7 @@ class PageTypeController extends AbstractController
 
         $pagination = $paginator->paginate(
             $query,
-            $request->query->getInt('page', 1),
-            null // Override default limit per page
+            $request->query->getInt('page', 1) // Override default limit per page
         );
 
         return $this->render('backend/admin/dashboard/content/pageType/list/list.html.twig', [
@@ -43,6 +49,11 @@ class PageTypeController extends AbstractController
     }
 
     /**
+     * Creates a new page type for the backend admin content page.
+     *
+     * @param Request $request The request object containing the form data.
+     * @param PageTypeManager $pageTypeManager The page type manager service.
+     * @return Response The rendered HTML template with the form to create a new page type.
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
@@ -68,6 +79,12 @@ class PageTypeController extends AbstractController
     }
 
     /**
+     * Edits a page type for the backend admin content page.
+     *
+     * @param PageType $pageType The page type to edit.
+     * @param Request $request The request object containing the form data.
+     * @param PageTypeManager $pageTypeManager The page type manager to handle the edit operation.
+     * @return Response The rendered HTML template with the form to edit the page type.
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
@@ -92,6 +109,13 @@ class PageTypeController extends AbstractController
         ]);
     }
 
+    /**
+     * Deletes a page type for the backend admin content page.
+     *
+     * @param PageType $pageType The page type object to be deleted.
+     * @param PageTypeManager $pageTypeManager The page type manager service to perform the deletion.
+     * @return Response A redirection response to the page type list after successful deletion.
+     */
     #[Route('/backend/admin/content/page-type/{id}/delete', name: 'app_backend_content_page_type_delete')]
     public function pageTypeDelete(PageType $pageType, PageTypeManager $pageTypeManager): Response
     {
@@ -104,6 +128,13 @@ class PageTypeController extends AbstractController
         return $this->redirectToRoute('app_backend_content_page_type_list');
     }
 
+    /**
+     * Performs an AJAX search for page types.
+     *
+     * @param Request $request The request object containing the search term.
+     * @param PageTypeRepository $pageTypeRepository The repository for querying page types.
+     * @return JsonResponse The JSON response containing the search results.
+     */
     #[Route('/backend/admin/content/page-type/ajax-search', name: 'app_backend_content_page_type_ajax_search')]
     public function ajaxSearch(Request $request, PageTypeRepository $pageTypeRepository): JsonResponse
     {
@@ -132,7 +163,6 @@ class PageTypeController extends AbstractController
      * Get the query results.
      *
      * @param string|null $search the search criteria (optional)
-     *
      * @return PageType[] the query results
      */
     private function getQueryResults(?string $search): array

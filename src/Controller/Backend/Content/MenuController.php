@@ -20,6 +20,15 @@ class MenuController extends AbstractController
     {
     }
 
+    /**
+     * Retrieve a paginated list of menu items.
+     *
+     * @param Request $request The request object.
+     * @param PaginatorInterface $paginator The paginator object.
+     * @return Response The response object.
+     *
+     * @Route('/backend/admin/content/menu/list', name='app_backend_content_menu_list')
+     */
     #[Route('/backend/admin/content/menu/list', name: 'app_backend_content_menu_list')]
     public function menuList(
         Request $request,
@@ -42,6 +51,12 @@ class MenuController extends AbstractController
     }
 
     /**
+     * Creates a new menu
+     *
+     * @param Request $request The current request object
+     * @param MenuManager $menuManager The menu manager service
+     *
+     * @return Response The response object
      * @throws Exception
      */
     #[Route('/backend/admin/content/menu/create', name: 'app_backend_content_menu_create', methods: ['GET', 'POST'])]
@@ -66,6 +81,12 @@ class MenuController extends AbstractController
     }
 
     /**
+     * Edit a menu
+     *
+     * @param Menu $menu The menu to be edited
+     * @param Request $request The HTTP request
+     * @param MenuManager $menuManager The menu manager
+     * @return Response The HTTP response
      * @throws Exception
      */
     #[Route('/backend/admin/content/menu/{id}/edit', name: 'app_backend_content_menu_edit', methods: ['GET', 'POST'])]
@@ -89,6 +110,14 @@ class MenuController extends AbstractController
         ]);
     }
 
+    /**
+     * Deletes a menu.
+     *
+     * @param Menu $menu The menu to be deleted.
+     * @param MenuManager $menuManager The menu manager to handle the deletion.
+     * @return Response A response object representing the redirection to the menu list page.
+     * @throws Exception If an error occurs during the deletion process.
+     */
     #[Route('/backend/admin/content/menu/{id}/delete', name: 'app_backend_content_menu_delete')]
     public function menuDelete(Menu $menu, MenuManager $menuManager): Response
     {
@@ -101,6 +130,14 @@ class MenuController extends AbstractController
         return $this->redirectToRoute('app_backend_content_menu_list');
     }
 
+    /**
+     * Search for menus based on a given search term.
+     *
+     * @param Request $request The HTTP request object.
+     * @param MenuRepository $menuRepository The repository for menus.
+     * @return JsonResponse The JSON response with the menu data.
+     * @throws Exception
+     */
     #[Route('/backend/admin/content/menu/ajax-search', name: 'app_backend_content_menu_ajax_search')]
     public function ajaxSearch(Request $request, MenuRepository $menuRepository): JsonResponse
     {

@@ -9,6 +9,7 @@ use App\Manager\Backend\UserBackend\Profile\BackendMessageManager;
 use App\Repository\BackendMessageRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
+use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,6 +19,17 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserBackendMessageController extends AbstractController
 {
+    /**
+     * Lists messages in the backend user's profile.
+     *
+     * @param Request $request The request object
+     * @param UserBackend $userBackend The backend user object
+     * @param BackendMessageRepository $backendMessageRepository The repository for backend messages
+     * @param PaginatorInterface $paginator The paginator object
+     * @return Response  The response object
+     * @throws Exception
+     *
+     */
     #[Route('/backend/admin/user-backend/profile/{id}/message/list', name: 'app_backend_user_backend_profile_message_list')]
     public function userBackendProfileMessageList(Request $request, UserBackend $userBackend, BackendMessageRepository $backendMessageRepository, PaginatorInterface $paginator): Response
     {
@@ -29,8 +41,7 @@ class UserBackendMessageController extends AbstractController
 
         $pagination = $paginator->paginate(
             $query,
-            $request->query->getInt('page', 1),
-            null // Override default limit per page
+            $request->query->getInt('page', 1) // Override default limit per page
         );
 
         return $this->render('backend/admin/dashboard/userBackend/profile/message/received/list.html.twig', [
@@ -38,6 +49,18 @@ class UserBackendMessageController extends AbstractController
         ]);
     }
 
+    /**
+     * Show the received message for the user in the backend profile.
+     * Marks the message as read.
+     *
+     * @param UserBackend $userBackend The user backend entity
+     * @param BackendMessage $backendMessage The backend message entity
+     * @param BackendMessageManager $backendMessageManager The backend message manager
+     *
+     * @return Response The response object
+     *
+     * @throws Exception If an error occurs
+     */
     #[Route('/backend/admin/user-backend/profile/{userId}/message/received/{messageId}/show', name: 'app_backend_user_backend_profile_message_received_show')]
     #[ParamConverter('userBackend', options: ['id' => 'userId'])]
     #[ParamConverter('backendMessage', options: ['id' => 'messageId'])]
@@ -50,6 +73,15 @@ class UserBackendMessageController extends AbstractController
         ]);
     }
 
+    /**
+     * Handle the request to display the list of messages sent by a user in the backend profile.
+     *
+     * @param Request $request
+     * @param UserBackend $userBackend
+     * @param BackendMessageRepository $backendMessageRepository
+     * @param PaginatorInterface $paginator
+     * @return Response
+     */
     #[Route('/backend/admin/user-backend/profile/{id}/message/sent/list', name: 'app_backend_user_backend_profile_message_sent_list')]
     public function userBackendProfileMessageSent(Request $request, UserBackend $userBackend, BackendMessageRepository $backendMessageRepository, PaginatorInterface $paginator): Response
     {
@@ -71,8 +103,13 @@ class UserBackendMessageController extends AbstractController
     }
 
     /**
-     * @throws NonUniqueResultException
-     * @throws NoResultException
+     * Handle the request to create a new message in the backend profile.
+     *
+     * @param Request $request The HTTP request object.
+     * @param UserBackend $userBackend The backend user associated with the profile.
+     * @param BackendMessageManager $backendMessageManager The backend message manager.
+     * @return Response The HTTP response object.
+     * @throws Exception
      */
     #[Route('/backend/admin/user-backend/profile/{id}/message/create', name: 'app_backend_user_backend_profile_message_create', methods: ['GET', 'POST'])]
     public function userBackendProfileMessageCreate(Request $request, UserBackend $userBackend, BackendMessageManager $backendMessageManager): Response
@@ -98,7 +135,12 @@ class UserBackendMessageController extends AbstractController
     }
 
     /**
-     * @throws \Exception
+     * Handle the request to delete a received message from the backend profile.
+     *
+     * @param UserBackend $userBackend The user backend entity.
+     * @param BackendMessage $backendMessage The backend message entity.
+     * @param BackendMessageManager $backendMessageManager The backend message manager.
+     * @return Response The response.
      */
     #[Route('/backend/admin/user-backend/profile/{userId}/message/received/{messageId}/delete', name: 'app_backend_user_backend_profile_message_received_delete')]
     #[ParamConverter('userBackend', options: ['id' => 'userId'])]
@@ -113,7 +155,12 @@ class UserBackendMessageController extends AbstractController
     }
 
     /**
-     * @throws \Exception
+     * Handle the request to delete a message sent by a user in the backend profile.
+     *
+     * @param UserBackend $userBackend The user who sent the message.
+     * @param BackendMessage $backendMessage The message to be deleted.
+     * @param BackendMessageManager $backendMessageManager The backend message manager.
+     * @return Response
      */
     #[Route('/backend/admin/user-backend/profile/{userId}/message/sent/{messageId}/delete', name: 'app_backend_user_backend_profile_message_sent_delete')]
     #[ParamConverter('userBackend', options: ['id' => 'userId'])]
