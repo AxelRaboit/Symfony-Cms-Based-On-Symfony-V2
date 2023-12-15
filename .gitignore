@@ -1,3 +1,5 @@
+###> Jet Brains ###
+.idea
 
 ###> symfony/framework-bundle ###
 /.env.local
