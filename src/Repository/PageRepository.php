@@ -28,12 +28,11 @@ class PageRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string $order
      * @return array<Page>
      */
     public function findAllOrderBy(string $order = 'ASC'): array
     {
-        $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE p.state != :state ORDER BY p.id ' . $order);
+        $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE p.state != :state ORDER BY p.id '.$order);
         $query->setParameter('state', PageStateEnum::DELETED);
 
         /** @var array<Page> $result */
@@ -42,15 +41,12 @@ class PageRepository extends ServiceEntityRepository
         return $result;
     }
 
-
     /**
-     * @param PageType $pageType
-     * @param string $order
      * @return array<Page>
      */
     public function findAllByPageTypeOrderBy(PageType $pageType, string $order = 'ASC'): array
     {
-        $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE p.pageType = :pageType ORDER BY p.id ' . $order);
+        $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE p.pageType = :pageType ORDER BY p.id '.$order);
         $query->setParameter('pageType', $pageType);
 
         /** @var array<Page> $result */
@@ -60,16 +56,14 @@ class PageRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string $criteria
-     * @param string $order
      * @return array<Page>
      */
     public function findByCriteria(string $criteria, string $order = 'ASC'): array
     {
         $criteria = trim($criteria);
 
-        $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE p.name LIKE :criteria OR p.slug LIKE :criteria OR p.id LIKE :criteria ORDER BY p.id ' . $order);
-        $query->setParameter('criteria', '%' . $criteria . '%');
+        $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE p.name LIKE :criteria OR p.slug LIKE :criteria OR p.id LIKE :criteria ORDER BY p.id '.$order);
+        $query->setParameter('criteria', '%'.$criteria.'%');
 
         /** @var array<Page> $result */
         $result = $query->getResult();
@@ -78,16 +72,13 @@ class PageRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string $criteria
-     * @param PageType $pageType
-     * @param string $order
      * @return array<Page>
      */
     public function findByCriteriaByPageType(string $criteria, PageType $pageType, string $order = 'ASC'): array
     {
         $criteria = trim($criteria);
-        $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE (p.name LIKE :criteria OR p.slug LIKE :criteria OR p.id LIKE :criteria) AND p.pageType = :pageType ORDER BY p.id ' . $order);
-        $query->setParameter('criteria', '%' . $criteria . '%');
+        $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE (p.name LIKE :criteria OR p.slug LIKE :criteria OR p.id LIKE :criteria) AND p.pageType = :pageType ORDER BY p.id '.$order);
+        $query->setParameter('criteria', '%'.$criteria.'%');
         $query->setParameter('pageType', $pageType);
 
         /** @var array<Page> $result */
@@ -97,8 +88,6 @@ class PageRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param int $state
-     * @param string $order
      * @return array<Page>
      */
     public function findByState(int $state = PageStateEnum::PUBLISHED, string $order = 'ASC'): array
@@ -107,7 +96,7 @@ class PageRepository extends ServiceEntityRepository
             return $this->findAllOrderBy($order);
         }
 
-        $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE p.state = :state ORDER BY p.id ' . $order);
+        $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE p.state = :state ORDER BY p.id '.$order);
         $query->setParameter('state', $state);
 
         /** @var array<Page> $result */
@@ -117,9 +106,6 @@ class PageRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param PageType $pageType
-     * @param int $state
-     * @param string $order
      * @return array<Page>
      */
     public function findByStateAndPageType(PageType $pageType, int $state = PageStateEnum::PUBLISHED, string $order = 'ASC'): array
@@ -128,7 +114,7 @@ class PageRepository extends ServiceEntityRepository
             return $this->findAllByPageTypeOrderBy($pageType, $order);
         }
 
-        $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE p.state = :state AND p.pageType = :pageType ORDER BY p.id ' . $order);
+        $query = $this->em()->createQuery('SELECT p FROM App\Entity\Page p WHERE p.state = :state AND p.pageType = :pageType ORDER BY p.id '.$order);
         $query->setParameter('state', $state);
         $query->setParameter('pageType', $pageType);
 
@@ -139,7 +125,6 @@ class PageRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param Page $page
      * @return array<Page>
      */
     public function getChildren(Page $page): array
@@ -171,7 +156,7 @@ class PageRepository extends ServiceEntityRepository
             return null;
         }
 
-        return (int)$query->getSingleScalarResult();
+        return (int) $query->getSingleScalarResult();
     }
 
     public function getPageFromDataNameDevKey(string $dataDevKeyName): ?Page
@@ -184,7 +169,6 @@ class PageRepository extends ServiceEntityRepository
 
         /** @var array<DataEnum> $result */
         $result = $query->getResult();
-
 
         if (0 === \count($result)) {
             return null;
@@ -255,13 +239,13 @@ class PageRepository extends ServiceEntityRepository
         $pageSlug = '';
 
         // Loop to find a matching pageTypePrefix
-        for ($i = 0; $i < count($segments); $i++) {
+        for ($i = 0; $i < count($segments); ++$i) {
             // Build the potentialPageTypePrefix
-            $potentialPageTypePrefix = '/' . implode('/', array_slice($segments, 0, $i + 1));
+            $potentialPageTypePrefix = '/'.implode('/', array_slice($segments, 0, $i + 1));
 
             // If the potentialPageTypePrefix is "/backend", add it to the slug
-            if ($potentialPageTypePrefix === '/backend') {
-                $pageSlug = $potentialPageTypePrefix . '/' . implode('/', array_slice($segments, $i + 1));
+            if ('/backend' === $potentialPageTypePrefix) {
+                $pageSlug = $potentialPageTypePrefix.'/'.implode('/', array_slice($segments, $i + 1));
                 $pageSlug = substr($pageSlug, 1);
                 break;
             }
@@ -307,7 +291,6 @@ class PageRepository extends ServiceEntityRepository
         return $result;
     }
 
-
     /**
      * @throws NonUniqueResultException
      */
@@ -333,6 +316,7 @@ class PageRepository extends ServiceEntityRepository
     /**
      * We take the highest devKey and increment it by 1 to get the next available devKey.
      * We make sure that the devKey is unique.
+     *
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
@@ -343,7 +327,7 @@ class PageRepository extends ServiceEntityRepository
         $devKey = $query->getSingleScalarResult();
 
         while ($this->findOneBy(['devKey' => $devKey])) {
-            $devKey++;
+            ++$devKey;
         }
 
         return (int) $devKey;

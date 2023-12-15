@@ -12,9 +12,10 @@ class DashboardService
 {
     public function __construct(
         private readonly ChartBuilderInterface $chartBuilder,
-        private readonly PageRepository        $pageRepository,
+        private readonly PageRepository $pageRepository,
         private readonly PageTypeRepository $pageTypeRepository
-    ){}
+    ) {
+    }
 
     public function createChartPageTypes(): Chart
     {
@@ -26,9 +27,8 @@ class DashboardService
             'rgb(230, 230, 230)',
             'rgb(235, 235, 235)',
             'rgb(240, 240, 240)',
-            'rgb(245, 245, 245)'
+            'rgb(245, 245, 245)',
         ];
-
 
         $chartPageTypes = $this->chartBuilder->createChart(Chart::TYPE_BAR);
 
@@ -81,9 +81,8 @@ class DashboardService
             'rgb(230, 230, 230)',
             'rgb(235, 235, 235)',
             'rgb(240, 240, 240)',
-            'rgb(245, 245, 245)'
+            'rgb(245, 245, 245)',
         ];
-
 
         $chartPublishedPagesByPageTypes = $this->chartBuilder->createChart(Chart::TYPE_PIE);
 

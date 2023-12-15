@@ -39,5 +39,4 @@ class PageStateEnum
 
         return $reflectionClass->getConstants();
     }
-
 }

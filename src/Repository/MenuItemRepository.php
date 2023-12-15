@@ -6,7 +6,6 @@ use App\Entity\MenuItem;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use function count;
 
 /**
  * @extends ServiceEntityRepository<MenuItem>
@@ -26,7 +25,6 @@ class MenuItemRepository extends ServiceEntityRepository
     /**
      * Retrieves menu items sorted by weight for a given menu.
      *
-     * @param string $menu
      * @return array<int|string, array<string, mixed>>
      */
     public function getMenuItemsSortedByWeight(
@@ -48,7 +46,7 @@ class MenuItemRepository extends ServiceEntityRepository
 
     /**
      * @param array<MenuItem> $menuItems
-     * @param bool $toArray
+     *
      * @return array<int|string, array<string, mixed>>
      */
     private function sort(
@@ -74,9 +72,9 @@ class MenuItemRepository extends ServiceEntityRepository
                     $menuItemWhile = $menuItemWhile->getParent();
                 }
 
-                if (count($parentIds) > 0) {
+                if (\count($parentIds) > 0) {
                     $pointer = &$data[$parentIds[0]]['children'];
-                    for ($i = 1; $i < count($parentIds); ++$i) {
+                    for ($i = 1; $i < \count($parentIds); ++$i) {
                         $pointer = &$pointer[$parentIds[$i]]['children'];
                     }
                     $pointer[$menuItem->getId()] = $item;
@@ -87,6 +85,7 @@ class MenuItemRepository extends ServiceEntityRepository
         usort($data, function ($a, $b) {
             $weightA = is_array($a['current']) ? $a['current']['weight'] : $a['current']->getWeight();
             $weightB = is_array($b['current']) ? $b['current']['weight'] : $b['current']->getWeight();
+
             return $weightA <=> $weightB;
         });
 

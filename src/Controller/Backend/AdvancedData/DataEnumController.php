@@ -18,7 +18,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DataEnumController extends AbstractController
 {
-    public function __construct(private readonly DataEnumRepository $dataEnumRepository){}
+    public function __construct(private readonly DataEnumRepository $dataEnumRepository)
+    {
+    }
 
     #[Route('/backend/admin/advanced-data/data-enum/list', name: 'app_backend_advanced_data_data_enum_list')]
     public function dataEnumList(Request $request, PaginatorInterface $paginator): Response
@@ -111,7 +113,7 @@ class DataEnumController extends AbstractController
         foreach ($dataEnums as $dataEnum) {
             $responseData[] = [
                 'id' => $dataEnum->getId(),
-                'label' => $dataEnum->getName()
+                'label' => $dataEnum->getName(),
             ];
         }
 
@@ -123,9 +125,9 @@ class DataEnumController extends AbstractController
     /**
      * Get the query results.
      *
-     * @param string|null $search The search criteria (optional).
+     * @param string|null $search the search criteria (optional)
      *
-     * @return DataEnum[] The query results.
+     * @return DataEnum[] the query results
      */
     private function getQueryResults(?string $search): array
     {

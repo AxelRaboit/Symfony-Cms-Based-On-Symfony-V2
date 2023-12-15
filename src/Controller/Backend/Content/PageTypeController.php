@@ -17,14 +17,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class PageTypeController extends AbstractController
 {
-    public function __construct(private readonly PageTypeRepository $pageTypeRepository){}
+    public function __construct(private readonly PageTypeRepository $pageTypeRepository)
+    {
+    }
 
     #[Route('/backend/admin/content/page-type/list', name: 'app_backend_content_page_type_list')]
     public function pageTypeList(
-        Request            $request,
+        Request $request,
         PaginatorInterface $paginator,
-    ): Response
-    {
+    ): Response {
         /** @var string|null $search */
         $search = $request->query->get('search');
 
@@ -87,7 +88,7 @@ class PageTypeController extends AbstractController
 
         return $this->render('backend/admin/dashboard/content/pageType/edit/edit.html.twig', [
             'form' => $form->createView(),
-            'pageType' => $pageType
+            'pageType' => $pageType,
         ]);
     }
 
@@ -116,7 +117,7 @@ class PageTypeController extends AbstractController
         foreach ($pageTypes as $pageType) {
             $responseData[] = [
                 'id' => $pageType->getId(),
-                'label' => $pageType->getName()
+                'label' => $pageType->getName(),
             ];
         }
 
@@ -130,9 +131,9 @@ class PageTypeController extends AbstractController
     /**
      * Get the query results.
      *
-     * @param string|null $search The search criteria (optional).
+     * @param string|null $search the search criteria (optional)
      *
-     * @return PageType[] The query results.
+     * @return PageType[] the query results
      */
     private function getQueryResults(?string $search): array
     {

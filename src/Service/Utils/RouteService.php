@@ -9,7 +9,8 @@ readonly class RouteService
 {
     public function __construct(
         private RouterInterface $router,
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<string, Route>

@@ -15,11 +15,11 @@ class PageTypeCreateType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label'   => 'Nom',
+                'label' => 'Nom',
                 'required' => true,
             ])
             ->add('template', TextType::class, [
-                'label'   => 'Template',
+                'label' => 'Template',
                 'required' => false,
                 'constraints' => [
                     new Regex([
@@ -29,7 +29,7 @@ class PageTypeCreateType extends AbstractType
                 ],
             ])
             ->add('urlPrefix', TextType::class, [
-                'label'   => 'Préfixe URL',
+                'label' => 'Préfixe URL',
                 'required' => true,
                 'constraints' => [
                     new Regex([

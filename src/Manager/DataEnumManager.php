@@ -7,7 +7,6 @@ use App\Entity\Page;
 use App\Repository\DataEnumRepository;
 use App\Repository\PageRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 
 class DataEnumManager extends AbstractManager
 {
@@ -15,22 +14,20 @@ class DataEnumManager extends AbstractManager
         EntityManagerInterface $em,
         private readonly DataEnumRepository $dataEnumRepository,
         private readonly PageRepository $PageRepository,
-    )
-    {
+    ) {
         parent::__construct($em);
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function getDataEnumValue(
         int $dataEnum
-    ): bool|string|null
-    {
+    ): bool|string|null {
         $dataEnum = $this->dataEnumRepository->findOneBy(['devKey' => $dataEnum]);
 
         if (!$dataEnum) {
-            throw new Exception('DataEnum not found');
+            throw new \Exception('DataEnum not found');
         }
 
         $value = $dataEnum->getValue();
@@ -43,16 +40,15 @@ class DataEnumManager extends AbstractManager
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function getPagebyDataDevKey(
         int $pageDevKey
     ): Page {
-
         $page = $this->PageRepository->findOneBy(['devKey' => $pageDevKey]);
 
         if (!$page) {
-            throw new Exception('Page not found');
+            throw new \Exception('Page not found');
         }
 
         return $page;
@@ -62,7 +58,6 @@ class DataEnumManager extends AbstractManager
      * Creates a DataEnum object from an array of parameters.
      *
      * @param array<string, mixed> $params
-     * @return DataEnum
      */
     public function createFromArray(
         array $params = []
@@ -97,5 +92,4 @@ class DataEnumManager extends AbstractManager
 
         return $dataEnum;
     }
-
 }

@@ -14,7 +14,9 @@ use Twig\Error\SyntaxError;
 
 readonly class ExceptionListener
 {
-    public function __construct(private Environment $twig, private PageService $pageService){}
+    public function __construct(private Environment $twig, private PageService $pageService)
+    {
+    }
 
     /**
      * @throws SyntaxError
@@ -26,30 +28,30 @@ readonly class ExceptionListener
     {
         $exception = $event->getThrowable();
 
-        if ($exception instanceof HttpExceptionInterface && $exception->getStatusCode() == Response::HTTP_NOT_FOUND) {
+        if ($exception instanceof HttpExceptionInterface && Response::HTTP_NOT_FOUND == $exception->getStatusCode()) {
             // CODE 404
             $page = $this->pageService->page404NotFound();
             $elements = $this->pageService->getPageElements($page);
             $elements['exception'] = $exception;
             $content = $this->twig->render($elements['template'], $elements);
             $response = new Response($content, Response::HTTP_NOT_FOUND);
-        } elseif ($exception instanceof HttpExceptionInterface && $exception->getStatusCode() == Response::HTTP_METHOD_NOT_ALLOWED) {
+        } elseif ($exception instanceof HttpExceptionInterface && Response::HTTP_METHOD_NOT_ALLOWED == $exception->getStatusCode()) {
             // CODE 405
             $content = $this->twig->render('exceptions/page-exception.html.twig', ['exception' => $exception]);
             $response = new Response($content, Response::HTTP_INTERNAL_SERVER_ERROR);
-        } elseif ($exception instanceof HttpExceptionInterface && $exception->getStatusCode() == Response::HTTP_FORBIDDEN) {
+        } elseif ($exception instanceof HttpExceptionInterface && Response::HTTP_FORBIDDEN == $exception->getStatusCode()) {
             // CODE 403
             $content = $this->twig->render('exceptions/page-exception.html.twig', ['exception' => $exception]);
             $response = new Response($content, Response::HTTP_FORBIDDEN);
-        } elseif ($exception instanceof HttpExceptionInterface && $exception->getStatusCode() == Response::HTTP_UNAUTHORIZED) {
+        } elseif ($exception instanceof HttpExceptionInterface && Response::HTTP_UNAUTHORIZED == $exception->getStatusCode()) {
             // CODE 401
             $content = $this->twig->render('exceptions/page-exception.html.twig', ['exception' => $exception]);
             $response = new Response($content, Response::HTTP_UNAUTHORIZED);
-        } elseif ($exception instanceof HttpExceptionInterface && $exception->getStatusCode() == Response::HTTP_BAD_REQUEST) {
+        } elseif ($exception instanceof HttpExceptionInterface && Response::HTTP_BAD_REQUEST == $exception->getStatusCode()) {
             // CODE 400
             $content = $this->twig->render('exceptions/page-exception.html.twig', ['exception' => $exception]);
             $response = new Response($content, Response::HTTP_BAD_REQUEST);
-        } elseif ($exception instanceof HttpExceptionInterface && $exception->getStatusCode() == Response::HTTP_INTERNAL_SERVER_ERROR) {
+        } elseif ($exception instanceof HttpExceptionInterface && Response::HTTP_INTERNAL_SERVER_ERROR == $exception->getStatusCode()) {
             // CODE 500
             $content = $this->twig->render('exceptions/page-exception.html.twig', ['exception' => $exception]);
             $response = new Response($content, Response::HTTP_INTERNAL_SERVER_ERROR);

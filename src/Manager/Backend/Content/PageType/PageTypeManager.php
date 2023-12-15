@@ -8,22 +8,20 @@ use App\Repository\PageTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
-use Exception;
 
 class PageTypeManager extends AbstractManager
 {
     public function __construct(
         EntityManagerInterface $em,
         private readonly PageTypeRepository $pageTypeRepository,
-    )
-    {
+    ) {
         parent::__construct($em);
     }
 
     /**
      * @throws NonUniqueResultException
      * @throws NoResultException
-     * @throws Exception
+     * @throws \Exception
      */
     public function pageTypeCreate(PageType $pageType): void
     {

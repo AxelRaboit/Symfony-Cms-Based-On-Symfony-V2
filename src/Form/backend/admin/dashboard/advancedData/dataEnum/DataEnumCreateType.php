@@ -26,11 +26,11 @@ class DataEnumCreateType extends AbstractType
             ])
             ->add('category', TextType::class, [
                 'required' => false,
-                'label' => 'Catégorie'
+                'label' => 'Catégorie',
             ])
             ->add('value', TextType::class, [
                 'required' => false,
-                'label' => 'Valeur'
+                'label' => 'Valeur',
             ])
         ;
     }

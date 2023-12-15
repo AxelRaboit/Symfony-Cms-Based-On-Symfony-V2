@@ -24,14 +24,14 @@ class PageController extends AbstractController
     public function __construct(
         private readonly string $imageDirectory,
         private readonly PageRepository $pageRepository
-    ){}
+    ) {
+    }
 
     #[Route('/backend/admin/content/page/list', name: 'app_backend_content_page_list')]
     public function pageList(
-        Request            $request,
+        Request $request,
         PaginatorInterface $paginator,
-    ): Response
-    {
+    ): Response {
         /** @var string|null $search */
         $search = $request->query->get('search');
         /** @var int|null $state */
@@ -52,19 +52,18 @@ class PageController extends AbstractController
 
     #[Route('/backend/admin/content/page/page-type/{id}/list', name: 'app_backend_content_page_page_type_list')]
     public function pagePageTypeList(
-        PageRepository     $pageRepository,
-        Request            $request,
+        PageRepository $pageRepository,
+        Request $request,
         PaginatorInterface $paginator,
         PageType $pageType
-    ): Response
-    {
+    ): Response {
         /** @var string|null $search */
         $search = $request->query->get('search');
         /** @var int|null $state */
         $state = $request->query->get('state');
 
         if (!empty($search)) {
-            $query = $pageRepository->findByCriteriaByPageType($search, $pageType,'DESC');
+            $query = $pageRepository->findByCriteriaByPageType($search, $pageType, 'DESC');
         } elseif (!empty($state)) {
             $query = $pageRepository->findByStateAndPageType($pageType, $state, 'DESC');
         } else {
@@ -79,7 +78,7 @@ class PageController extends AbstractController
 
         return $this->render('backend/admin/dashboard/content/page/pageType/list.html.twig', [
             'pagination' => $pagination,
-            'pageType' => $pageType
+            'pageType' => $pageType,
         ]);
     }
 
@@ -95,9 +94,8 @@ class PageController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $bannerImageId = (int)$request->request->get('selected_banner_image_id');
-            $thumbnailImageId = (int)$request->request->get('selected_thumbnail_image_id');
+            $bannerImageId = (int) $request->request->get('selected_banner_image_id');
+            $thumbnailImageId = (int) $request->request->get('selected_thumbnail_image_id');
             $pageManager->pageCreate($page, $bannerImageId, $thumbnailImageId);
 
             $pageName = $page->getName();
@@ -112,7 +110,7 @@ class PageController extends AbstractController
 
         return $this->render('backend/admin/dashboard/content/page/create/create.html.twig', [
             'form' => $form->createView(),
-            'pagination' => $pagination
+            'pagination' => $pagination,
         ]);
     }
 
@@ -127,9 +125,8 @@ class PageController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $bannerImageId = (int)$request->request->get('selected_banner_image_id');
-            $thumbnailImageId = (int)$request->request->get('selected_thumbnail_image_id');
+            $bannerImageId = (int) $request->request->get('selected_banner_image_id');
+            $thumbnailImageId = (int) $request->request->get('selected_thumbnail_image_id');
 
             $pageManager->pageEdit($page, $bannerImageId, $thumbnailImageId);
 
@@ -146,7 +143,7 @@ class PageController extends AbstractController
         return $this->render('backend/admin/dashboard/content/page/edit/edit.html.twig', [
             'form' => $form->createView(),
             'pagination' => $pagination,
-            'page' => $page
+            'page' => $page,
         ]);
     }
 
@@ -175,7 +172,7 @@ class PageController extends AbstractController
         foreach ($pages as $page) {
             $responseData[] = [
                 'id' => $page->getId(),
-                'label' => $page->getName()
+                'label' => $page->getName(),
             ];
         }
 
@@ -195,7 +192,7 @@ class PageController extends AbstractController
         foreach ($pages as $page) {
             $responseData[] = [
                 'id' => $page->getId(),
-                'label' => $page->getName()
+                'label' => $page->getName(),
             ];
         }
 
@@ -217,14 +214,14 @@ class PageController extends AbstractController
         foreach ($pagination->getItems() as $image) {
             $imagesData[] = [
                 'id' => $image->getId(),
-                'url' => $this->imageDirectory . $image->getName(),
-                'alt' => $image->getAlt()
+                'url' => $this->imageDirectory.$image->getName(),
+                'alt' => $image->getAlt(),
             ];
         }
 
         return new JsonResponse([
             'images' => $imagesData,
-            'nextPage' => $page < $pagination->getPageCount() ? $page + 1 : null
+            'nextPage' => $page < $pagination->getPageCount() ? $page + 1 : null,
         ]);
     }
 
@@ -233,9 +230,10 @@ class PageController extends AbstractController
     /**
      * Retrieves query results based on optional search string and state.
      *
-     * @param string|null $search The search string to be used for filtering the results.
-     * @param int|null $state The state to be used for filtering the results.
-     * @return Page[] An array of query results.
+     * @param string|null $search the search string to be used for filtering the results
+     * @param int|null    $state  the state to be used for filtering the results
+     *
+     * @return Page[] an array of query results
      */
     private function getQueryResults(?string $search, ?int $state): array
     {
@@ -249,5 +247,4 @@ class PageController extends AbstractController
 
         return $this->pageRepository->findAllOrderBy('DESC');
     }
-
 }

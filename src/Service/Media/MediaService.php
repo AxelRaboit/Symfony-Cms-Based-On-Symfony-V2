@@ -5,30 +5,30 @@ namespace App\Service\Media;
 use App\Entity\Image;
 use App\Enum\MediaEnum;
 use App\Manager\Backend\Content\Media\MediaManager;
-use Exception;
 use Symfony\Component\HttpFoundation\File\File;
-use ZipArchive;
 
 class MediaService
 {
     public function __construct(
         private readonly MediaManager $mediaManager,
-        private readonly string       $imageDirectoryNoSlash
-    ){}
-
+        private readonly string $imageDirectoryNoSlash
+    ) {
+    }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function prepareMediaForUpload(Image $image): bool
     {
         if (null === $image->getImageFile()) {
-            throw new Exception('No file provided');
+            throw new \Exception('No file provided');
         }
 
         $extension = $image->getImageFile()->guessExtension();
 
-        if (in_array($extension, [
+        if (in_array(
+            $extension,
+            [
                 MediaEnum::MEDIA_EXTENSION_JPG,
                 MediaEnum::MEDIA_EXTENSION_JPEG,
                 MediaEnum::MEDIA_EXTENSION_PNG,
@@ -38,11 +38,10 @@ class MediaService
             $this->mediaManager->mediaImageCreate($image);
 
             return true;
-
-        } elseif ($extension == MediaEnum::MEDIA_EXTENSION_ZIP) {
-            $zip = new ZipArchive();
-            if ($zip->open($image->getImageFile()->getPathname()) === TRUE) {
-                for ($i = 0; $i < $zip->numFiles; $i++) {
+        } elseif (MediaEnum::MEDIA_EXTENSION_ZIP == $extension) {
+            $zip = new \ZipArchive();
+            if (true === $zip->open($image->getImageFile()->getPathname())) {
+                for ($i = 0; $i < $zip->numFiles; ++$i) {
                     /** @var string $filename */
                     $filename = $zip->getNameIndex($i);
                     $fileInfo = pathinfo($filename);
@@ -53,12 +52,11 @@ class MediaService
                             MediaEnum::MEDIA_EXTENSION_PNG,
                             MediaEnum::MEDIA_EXTENSION_WEBP,
                         ])) {
+                        $tmpPath = $this->imageDirectoryNoSlash.'/'.MediaEnum::MEDIA_TEMP_DIRECTORY.'/'.$filename;
+                        $zip->extractTo($this->imageDirectoryNoSlash.'/'.MediaEnum::MEDIA_TEMP_DIRECTORY.'/', $filename);
 
-                        $tmpPath = $this->imageDirectoryNoSlash . '/' . MediaEnum::MEDIA_TEMP_DIRECTORY . '/' . $filename;
-                        $zip->extractTo($this->imageDirectoryNoSlash . '/' . MediaEnum::MEDIA_TEMP_DIRECTORY . '/', $filename);
-
-                        $finalUniqueName = uniqid() . '.' . $fileInfo['extension'];
-                        $finalPath = $this->imageDirectoryNoSlash . '/' . $finalUniqueName;
+                        $finalUniqueName = uniqid().'.'.$fileInfo['extension'];
+                        $finalPath = $this->imageDirectoryNoSlash.'/'.$finalUniqueName;
 
                         rename($tmpPath, $finalPath);
                         $file = new File($finalPath);
@@ -74,7 +72,6 @@ class MediaService
             }
 
             return true;
-
         } else {
             return false;
         }

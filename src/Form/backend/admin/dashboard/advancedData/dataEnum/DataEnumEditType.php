@@ -27,15 +27,15 @@ class DataEnumEditType extends AbstractType
             ])
             ->add('category', TextType::class, [
                 'required' => false,
-                'label' => 'Catégorie'
+                'label' => 'Catégorie',
             ])
             ->add('value', TextType::class, [
                 'required' => false,
-                'label' => 'Valeur'
+                'label' => 'Valeur',
             ])
             ->add('devKey', IntegerType::class, [
                 'required' => true,
-                'label' => 'Clé de dev'
+                'label' => 'Clé de dev',
             ])
         ;
     }

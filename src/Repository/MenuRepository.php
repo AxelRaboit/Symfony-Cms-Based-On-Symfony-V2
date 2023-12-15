@@ -23,12 +23,11 @@ class MenuRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string $order
      * @return Menu[]
      */
     public function findAllOrderBy(string $order = 'ASC'): array
     {
-        $query = $this->em()->createQuery('SELECT pt FROM App\Entity\Menu pt ORDER BY pt.id ' . $order);
+        $query = $this->em()->createQuery('SELECT pt FROM App\Entity\Menu pt ORDER BY pt.id '.$order);
 
         /** @var Menu[] $result */
         $result = $query->getResult();
@@ -37,16 +36,14 @@ class MenuRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string $criteria
-     * @param string $order
      * @return Menu[]
      */
     public function findByCriteria(string $criteria, string $order = 'ASC'): array
     {
         $criteria = trim($criteria);
 
-        $query = $this->em()->createQuery('SELECT m FROM App\Entity\Menu m WHERE m.name LIKE :criteria OR m.id LIKE :criteria ORDER BY m.id ' . $order);
-        $query->setParameter('criteria', '%' . $criteria . '%');
+        $query = $this->em()->createQuery('SELECT m FROM App\Entity\Menu m WHERE m.name LIKE :criteria OR m.id LIKE :criteria ORDER BY m.id '.$order);
+        $query->setParameter('criteria', '%'.$criteria.'%');
 
         /** @var Menu[] $result */
         $result = $query->getResult();

@@ -14,12 +14,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class InitCommand extends Command
 {
     public function __construct(
-        private readonly LoggerInterface    $logger,
+        private readonly LoggerInterface $logger,
         private readonly DataEnumRepository $dataEnumRepository,
-        private readonly DataEnumManager    $dataEnumManager,
+        private readonly DataEnumManager $dataEnumManager,
     ) {
         parent::__construct(null);
     }
+
     protected function configure(): void
     {
         $this

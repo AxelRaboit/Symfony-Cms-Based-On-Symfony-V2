@@ -12,8 +12,7 @@ class UserBackendManager extends AbstractManager
     public function __construct(
         EntityManagerInterface $em,
         private readonly UserPasswordHasherInterface $userPasswordHasher
-    )
-    {
+    ) {
         parent::__construct($em);
     }
 

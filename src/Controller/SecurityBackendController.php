@@ -13,15 +13,14 @@ class SecurityBackendController extends AbstractController
     #[Route(path: '/backend/connexion', name: 'app_backend_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-         if ($this->getUser()) {
-             return $this->redirectToRoute('app_backend_dashboard');
-         }
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_backend_dashboard');
+        }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
 
-
-         // Custom error message
+        // Custom error message
         $badCredentials = null;
         if ($error instanceof BadCredentialsException) {
             $badCredentials = 'Mauvais identifiants de connexion';

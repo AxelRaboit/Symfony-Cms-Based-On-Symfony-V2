@@ -10,12 +10,12 @@ class PageGalleryService
 {
     public function __construct(
         private readonly PageGalleryRepository $pageGalleryRepository,
-    ) {}
+    ) {
+    }
 
     /**
      * Retrieves gallery elements for a given page.
      *
-     * @param Page $page
      * @return array<int|string, array{
      *     elements: array{
      *         gallery: array<string, mixed>,

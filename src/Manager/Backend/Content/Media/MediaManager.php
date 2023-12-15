@@ -5,19 +5,17 @@ namespace App\Manager\Backend\Content\Media;
 use App\Entity\Image;
 use App\Manager\AbstractManager;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 
 class MediaManager extends AbstractManager
 {
     public function __construct(
         EntityManagerInterface $em,
-    )
-    {
+    ) {
         parent::__construct($em);
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function mediaImageCreate(Image $image): void
     {

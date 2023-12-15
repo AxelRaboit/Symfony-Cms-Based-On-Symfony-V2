@@ -18,8 +18,7 @@ class RegistrationBackendController extends AbstractController
         Request $request,
         UserBackendRepository $userBackendRepository,
         UserBackendManager $userBackendManager,
-    ): Response
-    {
+    ): Response {
         $userBackend = new UserBackend();
         $form = $this->createForm(RegistrationFormType::class, $userBackend);
         $form->handleRequest($request);
@@ -28,6 +27,7 @@ class RegistrationBackendController extends AbstractController
             $existingUser = $userBackendRepository->findOneBy(['email' => $userBackend->getEmail()]);
             if ($existingUser) {
                 $this->addFlash('danger', 'Un utilisateur avec cette adresse email existe déjà.');
+
                 return $this->redirectToRoute('app_backend_register');
             }
 

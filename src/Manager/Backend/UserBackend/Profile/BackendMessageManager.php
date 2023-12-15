@@ -8,7 +8,6 @@ use App\Manager\AbstractManager;
 use App\Repository\BackendMessageRepository;
 use App\Repository\UserBackendRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 
 class BackendMessageManager extends AbstractManager
 {
@@ -16,16 +15,12 @@ class BackendMessageManager extends AbstractManager
         EntityManagerInterface $em,
         private readonly UserBackendRepository $userBackendRepository,
         private readonly BackendMessageRepository $backendMessageRepository
-    )
-    {
+    ) {
         parent::__construct($em);
     }
 
     /**
-     * @throws Exception
-     * @param BackendMessage $backendMessage
-     * @param string $sender
-     * @return void
+     * @throws \Exception
      */
     public function messageCreate(BackendMessage $backendMessage, string $sender): void
     {
@@ -37,7 +32,7 @@ class BackendMessageManager extends AbstractManager
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function findUserBackendByEmail(string $email): object
     {
@@ -45,7 +40,6 @@ class BackendMessageManager extends AbstractManager
         $userBackend = $this->userBackendRepository->findOneBy(['email' => $email]);
 
         return $userBackend;
-
     }
 
     public function messageDeleteFromSender(BackendMessage $backendMessage): void

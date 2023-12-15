@@ -8,7 +8,6 @@ use App\Form\backend\admin\dashboard\content\media\MediaImageEditType;
 use App\Manager\Backend\Content\Media\MediaManager;
 use App\Repository\ImageRepository;
 use App\Service\Media\MediaService;
-use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class MediaController extends AbstractController
 {
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     #[Route('/backend/admin/content/media/list', name: 'app_backend_content_media_list', methods: ['GET', 'POST'])]
     public function mediaList(Request $request, MediaService $mediaService, ImageRepository $imageRepository, PaginatorInterface $paginator): Response
@@ -34,7 +33,7 @@ class MediaController extends AbstractController
         );
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if($mediaService->prepareMediaForUpload($image)) {
+            if ($mediaService->prepareMediaForUpload($image)) {
                 $this->addFlash('success', "Le media {$image->getName()} a été importé avec succès.");
 
                 return $this->redirectToRoute('app_backend_content_media_list');
@@ -52,7 +51,7 @@ class MediaController extends AbstractController
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     #[Route('/backend/admin/content/media/{id}/edit', name: 'app_backend_content_media_edit', methods: ['GET', 'POST'])]
     public function mediaEdit(Image $image, Request $request, MediaService $mediaService): Response
@@ -85,5 +84,4 @@ class MediaController extends AbstractController
 
         return $this->redirectToRoute('app_backend_content_media_list');
     }
-
 }

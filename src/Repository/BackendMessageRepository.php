@@ -25,7 +25,6 @@ class BackendMessageRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param UserBackend $userBackend
      * @return BackendMessage[]
      */
     public function findAllMessageReceivedByReceiver(UserBackend $userBackend): array
@@ -46,7 +45,6 @@ class BackendMessageRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param UserBackend $userBackend
      * @return BackendMessage[]
      */
     public function findAllMessageSentBySender(UserBackend $userBackend): array

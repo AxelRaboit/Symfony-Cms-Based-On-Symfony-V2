@@ -20,7 +20,9 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class PageEditType extends AbstractType
 {
-    public function __construct(private readonly PageRepository $pageRepository){}
+    public function __construct(private readonly PageRepository $pageRepository)
+    {
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -173,12 +175,6 @@ class PageEditType extends AbstractType
             ]);
     }
 
-    /**
-     * @param string $slug
-     * @param ExecutionContextInterface $context
-     * @param int|null $currentObjectId
-     * @return void
-     */
     public function validateSlug(string $slug, ExecutionContextInterface $context, ?int $currentObjectId): void
     {
         $existingPage = $this->pageRepository->findOneBy(['slug' => $slug]);
@@ -189,7 +185,7 @@ class PageEditType extends AbstractType
                 ->addViolation();
         }
 
-        if ($slug !== '/' && str_starts_with($slug, '/')) {
+        if ('/' !== $slug && str_starts_with($slug, '/')) {
             $context->buildViolation('Le slug ne doit pas commencer par un slash.')
                 ->atPath('slug')
                 ->addViolation();

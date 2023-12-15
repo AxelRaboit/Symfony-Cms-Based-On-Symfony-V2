@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UserApplicationRepository;
-use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -36,16 +35,16 @@ class UserApplication implements UserInterface, PasswordAuthenticatedUserInterfa
     private string $password;
 
     #[ORM\Column]
-    private ?DateTimeImmutable $createdAt = null;
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
-    private ?DateTimeImmutable $updatedAt = null;
+    private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(nullable: true)]
-    private ?DateTimeImmutable $deletedAt = null;
+    private ?\DateTimeImmutable $deletedAt = null;
 
     #[ORM\Column(nullable: true)]
-    private ?DateTimeImmutable $lastLoginAt = null;
+    private ?\DateTimeImmutable $lastLoginAt = null;
 
     public function getId(): ?int
     {
@@ -76,6 +75,7 @@ class UserApplication implements UserInterface, PasswordAuthenticatedUserInterfa
 
     /**
      * @see UserInterface
+     *
      * @return string[]
      */
     public function getRoles(): array
@@ -89,6 +89,7 @@ class UserApplication implements UserInterface, PasswordAuthenticatedUserInterfa
 
     /**
      * @param string[] $roles
+     *
      * @return $this
      */
     public function setRoles(array $roles): static
@@ -122,48 +123,48 @@ class UserApplication implements UserInterface, PasswordAuthenticatedUserInterfa
         // $this->plainPassword = null;
     }
 
-    public function getCreatedAt(): ?DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeImmutable $createdAt): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(DateTimeImmutable $updatedAt): static
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
 
         return $this;
     }
 
-    public function getDeletedAt(): ?DateTimeImmutable
+    public function getDeletedAt(): ?\DateTimeImmutable
     {
         return $this->deletedAt;
     }
 
-    public function setDeletedAt(?DateTimeImmutable $deletedAt): static
+    public function setDeletedAt(?\DateTimeImmutable $deletedAt): static
     {
         $this->deletedAt = $deletedAt;
 
         return $this;
     }
 
-    public function getLastLoginAt(): ?DateTimeImmutable
+    public function getLastLoginAt(): ?\DateTimeImmutable
     {
         return $this->lastLoginAt;
     }
 
-    public function setLastLoginAt(?DateTimeImmutable $lastLoginAt): static
+    public function setLastLoginAt(?\DateTimeImmutable $lastLoginAt): static
     {
         $this->lastLoginAt = $lastLoginAt;
 

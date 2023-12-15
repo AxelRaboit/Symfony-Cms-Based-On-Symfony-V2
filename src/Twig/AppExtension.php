@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Twig;
 
-use App\Entity\MenuItem;
 use App\Entity\Page;
 use App\Entity\PageType;
 use App\Entity\UserBackend;
@@ -17,11 +16,8 @@ use App\Repository\PageRepository;
 use App\Repository\PageTypeRepository;
 use App\Service\Page\PageService;
 use App\Service\Website\WebsiteService;
-use DateTime;
-use DateTimeZone;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
-use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -29,26 +25,24 @@ use Twig\Extension\AbstractExtension;
 use Twig\Markup;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
-use function count;
 
 class AppExtension extends AbstractExtension
 {
     private ?Request $request;
 
     public function __construct(
-        private readonly DataEnumManager          $dataEnumManager,
-        private readonly MenuItemRepository       $menuItemRepository,
-        private readonly PageRepository           $pageRepository,
-        private readonly RequestStack             $requestStack,
-        private readonly WebsiteService           $websiteService,
-        private readonly UrlGeneratorInterface    $urlGenerator,
-        private readonly PageService              $pageService,
-        private readonly PageTypeRepository       $pageTypeRepository,
+        private readonly DataEnumManager $dataEnumManager,
+        private readonly MenuItemRepository $menuItemRepository,
+        private readonly PageRepository $pageRepository,
+        private readonly RequestStack $requestStack,
+        private readonly WebsiteService $websiteService,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly PageService $pageService,
+        private readonly PageTypeRepository $pageTypeRepository,
         private readonly BackendMessageRepository $backendMessageRepository,
         /** @phpstan-ignore-next-line */
         private readonly string $appEnv,
-    )
-    {
+    ) {
         $this->request = $requestStack->getCurrentRequest();
     }
 
@@ -91,7 +85,6 @@ class AppExtension extends AbstractExtension
     }
 
     /**
-     * @param string $category
      * @return array<array<string, mixed>>
      */
     public function findPagesByCategoryFunction(string $category): array
@@ -103,15 +96,17 @@ class AppExtension extends AbstractExtension
 
     /**
      * @param string[] $slugs
+     *
      * @return array<array<string, mixed>>
-     * @throws Exception
+     *
+     * @throws \Exception
      */
     public function findPagesBySlugFunction(array $slugs): array
     {
         $pages = $this->pageRepository->findBy(['slug' => $slugs]);
 
-        if (count($slugs) !== count($pages)) {
-            throw new Exception('At least one page is missing, please check the slug that you\'ve provided');
+        if (\count($slugs) !== \count($pages)) {
+            throw new \Exception('At least one page is missing, please check the slug that you\'ve provided');
         }
 
         return $this->getPageElementsFormatted($pages);
@@ -125,10 +120,6 @@ class AppExtension extends AbstractExtension
         return $this->pageRepository->findAll();
     }
 
-    /**
-     * @param Page $page
-     * @return string|null
-     */
     public function getCanonicalUrlFunction(Page $page): ?string
     {
         $website = $page->getWebsite();
@@ -138,22 +129,19 @@ class AppExtension extends AbstractExtension
             $protocol = $website->getProtocol();
             $canonicalUrl = $page->getCanonicalUrl();
 
-            return $protocol . $domain . '/' . $canonicalUrl;
+            return $protocol.$domain.'/'.$canonicalUrl;
         } else {
             return null;
         }
     }
 
     /**
-     *
-     * @param Page $page
-     * @return object
-     * @throws Exception
+     * @throws \Exception
      */
     public function getCanonicalUrlWithLinkFunction(Page $page): object
     {
         if (null === $this->request) {
-            throw new Exception('Request is null');
+            throw new \Exception('Request is null');
         }
 
         $hostname = $this->request->getHost();
@@ -165,9 +153,9 @@ class AppExtension extends AbstractExtension
             if ('/' === $page->getSlug()) {
                 $url .= '/';
             } elseif (null !== $page->getCanonicalUrl() && '' !== $page->getCanonicalUrl()) {
-                $url .= '/' . $page->getCanonicalUrl();
+                $url .= '/'.$page->getCanonicalUrl();
             } else {
-                $url .= '/' . $page->getSlug();
+                $url .= '/'.$page->getSlug();
             }
 
             $url = str_replace('//', '/', $url);
@@ -175,46 +163,47 @@ class AppExtension extends AbstractExtension
 
             return new Markup(sprintf('<link rel="canonical" href="%s">', htmlspecialchars($url, ENT_QUOTES, 'UTF-8')), 'UTF-8');
         } else {
-            throw new Exception('Website is null or not of the correct type');
+            throw new \Exception('Website is null or not of the correct type');
         }
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function getCurrentHourFunction(string $timezone): string
     {
-        $timezone = new DateTimeZone($timezone);
-        $date = new DateTime('now', $timezone);
+        $timezone = new \DateTimeZone($timezone);
+        $date = new \DateTime('now', $timezone);
+
         return $date->format('H:i:s');
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function getDataEnumValueFunction(int $devKey): string|int|bool
     {
         $dataEnumValue = $this->dataEnumManager->getDataEnumValue($devKey);
 
-        if ($dataEnumValue === null) {
-            throw new Exception('DataEnum value is null');
+        if (null === $dataEnumValue) {
+            throw new \Exception('DataEnum value is null');
         }
 
         return $dataEnumValue;
     }
 
     /**
-     * @throws Exception
      * @return array<int|string, array<string, mixed>>
+     *
+     * @throws \Exception
      */
     public function getMenuItemsFunction(int $devKey): array
     {
-
         /** @var string|null $dataEnumValue */
         $dataEnumValue = $this->dataEnumManager->getDataEnumValue($devKey);
 
         if (null === $dataEnumValue) {
-            throw new Exception('DataEnum value is null');
+            throw new \Exception('DataEnum value is null');
         }
 
         return $this->menuItemRepository->getMenuItemsSortedByWeight($dataEnumValue);
@@ -235,51 +224,48 @@ class AppExtension extends AbstractExtension
         if (null !== $pageType) {
             $pageTypeUrlPrefix = $pageType->getUrlPrefix();
 
-            if ($pageTypeUrlPrefix === '/') {
-
-                if ($page->getSlug() === '/') {
+            if ('/' === $pageTypeUrlPrefix) {
+                if ('/' === $page->getSlug()) {
                     return '/';
-                };
+                }
 
-                return '/' . $page->getSlug();
+                return '/'.$page->getSlug();
             }
 
-            return $pageTypeUrlPrefix . '/' . $page->getSlug();
+            return $pageTypeUrlPrefix.'/'.$page->getSlug();
         }
 
-        return '/' . $page->getSlug();
+        return '/'.$page->getSlug();
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function getUrlAbsoluteFinalFunction(Page $page): ?string
     {
         if (null === $this->request) {
-            throw new Exception('Request is null');
+            throw new \Exception('Request is null');
         }
 
         $baseUrl = $this->request->getSchemeAndHttpHost();
-
 
         $pageType = $page->getPageType();
 
         if (null !== $pageType) {
             $pageTypeUrlPrefix = $pageType->getUrlPrefix();
 
-            if ($pageTypeUrlPrefix === '/') {
-
-                if ($page->getSlug() === '/') {
+            if ('/' === $pageTypeUrlPrefix) {
+                if ('/' === $page->getSlug()) {
                     return $baseUrl;
-                };
+                }
 
-                return $baseUrl . '/' . $page->getSlug();
+                return $baseUrl.'/'.$page->getSlug();
             }
 
-            return $baseUrl . $pageTypeUrlPrefix . '/' . $page->getSlug();
+            return $baseUrl.$pageTypeUrlPrefix.'/'.$page->getSlug();
         }
 
-        return $baseUrl . '/' . $page->getSlug();
+        return $baseUrl.'/'.$page->getSlug();
     }
 
     /**
@@ -298,28 +284,27 @@ class AppExtension extends AbstractExtension
         if (null !== $pageType) {
             $pageTypeUrlPrefix = $pageType->getUrlPrefix();
 
-            if ($pageTypeUrlPrefix === '/') {
-
-                if ($page->getSlug() === '/') {
+            if ('/' === $pageTypeUrlPrefix) {
+                if ('/' === $page->getSlug()) {
                     return '/';
-                };
+                }
 
-                return '/' . $page->getSlug();
+                return '/'.$page->getSlug();
             }
 
-            return $pageTypeUrlPrefix . '/' . $page->getSlug();
+            return $pageTypeUrlPrefix.'/'.$page->getSlug();
         }
 
-        return '/' . $page->getSlug();
+        return '/'.$page->getSlug();
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function getWebsiteFunction(): Website
     {
         if (null === $this->request) {
-            throw new Exception('Request is null');
+            throw new \Exception('Request is null');
         }
 
         /** @var Website $currentWebsite */
@@ -330,14 +315,9 @@ class AppExtension extends AbstractExtension
 
     public function isPagePublishedFunction(Page $page): bool
     {
-        return $page->getState() === PageStateEnum::PUBLISHED;
+        return PageStateEnum::PUBLISHED === $page->getState();
     }
 
-    /**
-     * @param string $urlPath
-     * @param int|string|null $id
-     * @return string
-     */
     public function returnRefererFunction(string $urlPath, int|string $id = null): string
     {
         $requestStackRequest = $this->requestStack->getCurrentRequest();
@@ -346,7 +326,7 @@ class AppExtension extends AbstractExtension
             $referer = $requestStackRequest->headers->get('referer');
 
             if (null === $referer || $referer === $currentUrl) {
-                if ($id !== null) {
+                if (null !== $id) {
                     return $this->urlGenerator->generate($urlPath, ['id' => $id]);
                 } else {
                     return $this->urlGenerator->generate($urlPath);
@@ -366,10 +346,9 @@ class AppExtension extends AbstractExtension
 
     public function htmlEntityDecodeAndTruncateFilter(
         ?string $string,
-        int     $charactersLimit = null,
-        bool    $decodeHtmlEntity = true
-    ): ?string
-    {
+        int $charactersLimit = null,
+        bool $decodeHtmlEntity = true
+    ): ?string {
         /* Html entity decode */
         if (true === $decodeHtmlEntity && null !== $string) {
             $string = html_entity_decode($string);
@@ -377,10 +356,10 @@ class AppExtension extends AbstractExtension
 
         /* Truncate */
         if (null !== $charactersLimit) {
-            $string = strip_tags((string)$string);
+            $string = strip_tags((string) $string);
 
             if (mb_strlen($string) > $charactersLimit) {
-                return mb_substr($string, 0, $charactersLimit) . '...';
+                return mb_substr($string, 0, $charactersLimit).'...';
             }
         }
 
@@ -389,13 +368,12 @@ class AppExtension extends AbstractExtension
 
     public function truncateFilter(
         ?string $string,
-        int     $charactersLimit = null,
-    ): ?string
-    {
+        int $charactersLimit = null,
+    ): ?string {
         /* Truncate */
         if (null !== $charactersLimit && null !== $string) {
             if (mb_strlen($string) > $charactersLimit) {
-                return mb_substr($string, 0, $charactersLimit) . '...';
+                return mb_substr($string, 0, $charactersLimit).'...';
             }
         }
 
@@ -404,6 +382,7 @@ class AppExtension extends AbstractExtension
 
     /**
      * @param Page[] $pages
+     *
      * @return array<array<string, mixed>>
      */
     private function getPageElementsFormatted(array $pages): array
@@ -416,7 +395,6 @@ class AppExtension extends AbstractExtension
 
         return $pageFormatted;
     }
-
 
     /* THIS FUNCTION IS NOT USED */
     public function urlParserFunction(string $content): string
@@ -434,7 +412,7 @@ class AppExtension extends AbstractExtension
 
         foreach ($urls as $index => $url) {
             $transformedUrl = $this->transformUrl($url);
-            $content = str_replace($links[$index], '<a href="' . $transformedUrl . '"', $content);
+            $content = str_replace($links[$index], '<a href="'.$transformedUrl.'"', $content);
         }
 
         return $content;
@@ -442,19 +420,19 @@ class AppExtension extends AbstractExtension
 
     /* THIS FUNCTION IS NOT USED */
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     private function transformUrl(string $url): string
     {
         if (null === $this->request) {
-            throw new Exception('Request is null');
+            throw new \Exception('Request is null');
         }
 
         $locale = $this->request->getLocale();
 
         $parsedUrl = parse_url($url);
         if (empty($parsedUrl['scheme'])) {
-            $url = $this->request->getBaseUrl() . '/' . $locale . $url;
+            $url = $this->request->getBaseUrl().'/'.$locale.$url;
         }
 
         return $url;

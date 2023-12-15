@@ -5,7 +5,6 @@ namespace App\Form\backend\admin\dashboard\userBackend\message;
 use App\Entity\BackendMessage;
 use App\Entity\UserBackend;
 use Doctrine\ORM\EntityRepository;
-use LogicException;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
@@ -26,7 +25,7 @@ class BackendMessageType extends AbstractType
         $user = $this->security->getUser();
 
         if (!$user instanceof UserBackend) {
-            throw new LogicException('User must be logged in.');
+            throw new \LogicException('User must be logged in.');
         }
 
         $email = $user->getEmail();

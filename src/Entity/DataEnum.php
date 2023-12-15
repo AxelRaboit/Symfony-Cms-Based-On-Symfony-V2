@@ -6,7 +6,7 @@ use App\Repository\DataEnumRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: DataEnumRepository::class)]
-#[ORM\UniqueConstraint(name: "dev_key_unique", columns: ["dev_key"])]
+#[ORM\UniqueConstraint(name: 'dev_key_unique', columns: ['dev_key'])]
 class DataEnum
 {
     #[ORM\Id]

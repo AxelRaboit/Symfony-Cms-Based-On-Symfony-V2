@@ -15,15 +15,10 @@ class UserBackendManager extends AbstractManager
         EntityManagerInterface $em,
         private readonly UserPasswordHasherInterface $userPasswordHasher,
         private readonly UserBackendInformationManager $userBackendInformationManager
-    )
-    {
+    ) {
         parent::__construct($em);
     }
 
-    /**
-     * @param string $password
-     * @param UserBackend $userBackend
-     */
     public function userBackendCreate(string $password, UserBackend $userBackend): void
     {
         $userBackend->setPassword(
@@ -43,7 +38,6 @@ class UserBackendManager extends AbstractManager
     }
 
     /**
-     * @param UserBackend $userBackend
      * @param array<string, string> $passwords
      */
     public function userBackendEdit(UserBackend $userBackend, array $passwords = []): void

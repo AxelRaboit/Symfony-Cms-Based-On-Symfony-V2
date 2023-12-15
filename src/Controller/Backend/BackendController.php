@@ -25,15 +25,14 @@ class BackendController extends AbstractController
      */
     #[Route('/backend/admin/dashboard', name: 'app_backend_dashboard')]
     public function dashboard(
-        PageRepository            $pageRepository,
-        UserBackendRepository     $userBackendRepository,
+        PageRepository $pageRepository,
+        UserBackendRepository $userBackendRepository,
         UserApplicationRepository $userApplicationRepository,
-        ImageRepository           $imageRepository,
-        DataEnumRepository        $dataEnumRepository,
-        DashboardService          $dashboardService,
-        BackendMessageRepository  $backendMessageRepository
-    ): Response
-    {
+        ImageRepository $imageRepository,
+        DataEnumRepository $dataEnumRepository,
+        DashboardService $dashboardService,
+        BackendMessageRepository $backendMessageRepository
+    ): Response {
         $chartPageTypes = $dashboardService->createChartPageTypes();
         $chartPublishedPagesByPageTypes = $dashboardService->createChartPublishedPagesByPageTypes();
 

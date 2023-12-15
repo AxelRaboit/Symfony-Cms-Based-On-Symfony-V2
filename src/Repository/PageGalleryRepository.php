@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-use App\Entity\Image;
 use App\Entity\Page;
 use App\Entity\PageGallery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -27,7 +26,6 @@ class PageGalleryRepository extends ServiceEntityRepository
     /**
      * Retrieves a gallery associated with a page.
      *
-     * @param Page $page
      * @return array<int|string, array<string, mixed>>
      */
     public function getPageGallery(Page $page): array

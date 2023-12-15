@@ -22,11 +22,12 @@ class PageController extends AbstractController
     public const PAGE_DEFAULT = 'page_index';
 
     public function __construct(
-        private readonly PageRepository     $pageRepository,
+        private readonly PageRepository $pageRepository,
         private readonly PageGalleryService $pageGalleryService,
-        private readonly RouteService       $routeService,
-        private readonly PageService        $pageService,
-    ) {}
+        private readonly RouteService $routeService,
+        private readonly PageService $pageService,
+    ) {
+    }
 
     /**
      * @throws NonUniqueResultException
@@ -47,7 +48,7 @@ class PageController extends AbstractController
         $routes = $this->routeService->getRoutes();
 
         if (null !== $page) {
-            if($page->getState() == PageStateEnum::DRAFT) {
+            if (PageStateEnum::DRAFT == $page->getState()) {
                 return $this->render('frontend/page/page-not-published.html.twig', [
                     'page' => $page,
                 ]);
@@ -74,7 +75,7 @@ class PageController extends AbstractController
             $elements['children'] = $this->pageService->getChildrenFromPage($page);
             $elements['gallery'] = $this->pageGalleryService->getPageGalleryElements($page);
 
-            if(null !== $page->getPageType()) {
+            if (null !== $page->getPageType()) {
                 if (null !== $page->getPageType()->getTemplate()) {
                     $elements['template'] = $page->getPageType()->getTemplate();
                 } else {
@@ -89,13 +90,11 @@ class PageController extends AbstractController
             return $this->forward($route->getDefaults()['_controller']);
         }
 
-        throw new NotFoundHttpException("Page not found");
+        throw new NotFoundHttpException('Page not found');
     }
 
     /**
-     * @param Request $request
      * @param array<string, mixed> $routes
-     * @return mixed
      */
     private function redirectOnRouteSiteMap(Request $request, array $routes): mixed
     {

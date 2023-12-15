@@ -14,8 +14,7 @@ class DataEnumManager extends AbstractManager
     public function __construct(
         EntityManagerInterface $em,
         private readonly DataEnumRepository $dataEnumRepository
-    )
-    {
+    ) {
         parent::__construct($em);
     }
 

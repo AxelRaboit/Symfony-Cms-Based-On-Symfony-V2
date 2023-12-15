@@ -18,7 +18,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class UserBackendController extends AbstractController
 {
-    public function __construct(private readonly UserBackendRepository $userBackendRepository){}
+    public function __construct(private readonly UserBackendRepository $userBackendRepository)
+    {
+    }
 
     #[Route('/backend/admin/advanced-data/user-backend/list', name: 'app_backend_advanced_data_user_backend_list')]
     public function userList(Request $request, PaginatorInterface $paginator): Response
@@ -42,10 +44,10 @@ class UserBackendController extends AbstractController
     /**
      * Create a new user for the backend.
      *
-     * @param Request $request The HTTP request object.
-     * @param UserBackendManager $userBackendManager The user backend manager.
+     * @param Request            $request            the HTTP request object
+     * @param UserBackendManager $userBackendManager the user backend manager
      *
-     * @return Response          The response object.
+     * @return Response the response object
      */
     #[Route('/backend/admin/advanced-data/user-backend/create', name: 'app_backend_advanced_data_user_backend_create', methods: ['GET', 'POST'])]
     public function userCreate(Request $request, UserBackendManager $userBackendManager): Response
@@ -55,7 +57,6 @@ class UserBackendController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $password = $form->get('password')->getData();
 
             $userBackendManager->userBackendCreate($password, $userBackend);
@@ -98,7 +99,7 @@ class UserBackendController extends AbstractController
                 if ($deletePictureProfile->getData()) {
                     $userBackendInformation = $userBackend->getInformation();
 
-                    if ($userBackendInformation !== null) {
+                    if (null !== $userBackendInformation) {
                         $userBackendInformationManager->userBackendPictureProfileDelete($userBackendInformation);
                     }
                 }
@@ -141,7 +142,7 @@ class UserBackendController extends AbstractController
         foreach ($users as $user) {
             $responseData[] = [
                 'id' => $user->getId(),
-                'label' => $user->getUsername() ?: $user->getEmail()
+                'label' => $user->getUsername() ?: $user->getEmail(),
             ];
         }
 
@@ -153,9 +154,9 @@ class UserBackendController extends AbstractController
     /**
      * Get the query results.
      *
-     * @param string|null $search The search criteria (optional).
+     * @param string|null $search the search criteria (optional)
      *
-     * @return UserBackend[] The query results.
+     * @return UserBackend[] the query results
      */
     private function getQueryResults(?string $search): array
     {

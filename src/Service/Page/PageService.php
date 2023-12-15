@@ -7,39 +7,35 @@ use App\Enum\DataEnum;
 use App\Enum\UtilsEnum;
 use App\Repository\PageRepository;
 use Doctrine\ORM\NonUniqueResultException;
-use Exception;
 use Symfony\Component\DomCrawler\Crawler;
 
 class PageService
 {
-    public function __construct(private readonly PageRepository $pageRepository){}
+    public function __construct(private readonly PageRepository $pageRepository)
+    {
+    }
 
     /**
      * @throws NonUniqueResultException
-     * @throws Exception
+     * @throws \Exception
      */
     public function page404NotFound(): Page
     {
         $page = $this->pageRepository->getPageFromDataDevKey(DataEnum::DATA_PAGE_ERROR_404_DEV_KEY);
 
         if (null === $page) {
-            throw new Exception('The page 404 not found is not defined.');
+            throw new \Exception('The page 404 not found is not defined.');
         }
 
         return $page;
     }
 
-    /**
-     * @param string $devCodeRouteName
-     * @return Page|null
-     */
     public function getPageByDevCodeRouteName(string $devCodeRouteName): ?Page
     {
         return $this->pageRepository->findOneBy(['devCodeRouteName' => $devCodeRouteName]);
     }
 
     /**
-     * @param Page $page
      * @return array<string, mixed>
      */
     public function getPageElements(Page $page): array
@@ -104,9 +100,9 @@ class PageService
 
                 if (empty($matches)) {
                     if ('' !== $classes) {
-                        $newElement = '<a href="/' . $relativeUrl . '" class="' . $classes . '">' . $urlParts['_text'] . '</a>';
+                        $newElement = '<a href="/'.$relativeUrl.'" class="'.$classes.'">'.$urlParts['_text'].'</a>';
                     } else {
-                        $newElement = '<a href="/' . $relativeUrl . '">' . $urlParts['_text'] . '</a>';
+                        $newElement = '<a href="/'.$relativeUrl.'">'.$urlParts['_text'].'</a>';
                     }
 
                     $content = str_replace($oldElement, $newElement, $content);
@@ -118,7 +114,6 @@ class PageService
     }
 
     /**
-     * @param Page $page
      * @return array<array<string, mixed>>
      */
     public function getChildrenFromPage(Page $page): array

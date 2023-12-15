@@ -14,11 +14,11 @@ class MenuCreateType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label'   => 'Nom',
+                'label' => 'Nom',
                 'required' => true,
             ])
             ->add('category', TextType::class, [
-                'label'   => 'Catégorie',
+                'label' => 'Catégorie',
                 'required' => true,
             ])
         ;

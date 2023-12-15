@@ -60,9 +60,13 @@ front-production-build: ## Build front production
 
 quality:
 	make phpstan
+	make php-cs-fixer
 
 phpstan:
 	vendor/bin/phpstan analyse
+
+php-cs-fixer:
+	tools/php-cs-fixer/vendor/bin/php-cs-fixer fix src --verbose --rules=@Symfony
 
 ##--------------------------------------------
 ## CACHE

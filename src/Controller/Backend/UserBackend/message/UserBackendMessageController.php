@@ -82,7 +82,6 @@ class UserBackendMessageController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $sender = $form->get('sender')->getData();
 
             $backendMessageManager->messageCreate($backendMessage, $sender);
@@ -108,7 +107,7 @@ class UserBackendMessageController extends AbstractController
     {
         $backendMessageManager->messageDeleteFromReceiver($backendMessage);
 
-        $this->addFlash('success', "Le message a été supprimé avec succès.");
+        $this->addFlash('success', 'Le message a été supprimé avec succès.');
 
         return $this->redirectToRoute('app_backend_user_backend_profile_message_list', ['id' => $userBackend->getId()]);
     }
@@ -123,7 +122,7 @@ class UserBackendMessageController extends AbstractController
     {
         $backendMessageManager->messageDeleteFromSender($backendMessage);
 
-        $this->addFlash('success', "Le message a été supprimé avec succès.");
+        $this->addFlash('success', 'Le message a été supprimé avec succès.');
 
         return $this->redirectToRoute('app_backend_user_backend_profile_message_sent_list', ['id' => $userBackend->getId()]);
     }

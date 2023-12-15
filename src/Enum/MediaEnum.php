@@ -33,5 +33,4 @@ class MediaEnum
 
         return $reflectionClass->getConstants();
     }
-
 }

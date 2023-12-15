@@ -25,16 +25,14 @@ class DataEnumRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string $criteria
-     * @param string $order
      * @return DataEnum[]
      */
     public function findByCriteria(string $criteria, string $order = 'ASC'): array
     {
         $criteria = trim($criteria);
 
-        $query = $this->em()->createQuery('SELECT d FROM App\Entity\DataEnum d WHERE d.name LIKE :criteria OR d.value LIKE :criteria OR d.id LIKE :criteria OR d.category LIKE :criteria ORDER BY d.id ' . $order);
-        $query->setParameter('criteria', '%' . $criteria . '%');
+        $query = $this->em()->createQuery('SELECT d FROM App\Entity\DataEnum d WHERE d.name LIKE :criteria OR d.value LIKE :criteria OR d.id LIKE :criteria OR d.category LIKE :criteria ORDER BY d.id '.$order);
+        $query->setParameter('criteria', '%'.$criteria.'%');
 
         /** @var DataEnum[] $result */
         $result = $query->getResult();
@@ -43,12 +41,11 @@ class DataEnumRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string $order
      * @return DataEnum[]
      */
     public function findAllOrderBy(string $order = 'ASC'): array
     {
-        $query = $this->em()->createQuery('SELECT d FROM App\Entity\DataEnum d ORDER BY d.id ' . $order);
+        $query = $this->em()->createQuery('SELECT d FROM App\Entity\DataEnum d ORDER BY d.id '.$order);
 
         /** @var DataEnum[] $result */
         $result = $query->getResult();
@@ -59,6 +56,7 @@ class DataEnumRepository extends ServiceEntityRepository
     /**
      * We take the highest devKey and increment it by 1 to get the next available devKey.
      * We make sure that the devKey is unique.
+     *
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
@@ -69,7 +67,7 @@ class DataEnumRepository extends ServiceEntityRepository
         $devKey = $query->getSingleScalarResult();
 
         while ($this->findOneBy(['devKey' => $devKey])) {
-            $devKey++;
+            ++$devKey;
         }
 
         return (int) $devKey;

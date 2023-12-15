@@ -12,8 +12,7 @@ class UserBackendInformationManager extends AbstractManager
     public function __construct(
         EntityManagerInterface $em,
         private readonly UserBackendInformationService $userBackendInformationService
-    )
-    {
+    ) {
         parent::__construct($em);
     }
 
@@ -24,14 +23,12 @@ class UserBackendInformationManager extends AbstractManager
 
     public function userBackendPictureProfileDelete(UserBackendInformation $userBackendInformation): void
     {
-
         /** @var string $pictureProfileName */
         $pictureProfileName = $userBackendInformation->getPictureProfileName();
 
         $this->userBackendInformationService->userBackendInformationPictureProfileFileDelete($pictureProfileName);
         $userBackendInformation->setPictureProfileName(null);
         $userBackendInformation->setPictureProfileSize(null);
-
 
         $this->save($userBackendInformation);
     }

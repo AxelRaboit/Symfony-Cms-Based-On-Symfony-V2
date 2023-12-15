@@ -19,7 +19,7 @@ class MenuItem
     private Collection $menu;
 
     #[ORM\ManyToOne(inversedBy: 'menuItems')]
-    #[ORM\JoinColumn(nullable: true, onDelete: "SET NULL")]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
     private ?Page $page = null;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'children')]
@@ -154,7 +154,7 @@ class MenuItem
     {
         return [
             'id' => $this->id,
-            'parent' => null !== $this->parent ? $this->parent->getId() : null,
+            'parent' => $this->parent?->getId(),
             'page' => null !== $this->page ? $this->page : null,
             'weight' => $this->weight,
             'name' => $this->name,

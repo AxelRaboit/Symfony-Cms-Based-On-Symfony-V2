@@ -9,7 +9,6 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -20,7 +19,9 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class PageCreateType extends AbstractType
 {
-    public function __construct(private readonly PageRepository $pageRepository){}
+    public function __construct(private readonly PageRepository $pageRepository)
+    {
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -161,11 +162,6 @@ class PageCreateType extends AbstractType
             ]);
     }
 
-    /**
-     * @param string $slug
-     * @param ExecutionContextInterface $context
-     * @return void
-     */
     public function validateSlug(string $slug, ExecutionContextInterface $context): void
     {
         if ($this->pageRepository->findOneBy(['slug' => $slug])) {
@@ -174,7 +170,7 @@ class PageCreateType extends AbstractType
                 ->addViolation();
         }
 
-        if ($slug !== '/' && str_starts_with($slug, '/')) {
+        if ('/' !== $slug && str_starts_with($slug, '/')) {
             $context->buildViolation('Le slug ne doit pas commencer par un slash.')
                 ->atPath('slug')
                 ->addViolation();

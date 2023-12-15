@@ -6,7 +6,6 @@ use App\Entity\Menu;
 use App\Form\backend\admin\dashboard\content\menu\edit\MenuEditType;
 use App\Manager\Backend\Content\Menu\MenuManager;
 use App\Repository\MenuRepository;
-use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,14 +15,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class MenuController extends AbstractController
 {
-    public function __construct(private readonly MenuRepository $menuRepository){}
+    public function __construct(private readonly MenuRepository $menuRepository)
+    {
+    }
 
     #[Route('/backend/admin/content/menu/list', name: 'app_backend_content_menu_list')]
     public function menuList(
-        Request            $request,
+        Request $request,
         PaginatorInterface $paginator,
-    ): Response
-    {
+    ): Response {
         /** @var string|null $search */
         $search = $request->query->get('search');
 
@@ -41,7 +41,7 @@ class MenuController extends AbstractController
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     #[Route('/backend/admin/content/menu/create', name: 'app_backend_content_menu_create', methods: ['GET', 'POST'])]
     public function menuCreate(Request $request, MenuManager $menuManager): Response
@@ -65,7 +65,7 @@ class MenuController extends AbstractController
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     #[Route('/backend/admin/content/menu/{id}/edit', name: 'app_backend_content_menu_edit', methods: ['GET', 'POST'])]
     public function menuEdit(Menu $menu, Request $request, MenuManager $menuManager): Response
@@ -84,7 +84,7 @@ class MenuController extends AbstractController
 
         return $this->render('backend/admin/dashboard/content/menu/edit/edit.html.twig', [
             'form' => $form->createView(),
-            'menu' => $menu
+            'menu' => $menu,
         ]);
     }
 
@@ -113,7 +113,7 @@ class MenuController extends AbstractController
         foreach ($menus as $menu) {
             $responseData[] = [
                 'id' => $menu->getId(),
-                'label' => $menu->getName()
+                'label' => $menu->getName(),
             ];
         }
 
@@ -125,9 +125,9 @@ class MenuController extends AbstractController
     /**
      * Get the query results.
      *
-     * @param string|null $search The search criteria (optional).
+     * @param string|null $search the search criteria (optional)
      *
-     * @return Menu[] The query results.
+     * @return Menu[] the query results
      */
     private function getQueryResults(?string $search): array
     {

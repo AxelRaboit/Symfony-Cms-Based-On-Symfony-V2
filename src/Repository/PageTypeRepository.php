@@ -24,28 +24,19 @@ class PageTypeRepository extends ServiceEntityRepository
         parent::__construct($registry, PageType::class);
     }
 
-    /**
-     * @param string $order
-     * @return mixed
-     */
     public function findAllOrderBy(string $order = 'ASC'): mixed
     {
-        $query = $this->em()->createQuery('SELECT pt FROM App\Entity\PageType pt ORDER BY pt.id ' . $order);
+        $query = $this->em()->createQuery('SELECT pt FROM App\Entity\PageType pt ORDER BY pt.id '.$order);
 
         return $query->getResult();
     }
 
-    /**
-     * @param string $criteria
-     * @param string $order
-     * @return mixed
-     */
     public function findByCriteria(string $criteria, string $order = 'ASC'): mixed
     {
         $criteria = trim($criteria);
 
-        $query = $this->em()->createQuery('SELECT pt FROM App\Entity\PageType pt WHERE pt.name LIKE :criteria OR pt.id LIKE :criteria ORDER BY pt.id ' . $order);
-        $query->setParameter('criteria', '%' . $criteria . '%');
+        $query = $this->em()->createQuery('SELECT pt FROM App\Entity\PageType pt WHERE pt.name LIKE :criteria OR pt.id LIKE :criteria ORDER BY pt.id '.$order);
+        $query->setParameter('criteria', '%'.$criteria.'%');
 
         return $query->getResult();
     }
@@ -53,6 +44,7 @@ class PageTypeRepository extends ServiceEntityRepository
     /**
      * We take the highest devKey and increment it by 1 to get the next available devKey.
      * We make sure that the devKey is unique.
+     *
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
@@ -63,7 +55,7 @@ class PageTypeRepository extends ServiceEntityRepository
         $devKey = $query->getSingleScalarResult();
 
         while ($this->findOneBy(['devKey' => $devKey])) {
-            $devKey++;
+            ++$devKey;
         }
 
         return (int) $devKey;

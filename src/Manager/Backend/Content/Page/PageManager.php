@@ -5,12 +5,10 @@ namespace App\Manager\Backend\Content\Page;
 use App\Entity\Page;
 use App\Manager\AbstractManager;
 use App\Repository\ImageRepository;
-use App\Repository\MenuItemRepository;
 use App\Repository\PageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
-use Exception;
 
 class PageManager extends AbstractManager
 {
@@ -18,15 +16,14 @@ class PageManager extends AbstractManager
         EntityManagerInterface $em,
         private readonly PageRepository $pageRepository,
         private readonly ImageRepository $imageRepository,
-    )
-    {
+    ) {
         parent::__construct($em);
     }
 
     /**
      * @throws NonUniqueResultException
      * @throws NoResultException
-     * @throws Exception
+     * @throws \Exception
      */
     public function pageCreate(Page $page, int $bannerId, int $thumbnailId): void
     {
