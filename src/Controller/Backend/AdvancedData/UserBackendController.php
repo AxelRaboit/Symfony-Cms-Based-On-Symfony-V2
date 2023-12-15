@@ -141,7 +141,7 @@ class UserBackendController extends AbstractController
         foreach ($users as $user) {
             $responseData[] = [
                 'id' => $user->getId(),
-                'label' => $user->getUsername() ? $user->getUsername() : $user->getEmail()
+                'label' => $user->getUsername() ?: $user->getEmail()
             ];
         }
 
