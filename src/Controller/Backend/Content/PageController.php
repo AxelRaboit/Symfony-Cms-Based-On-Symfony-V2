@@ -41,8 +41,7 @@ class PageController extends AbstractController
 
         $pagination = $paginator->paginate(
             $query,
-            $request->query->getInt('page', 1),
-            null // Override default limit per page
+            $request->query->getInt('page', 1) // Override default limit per page
         );
 
         return $this->render('backend/admin/dashboard/content/page/list/list.html.twig', [
@@ -72,8 +71,7 @@ class PageController extends AbstractController
 
         $pagination = $paginator->paginate(
             $query,
-            $request->query->getInt('page', 1),
-            null // Override default limit per page
+            $request->query->getInt('page', 1) // Override default limit per page
         );
 
         return $this->render('backend/admin/dashboard/content/page/pageType/list.html.twig', [
