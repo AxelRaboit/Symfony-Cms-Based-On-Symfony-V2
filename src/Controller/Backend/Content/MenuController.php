@@ -6,6 +6,7 @@ use App\Entity\Menu;
 use App\Form\backend\admin\dashboard\content\menu\edit\MenuEditType;
 use App\Manager\Backend\Content\Menu\MenuManager;
 use App\Repository\MenuRepository;
+use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -41,7 +42,7 @@ class MenuController extends AbstractController
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     #[Route('/backend/admin/content/menu/create', name: 'app_backend_content_menu_create', methods: ['GET', 'POST'])]
     public function menuCreate(Request $request, MenuManager $menuManager): Response
@@ -65,7 +66,7 @@ class MenuController extends AbstractController
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     #[Route('/backend/admin/content/menu/{id}/edit', name: 'app_backend_content_menu_edit', methods: ['GET', 'POST'])]
     public function menuEdit(Menu $menu, Request $request, MenuManager $menuManager): Response
