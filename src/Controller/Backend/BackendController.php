@@ -50,12 +50,12 @@ class BackendController extends AbstractController
         $chartPublishedPagesByPageTypes = $dashboardService->createChartPublishedPagesByPageTypes();
 
         return $this->render('backend/admin/dashboard/dashboard.html.twig', [
-            'pageCount' => $pageRepository->count(),
+            'pageCount' => $pageRepository->count([]),
             'publishedPageCount' => $pageRepository->count(['state' => PageStateEnum::PUBLISHED]),
-            'imageCount' => $imageRepository->count(),
-            'userBackendCount' => $userBackendRepository->count(),
-            'userApplicationCount' => $userApplicationRepository->count(),
-            'dataEnumCount' => $dataEnumRepository->count(),
+            'imageCount' => $imageRepository->count([]),
+            'userBackendCount' => $userBackendRepository->count([]),
+            'userApplicationCount' => $userApplicationRepository->count([]),
+            'dataEnumCount' => $dataEnumRepository->count([]),
             'messageDeletedBySenderAndReceiverCount' => $backendMessageRepository->messageDeletedBySenderAndReceiverCount(),
             'chartPageTypes' => $chartPageTypes,
             'chartPublishedPagesByPageTypes' => $chartPublishedPagesByPageTypes,
