@@ -30,10 +30,10 @@ class PageController extends AbstractController
     /**
      * Retrieves a list of pages based on the search and state parameters.
      *
-     * @param Request $request The HTTP request object.
-     * @param PaginatorInterface $paginator The paginator object used for pagination.
+     * @param Request            $request   the HTTP request object
+     * @param PaginatorInterface $paginator the paginator object used for pagination
      *
-     * @return Response The HTTP response object containing the rendered list of pages.
+     * @return Response the HTTP response object containing the rendered list of pages
      */
     #[Route('/backend/admin/content/page/list', name: 'app_backend_content_page_list')]
     public function pageList(
@@ -60,12 +60,12 @@ class PageController extends AbstractController
     /**
      * Retrieves a list of pages based on the specified page type and search criteria.
      *
-     * @param PageRepository $pageRepository The repository to retrieve pages from.
-     * @param Request $request The request object containing the search and state parameters.
-     * @param PaginatorInterface $paginator The paginator to paginate the query result.
-     * @param PageType $pageType The page type object to filter pages by.
+     * @param PageRepository     $pageRepository the repository to retrieve pages from
+     * @param Request            $request        the request object containing the search and state parameters
+     * @param PaginatorInterface $paginator      the paginator to paginate the query result
+     * @param PageType           $pageType       the page type object to filter pages by
      *
-     * @return Response The rendered template with the paginated results and page type information.
+     * @return Response the rendered template with the paginated results and page type information
      */
     #[Route('/backend/admin/content/page/page-type/{id}/list', name: 'app_backend_content_page_page_type_list')]
     public function pagePageTypeList(
@@ -101,11 +101,13 @@ class PageController extends AbstractController
     /**
      * Creates a new page and handles the form submission.
      *
-     * @param Request $request The request object.
-     * @param PageManager $pageManager The page manager object.
-     * @param ImageRepository $imageRepository The image repository object.
-     * @param PaginatorInterface $paginator The paginator object.
-     * @return Response The response object.
+     * @param Request            $request         the request object
+     * @param PageManager        $pageManager     the page manager object
+     * @param ImageRepository    $imageRepository the image repository object
+     * @param PaginatorInterface $paginator       the paginator object
+     *
+     * @return Response the response object
+     *
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
@@ -140,12 +142,14 @@ class PageController extends AbstractController
     /**
      * Edits a page and displays the edit form or processes the submitted form.
      *
-     * @param Page $page The page object to edit.
-     * @param Request $request The request object.
-     * @param PageManager $pageManager The page manager object.
-     * @param ImageRepository $imageRepository The image repository object.
-     * @param PaginatorInterface $paginator The paginator object.
-     * @return Response The response object.
+     * @param Page               $page            the page object to edit
+     * @param Request            $request         the request object
+     * @param PageManager        $pageManager     the page manager object
+     * @param ImageRepository    $imageRepository the image repository object
+     * @param PaginatorInterface $paginator       the paginator object
+     *
+     * @return Response the response object
+     *
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
@@ -181,9 +185,10 @@ class PageController extends AbstractController
     /**
      * Deletes a page.
      *
-     * @param Page $page The page object to delete.
-     * @param PageManager $pageManager The page manager object.
-     * @return Response The response after deleting the page.
+     * @param Page        $page        the page object to delete
+     * @param PageManager $pageManager the page manager object
+     *
+     * @return Response the response after deleting the page
      */
     #[Route('/backend/admin/content/page/{id}/delete', name: 'app_backend_content_page_delete')]
     public function pageDelete(Page $page, PageManager $pageManager): Response
@@ -200,9 +205,10 @@ class PageController extends AbstractController
     /**
      * Performs an AJAX search for pages based on the given search term.
      *
-     * @param Request $request The request object.
-     * @param PageRepository $pageRepository The page repository object.
-     * @return JsonResponse The JSON response containing the search results.
+     * @param Request        $request        the request object
+     * @param PageRepository $pageRepository the page repository object
+     *
+     * @return JsonResponse the JSON response containing the search results
      */
     #[Route('/backend/admin/content/page/ajax-search', name: 'app_backend_content_page_ajax_search')]
     public function pageAjaxSearch(Request $request, PageRepository $pageRepository): JsonResponse
@@ -227,10 +233,11 @@ class PageController extends AbstractController
     /**
      * Performs an AJAX search for pages belonging to a specific page type based on the given search term.
      *
-     * @param PageType $pageType The page type object.
-     * @param Request $request The request object.
-     * @param PageRepository $pageRepository The page repository object.
-     * @return JsonResponse The JSON response containing the search results.
+     * @param PageType       $pageType       the page type object
+     * @param Request        $request        the request object
+     * @param PageRepository $pageRepository the page repository object
+     *
+     * @return JsonResponse the JSON response containing the search results
      */
     #[Route('/backend/admin/content/page/page-type/{id}/ajax-search', name: 'app_backend_content_page_page_type_ajax_search')]
     public function pageTypeAjaxSearch(PageType $pageType, Request $request, PageRepository $pageRepository): JsonResponse
@@ -255,11 +262,11 @@ class PageController extends AbstractController
     /**
      * Retrieves a list of images to be displayed in a gallery through AJAX.
      *
-     * @param Request $request The request object.
-     * @param ImageRepository $imageRepository The repository to retrieve images from.
-     * @param PaginatorInterface $paginator The paginator to paginate the query result.
+     * @param Request            $request         the request object
+     * @param ImageRepository    $imageRepository the repository to retrieve images from
+     * @param PaginatorInterface $paginator       the paginator to paginate the query result
      *
-     * @return JsonResponse The JSON response with the image data and the next page number if available.
+     * @return JsonResponse the JSON response with the image data and the next page number if available
      */
     #[Route('/backend/admin/content/page/gallery/ajax', name: 'app_backend_content_page_gallery_ajax')]
     public function galleryAjax(Request $request, ImageRepository $imageRepository, PaginatorInterface $paginator): JsonResponse

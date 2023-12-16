@@ -24,15 +24,16 @@ class BackendController extends AbstractController
      *
      * @Route("/backend/admin/dashboard", name="app_backend_dashboard")
      *
-     * @param PageRepository $pageRepository The page repository.
-     * @param UserBackendRepository $userBackendRepository The user backend repository.
-     * @param UserApplicationRepository $userApplicationRepository The user application repository.
-     * @param ImageRepository $imageRepository The image repository.
-     * @param DataEnumRepository $dataEnumRepository The data enum repository.
-     * @param DashboardService $dashboardService The dashboard service.
-     * @param BackendMessageRepository $backendMessageRepository The backend message repository.
+     * @param PageRepository            $pageRepository            the page repository
+     * @param UserBackendRepository     $userBackendRepository     the user backend repository
+     * @param UserApplicationRepository $userApplicationRepository the user application repository
+     * @param ImageRepository           $imageRepository           the image repository
+     * @param DataEnumRepository        $dataEnumRepository        the data enum repository
+     * @param DashboardService          $dashboardService          the dashboard service
+     * @param BackendMessageRepository  $backendMessageRepository  the backend message repository
      *
-     * @return Response The rendered dashboard page.
+     * @return Response the rendered dashboard page
+     *
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
@@ -67,9 +68,9 @@ class BackendController extends AbstractController
      *
      * @Route("/backend/admin/dashboard/messages/delete", name="app_backend_dashboard_delete_messages_deleted_by_sender_and_receiver")
      *
-     * @param BackendMessageManager $backendMessageManager The backend message manager.
+     * @param BackendMessageManager $backendMessageManager the backend message manager
      *
-     * @return Response The rendered dashboard page.
+     * @return Response the rendered dashboard page
      */
     #[Route('/backend/admin/dashboard/messages/delete', name: 'app_backend_dashboard_delete_messages_deleted_by_sender_and_receiver')]
     public function purgeMessageDeletedBySenderAndReceiver(BackendMessageManager $backendMessageManager): Response

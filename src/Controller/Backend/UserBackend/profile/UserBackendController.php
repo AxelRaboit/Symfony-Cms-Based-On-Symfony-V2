@@ -12,9 +12,9 @@ class UserBackendController extends AbstractController
     /**
      * Retrieves the user backend profile page.
      *
-     * @param UserBackend $userBackend The user backend object.
+     * @param UserBackend $userBackend the user backend object
      *
-     * @return Response The response object containing the rendered profile page.
+     * @return Response the response object containing the rendered profile page
      */
     #[Route('/backend/admin/user-backend/{id}/profile', name: 'app_backend_user_backend_profile', methods: ['GET'])]
     public function userBackendProfile(UserBackend $userBackend): Response

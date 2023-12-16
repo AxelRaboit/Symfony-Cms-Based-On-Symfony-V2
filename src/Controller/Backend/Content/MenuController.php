@@ -6,7 +6,6 @@ use App\Entity\Menu;
 use App\Form\backend\admin\dashboard\content\menu\edit\MenuEditType;
 use App\Manager\Backend\Content\Menu\MenuManager;
 use App\Repository\MenuRepository;
-use Exception;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -23,9 +22,10 @@ class MenuController extends AbstractController
     /**
      * Retrieve a paginated list of menu items.
      *
-     * @param Request $request The request object.
-     * @param PaginatorInterface $paginator The paginator object.
-     * @return Response The response object.
+     * @param Request            $request   the request object
+     * @param PaginatorInterface $paginator the paginator object
+     *
+     * @return Response the response object
      *
      * @Route('/backend/admin/content/menu/list', name='app_backend_content_menu_list')
      */
@@ -50,13 +50,14 @@ class MenuController extends AbstractController
     }
 
     /**
-     * Creates a new menu
+     * Creates a new menu.
      *
-     * @param Request $request The current request object
+     * @param Request     $request     The current request object
      * @param MenuManager $menuManager The menu manager service
      *
      * @return Response The response object
-     * @throws Exception
+     *
+     * @throws \Exception
      */
     #[Route('/backend/admin/content/menu/create', name: 'app_backend_content_menu_create', methods: ['GET', 'POST'])]
     public function menuCreate(Request $request, MenuManager $menuManager): Response
@@ -80,13 +81,15 @@ class MenuController extends AbstractController
     }
 
     /**
-     * Edit a menu
+     * Edit a menu.
      *
-     * @param Menu $menu The menu to be edited
-     * @param Request $request The HTTP request
+     * @param Menu        $menu        The menu to be edited
+     * @param Request     $request     The HTTP request
      * @param MenuManager $menuManager The menu manager
+     *
      * @return Response The HTTP response
-     * @throws Exception
+     *
+     * @throws \Exception
      */
     #[Route('/backend/admin/content/menu/{id}/edit', name: 'app_backend_content_menu_edit', methods: ['GET', 'POST'])]
     public function menuEdit(Menu $menu, Request $request, MenuManager $menuManager): Response
@@ -112,10 +115,12 @@ class MenuController extends AbstractController
     /**
      * Deletes a menu.
      *
-     * @param Menu $menu The menu to be deleted.
-     * @param MenuManager $menuManager The menu manager to handle the deletion.
-     * @return Response A response object representing the redirection to the menu list page.
-     * @throws Exception If an error occurs during the deletion process.
+     * @param Menu        $menu        the menu to be deleted
+     * @param MenuManager $menuManager the menu manager to handle the deletion
+     *
+     * @return Response a response object representing the redirection to the menu list page
+     *
+     * @throws \Exception if an error occurs during the deletion process
      */
     #[Route('/backend/admin/content/menu/{id}/delete', name: 'app_backend_content_menu_delete')]
     public function menuDelete(Menu $menu, MenuManager $menuManager): Response
@@ -132,10 +137,12 @@ class MenuController extends AbstractController
     /**
      * Search for menus based on a given search term.
      *
-     * @param Request $request The HTTP request object.
-     * @param MenuRepository $menuRepository The repository for menus.
-     * @return JsonResponse The JSON response with the menu data.
-     * @throws Exception
+     * @param Request        $request        the HTTP request object
+     * @param MenuRepository $menuRepository the repository for menus
+     *
+     * @return JsonResponse the JSON response with the menu data
+     *
+     * @throws \Exception
      */
     #[Route('/backend/admin/content/menu/ajax-search', name: 'app_backend_content_menu_ajax_search')]
     public function ajaxSearch(Request $request, MenuRepository $menuRepository): JsonResponse
