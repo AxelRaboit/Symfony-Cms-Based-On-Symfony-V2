@@ -26,8 +26,6 @@ class MenuController extends AbstractController
      * @param PaginatorInterface $paginator the paginator object
      *
      * @return Response the response object
-     *
-     * @Route('/backend/admin/content/menu/list', name='app_backend_content_menu_list')
      */
     #[Route('/backend/admin/content/menu/list', name: 'app_backend_content_menu_list')]
     public function menuList(

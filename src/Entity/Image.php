@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ImageRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
@@ -53,8 +55,16 @@ class Image
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
+    #[ORM\OneToMany(mappedBy: 'banner', targetEntity: Page::class)]
+    private Collection $pageBanners;
+
+    #[ORM\OneToMany(mappedBy: 'thumbnail', targetEntity: Page::class)]
+    private Collection $pageThumbnails;
+
     public function __construct()
     {
+        $this->pageBanners = new ArrayCollection();
+        $this->pageThumbnails = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -70,6 +80,60 @@ class Image
     public function setName(?string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getPageBanners(): Collection
+    {
+        return $this->pageBanners;
+    }
+
+    public function addPageBanner(Page $page): static
+    {
+        if (!$this->pageBanners->contains($page)) {
+            $this->pageBanners[] = $page;
+            $page->setBanner($this);
+        }
+
+        return $this;
+    }
+
+    public function removePageBanner(Page $page): static
+    {
+        if ($this->pageBanners->removeElement($page)) {
+            // set the owning side to null (unless already changed)
+            if ($page->getBanner() === $this) {
+                $page->setBanner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPageThumbnails(): Collection
+    {
+        return $this->pageThumbnails;
+    }
+
+    public function addPageThumbnail(Page $page): static
+    {
+        if (!$this->pageThumbnails->contains($page)) {
+            $this->pageThumbnails[] = $page;
+            $page->setThumbnail($this);
+        }
+
+        return $this;
+    }
+
+    public function removePageThumbnail(Page $page): static
+    {
+        if ($this->pageThumbnails->removeElement($page)) {
+            // set the owning side to null (unless already changed)
+            if ($page->getThumbnail() === $this) {
+                $page->setThumbnail(null);
+            }
+        }
 
         return $this;
     }
