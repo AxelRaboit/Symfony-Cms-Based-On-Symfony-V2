@@ -93,8 +93,7 @@ class UserBackendMessageController extends AbstractController
 
         $pagination = $paginator->paginate(
             $query,
-            $request->query->getInt('page', 1),
-            null // Override default limit per page
+            $request->query->getInt('page', 1) // Override default limit per page
         );
 
         return $this->render('backend/admin/dashboard/userBackend/profile/message/sent/list.html.twig', [
