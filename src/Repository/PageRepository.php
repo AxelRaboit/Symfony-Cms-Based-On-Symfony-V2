@@ -326,6 +326,7 @@ class PageRepository extends ServiceEntityRepository
             SELECT p
             FROM App\Entity\Page p
             WHERE p.state = :state
+            AND p.isSeoNoFollow = 0
         ';
 
         $query = $this->getEntityManager()->createQuery($dql);

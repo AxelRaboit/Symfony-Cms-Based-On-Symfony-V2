@@ -270,6 +270,28 @@
             </div>
         </div>
 
+        <div class="mb-5">
+            {{ form_widget(form.isSeoNoFollow, { 'attr': { 'class': 'mr-2 text-xs p-1 border border-gray-300 rounded focus:ring-gray-800 focus:border-gray-800' } }) }}
+            {{ form_label(form.isSeoNoFollow, null, { 'label_attr': { 'class': 'text-xs text-gray-900 dark:text-white' } }) }}
+
+            {% if form.isSeoNoFollow.vars.errors %}
+                <div class="mt-1 text-red-600 text-xs">
+                    {% for error in form.isSeoNoFollow.vars.errors %}
+                        <p>{{ error.message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% set informationTitle = "<p>Informations</p>" %}
+            {% set informationMessage = "
+                <p class='text-xs text-gray-900 dark:text-white'>En cochant cette case, celà permettra d'indiquer aux moteurs de recherche de ne pas suivre les liens de la page.</p>
+            " %}
+            {% include 'backend/admin/dashboard/content/page/elements/informations/informations.html.twig' with {
+                'informationTitle': informationTitle,
+                'informationMessage': informationMessage,
+            } %}
+        </div>
+
         <h2 class="text-1xl font-semibold mb-2 text-gray-900 dark:text-white">Dev</h2>
         <hr class="mb-3">
 

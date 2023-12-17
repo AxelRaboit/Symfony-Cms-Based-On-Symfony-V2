@@ -118,6 +118,9 @@ class Page
     #[ORM\Column]
     private int $state;
 
+    #[ORM\Column]
+    private bool $isSeoNoFollow = false;
+
     public function __construct()
     {
         $this->children = new ArrayCollection();
@@ -504,6 +507,7 @@ class Page
             'bannerTitle' => $this->getBannerTitle(),
             'visibleForBackendActions' => $this->isVisibleForBackendActions(),
             'metaTitle' => $this->getMetaTitle(),
+            'isSeoNoFollow' => $this->isSeoNoFollow(),
             'weight' => $this->getWeight(),
             'displayType' => $this->getDisplayType(),
         ];
@@ -601,6 +605,18 @@ class Page
     public function setState(int $state): static
     {
         $this->state = $state;
+
+        return $this;
+    }
+
+    public function isSeoNoFollow(): bool
+    {
+        return $this->isSeoNoFollow;
+    }
+
+    public function setIsSeoNoFollow(bool $isSeoNoFollow): static
+    {
+        $this->isSeoNoFollow = $isSeoNoFollow;
 
         return $this;
     }

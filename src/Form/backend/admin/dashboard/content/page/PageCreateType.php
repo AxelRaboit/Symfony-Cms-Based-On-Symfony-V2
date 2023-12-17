@@ -136,6 +136,10 @@ class PageCreateType extends AbstractType
                 'label' => 'Meta description',
                 'required' => false,
             ])
+            ->add('isSeoNoFollow', CheckboxType::class, [
+                'label' => 'SEO no follow',
+                'required' => true,
+            ])
             ->add('weight', TextType::class, [
                 'label' => 'Poids',
                 'required' => true,
