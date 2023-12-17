@@ -333,7 +333,7 @@ class PageRepository extends ServiceEntityRepository
         return (int) $devKey;
     }
 
-    public function findAllPagesForSiteMap(): array
+    public function findAllEditorialPagesForSiteMap(): array
     {
         $dql = '
             SELECT p

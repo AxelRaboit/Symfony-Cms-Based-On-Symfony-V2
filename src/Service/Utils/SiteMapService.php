@@ -18,7 +18,7 @@ readonly class SiteMapService
 
     public function findAllEditorialPages(): array
     {
-        $pages = $this->pageRepository->findAllPagesForSiteMap();
+        $pages = $this->pageRepository->findAllEditorialPagesForSiteMap();
 
         $urls = [];
 
