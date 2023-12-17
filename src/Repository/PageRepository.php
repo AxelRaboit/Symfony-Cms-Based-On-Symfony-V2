@@ -333,7 +333,7 @@ class PageRepository extends ServiceEntityRepository
         return (int) $devKey;
     }
 
-    public function findAllEditorialPagesForSiteMap(): array
+    public function findAllEditorialPublishedPagesForSiteMap(): array
     {
         $dql = '
             SELECT p
@@ -342,7 +342,7 @@ class PageRepository extends ServiceEntityRepository
         ';
 
         $query = $this->getEntityManager()->createQuery($dql);
-        $query->setParameter('state', 2);
+        $query->setParameter('state', PageStateEnum::PUBLISHED);
 
         $pages = $query->getResult();
 
