@@ -6,6 +6,7 @@
 parameters:
     image_directory: '/assets/medias/images/'
     image_directory_no_slash: 'assets/medias/images'
+    image_directory_no_beginning_slash: 'assets/medias/images/'
     image_elements_directory: '/assets/images/elements/'
     image_elements_directory_no_slash: 'assets/images/elements'
     picture_profile_directory: '/assets/images/picturesProfile/'
@@ -39,6 +40,9 @@ services:
     App\Service\UserBackend\Information\UserBackendInformationService:
         arguments:
             $pictureProfileDirectoryNoSlash: '%picture_profile_directory_no_slash%'
+    App\Service\Utils\SiteMapService:
+        arguments:
+            $imageDirectoryNoBeginningSlash: '%image_directory_no_beginning_slash%'
 
     # Listeners
 

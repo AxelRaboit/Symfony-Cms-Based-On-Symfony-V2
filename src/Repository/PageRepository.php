@@ -333,6 +333,37 @@ class PageRepository extends ServiceEntityRepository
         return (int) $devKey;
     }
 
+    public function findAllPagesForSiteMap(): array
+    {
+        $dql = '
+            SELECT p
+            FROM App\Entity\Page p
+            WHERE p.state = :state
+        ';
+
+        $query = $this->getEntityManager()->createQuery($dql);
+        $query->setParameter('state', 2);
+
+        $pages = $query->getResult();
+
+        foreach ($pages as $key => $page) {
+            $slug = $page->getSlug();
+            $pageType = $page->getPageType() ? $page->getPageType()->getUrlPrefix() : '';
+            $pagePath = $pageType . '/' . $slug;
+
+            // Prevent and remove double slashes
+            $pagePath = preg_replace('#/+#', '/', $pagePath);
+
+            $pages[$key] = [
+                'page' => $page,
+                'path' => $pagePath,
+                'updatedAt' => $page->getUpdatedAt()->format('Y-m-d'),
+            ];
+        }
+
+        return $pages;
+    }
+
     // Base
 
     private function em(): EntityManagerInterface

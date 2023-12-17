@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+>
+    {% for url in urls %}
+        <url>
+            <loc>{{ hostname }}{{ url.loc }}</loc>
+            {% if url.lastmod is defined and url.lastmod is not null %}
+                <lastmod>{{ url.lastmod }}</lastmod>
+            {% endif %}
+            {% if url.changefreq is defined and url.changefreq is not null %}
+                <changefreq>{{ url.changefreq }}</changefreq>
+            {% endif %}
+            {% if url.priority is defined and url.priority is not null %}
+                <priority>{{ url.priority }}</priority>
+            {% endif %}
+            {% if url.images.banner is defined and url.images.banner is not null %}
+                <image:image>
+                    <image:loc>{{ url.images.banner.name }}</image:loc>
+                    {% if url.images.banner.title is defined and url.images.banner.title is not null %}
+                        <image:title>{{ url.images.banner.title }}</image:title>
+                    {% endif %}
+                    {% if url.images.banner.caption is defined and url.images.banner.caption is not null %}
+                        <image:caption>{{ url.images.banner.caption }}</image:caption>
+                    {% endif %}
+                </image:image>
+            {% else %}
+                {% if url.images.thumbnail is defined and url.images.thumbnail is not null %}
+                    <image:image>
+                        <image:loc>{{ url.images.thumbnail.name }}</image:loc>
+                        {% if url.images.thumbnail.title is defined and url.images.thumbnail.title is not null %}
+                            <image:title>{{ url.images.thumbnail.title }}</image:title>
+                        {% endif %}
+                        {% if url.images.thumbnail.caption is defined and url.images.thumbnail.caption is not null %}
+                            <image:caption>{{ url.images.thumbnail.caption }}</image:caption>
+                        {% endif %}
+                    </image:image>
+                {% endif %}
+            {% endif %}
+        </url>
+    {% endfor %}
+</urlset>
