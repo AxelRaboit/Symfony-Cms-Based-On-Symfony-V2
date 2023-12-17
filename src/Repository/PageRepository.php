@@ -193,7 +193,11 @@ class PageRepository extends ServiceEntityRepository
     }
 
     /**
-     * @throws NonUniqueResultException
+     * Retrieves a Page entity based on the given data dev key.
+     *
+     * @param int $dataDevKey the data dev key to search for
+     *
+     * @return Page|null the Page entity matching the data dev key, or null if no match is found
      */
     public function getPageFromDataDevKey(int $dataDevKey): ?Page
     {
@@ -239,7 +243,7 @@ class PageRepository extends ServiceEntityRepository
         $pageSlug = '';
 
         // Loop to find a matching pageTypePrefix
-        for ($i = 0; $i < count($segments); ++$i) {
+        for ($i = 0; $i < \count($segments); ++$i) {
             // Build the potentialPageTypePrefix
             $potentialPageTypePrefix = '/'.implode('/', array_slice($segments, 0, $i + 1));
 
@@ -287,28 +291,6 @@ class PageRepository extends ServiceEntityRepository
 
         /** @var Page|null $result */
         $result = $finalQuery->getOneOrNullResult();
-
-        return $result;
-    }
-
-    /**
-     * @throws NonUniqueResultException
-     */
-    public function getPageBySlug(string $slug): ?Page
-    {
-        $query = $this->em()->createQuery(
-            'SELECT p FROM App\Entity\Page p
-            WHERE p.slug = :slug'
-        );
-
-        $query->setParameter('slug', $slug);
-
-        if (null === $query->getOneOrNullResult()) {
-            return null;
-        }
-
-        /** @var Page|null $result */
-        $result = $query->getOneOrNullResult();
 
         return $result;
     }
