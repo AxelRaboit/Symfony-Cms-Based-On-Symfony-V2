@@ -349,14 +349,14 @@ class PageRepository extends ServiceEntityRepository
         foreach ($pages as $key => $page) {
             $slug = $page->getSlug();
             $pageType = $page->getPageType() ? $page->getPageType()->getUrlPrefix() : '';
-            $pagePath = $pageType . '/' . $slug;
+            $url = $pageType . '/' . $slug;
 
             // Prevent and remove double slashes
-            $pagePath = preg_replace('#/+#', '/', $pagePath);
+            $url = preg_replace('#/+#', '/', $url);
 
             $pages[$key] = [
                 'page' => $page,
-                'path' => $pagePath,
+                'url' => $url,
                 'updatedAt' => $page->getUpdatedAt()->format('Y-m-d'),
             ];
         }

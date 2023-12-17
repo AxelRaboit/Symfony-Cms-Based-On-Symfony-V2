@@ -27,7 +27,7 @@ readonly class SiteMapService
             $thumbnail = $this->getImageData($page['page']->getThumbnail());
 
             $urls[] = [
-                'loc' => $page['path'],
+                'loc' => $page['url'],
                 'lastmod' => $page['updatedAt'],
                 'changefreq' => 'monthly',
                 'priority' => '0.8',
