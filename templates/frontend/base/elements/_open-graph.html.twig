@@ -12,14 +12,12 @@
         <meta property="og:url" content="{{ getUrlAbsoluteFinal(page) }}"/>
     {% endif %}
 
-    {% if website is defined and website is not null %}
-        {% if page.thumbnail %}
-            <meta property="og:image" content="{{ website.protocol ~ website.domain ~ image_directory ~ page.thumbnail.name }}"/>
-        {% elseif page.banner %}
-            <meta property="og:image" content="{{ website.protocol ~ website.domain ~ image_directory ~ page.banner.name }}"/>
-        {% else %}
-            <meta property="og:image" content="{{ asset('assets/images/elements/brand.png') }}"/>
-        {% endif %}
+    {% if page.thumbnail %}
+        <meta property="og:image" content="{{ getSchemeAndHttpHost() ~ image_directory ~ page.thumbnail.name }}"/>
+    {% elseif page.banner %}
+        <meta property="og:image" content="{{ getSchemeAndHttpHost() ~ image_directory ~ page.banner.name }}"/>
+    {% else %}
+        <meta property="og:image" content="{{ getSchemeAndHttpHost() ~ asset('assets/images/elements/brand.png') }}"/>
     {% endif %}
 
     {% if page.metaDescription %}

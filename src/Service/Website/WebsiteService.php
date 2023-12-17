@@ -17,6 +17,8 @@ class WebsiteService
     public const DEV_HOSTNAME_NUMBERS = '127.0.0.1';
     public const DEV_HOSTNAME_LOCALHOST = 'localhost';
 
+    public const MAIN_WEBSITE_NAME = 'MyWebsite';
+
     /**
      * @return Website|mixed[]|null
      *
@@ -26,11 +28,7 @@ class WebsiteService
     {
         /* If it's the dev env */
         if (self::DEV_HOSTNAME_NUMBERS === $hostname || self::DEV_HOSTNAME_LOCALHOST === $hostname) {
-            $website = $this->websiteRepository->findOneBy(['hostname' => self::DEV_HOSTNAME_NUMBERS]);
-
-            if (!$website) {
-                $website = $this->websiteRepository->findOneBy(['hostname' => self::DEV_HOSTNAME_LOCALHOST]);
-            }
+            $website = $this->websiteRepository->findOneBy(['name' => self::MAIN_WEBSITE_NAME]);
 
             if (!$website) {
                 throw new \Exception('Website not found, or make sure to provide a valid hostname for dev environment');
@@ -62,7 +60,7 @@ class WebsiteService
      */
     public function getWebsite(): Website
     {
-        $website = $this->websiteRepository->findOneBy([]);
+        $website = $this->websiteRepository->findOneBy(['name' => self::MAIN_WEBSITE_NAME]);
 
         if (!$website) {
             throw new \Exception('Website not found');

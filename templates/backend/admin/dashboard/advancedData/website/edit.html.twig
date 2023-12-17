@@ -1,0 +1,113 @@
+{% extends "backend/admin/base/base.html.twig" %}
+
+{% set pageTitle = "Modifier le site" %}
+
+{% block title %}{{ parent() }} - {{ pageTitle }}{% endblock %}
+
+{% block body %}
+    {{ encore_entry_link_tags('backend/admin/dashboard/advancedData/website/edit') }}
+
+    {% include 'backend/admin/dashboard/elements/_side-menu.html.twig' %}
+
+    <div class="p-2 sm:ml-64">
+        <h1 class="text-2xl font-semibold mb-2 text-gray-900 dark:text-white">{{ pageTitle }}</h1>
+
+        {{ form_start(form, {'attr': {'id': 'form-edit-website-js'}}) }}
+
+        <div class="mb-2 text-xs">
+            {{ form_label(form.name, null, { 'label_attr': { 'class': 'text-gray-900 dark:text-white'}}) }}
+            <span class="text-red-500 font-semibold">*</span>
+            {{ form_widget(form.name, { 'attr': { 'class': 'w-full p-1 border border-gray-300 rounded focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500' } }) }}
+            {% if form.name.vars.errors %}
+                <div class="mt-1 text-red-600 text-xs">
+                    {% for error in form.name.vars.errors %}
+                        <p>{{ error.message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-4 text-xs">
+            {{ form_label(form.domain, null, { 'label_attr': { 'class': 'text-gray-900 dark:text-white'}}) }}
+            {{ form_widget(form.domain, { 'attr': { 'class': 'w-full p-1 border border-gray-300 rounded focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500' } }) }}
+            {% if form.domain.vars.errors %}
+                <div class="mt-1 text-red-600 text-xs">
+                    {% for error in form.domain.vars.errors %}
+                        <p>{{ error.message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-4 text-xs">
+            {{ form_label(form.email, null, { 'label_attr': { 'class': 'text-gray-900 dark:text-white'}}) }}
+            {{ form_widget(form.email, { 'attr': { 'class': 'w-full p-1 border border-gray-300 rounded focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500' } }) }}
+            {% if form.email.vars.errors %}
+                <div class="mt-1 text-red-600 text-xs">
+                    {% for error in form.email.vars.errors %}
+                        <p>{{ error.message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-4 text-xs">
+            {{ form_label(form.hostname, null, { 'label_attr': { 'class': 'text-gray-900 dark:text-white'}}) }}
+            {{ form_widget(form.hostname, { 'attr': { 'class': 'w-full p-1 border border-gray-300 rounded focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500' } }) }}
+            {% if form.hostname.vars.errors %}
+                <div class="mt-1 text-red-600 text-xs">
+                    {% for error in form.hostname.vars.errors %}
+                        <p>{{ error.message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-4 text-xs">
+            {{ form_label(form.protocol, null, { 'label_attr': { 'class': 'text-gray-900 dark:text-white'}}) }}
+            {{ form_widget(form.protocol, { 'attr': { 'class': 'w-full p-1 border border-gray-300 rounded focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500' } }) }}
+            {% if form.protocol.vars.errors %}
+                <div class="mt-1 text-red-600 text-xs">
+                    {% for error in form.protocol.vars.errors %}
+                        <p>{{ error.message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-4 text-xs">
+            {{ form_label(form.port, null, { 'label_attr': { 'class': 'text-gray-900 dark:text-white'}}) }}
+            {{ form_widget(form.port, { 'attr': { 'class': 'w-full p-1 border border-gray-300 rounded focus:ring-gray-500 focus:border-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500' } }) }}
+            {% if form.port.vars.errors %}
+                <div class="mt-1 text-red-600 text-xs">
+                    {% for error in form.port.vars.errors %}
+                        <p>{{ error.message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="flex flex-wrap mt-4">
+            <div class="w-full md:w-auto mb-2 md:mb-0">
+                <button type="submit"
+                        id="submit-button-edit-website-js"
+                        class="w-full text-xs px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    Modifier
+                </button>
+            </div>
+
+            <div id="container-reset-button" class="w-full md:w-auto mb-2 md:mb-0 md:ml-2">
+                <a href="{{ returnReferer('app_backend_advanced_data_website_list') }}">
+                    <button type="button"
+                            class="w-full text-xs px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                        Retour
+                    </button>
+                </a>
+            </div>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+
+    {{ encore_entry_script_tags('backend/admin/dashboard/advancedData/website/edit') }}
+{% endblock %}

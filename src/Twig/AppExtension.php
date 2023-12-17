@@ -53,6 +53,7 @@ class AppExtension extends AbstractExtension
             new TwigFunction('findPagesByCategory', [$this, 'findPagesByCategoryFunction']),
             new TwigFunction('findPagesBySlug', [$this, 'findPagesBySlugFunction']),
             new TwigFunction('getAllPages', [$this, 'getAllPagesFunction']),
+            new TwigFunction('getSchemeAndHttpHost', [$this, 'getSchemeAndHttpHostFunction']),
             new TwigFunction('getCanonicalUrl', [$this, 'getCanonicalUrlFunction']),
             new TwigFunction('getCanonicalUrlWithLink', [$this, 'getCanonicalUrlWithLinkFunction']),
             new TwigFunction('getCurrentHour', [$this, 'getCurrentHourFunction']),
@@ -118,6 +119,16 @@ class AppExtension extends AbstractExtension
     public function getAllPagesFunction(): array
     {
         return $this->pageRepository->findAll();
+    }
+
+    /**
+     * Retrieves the scheme and HTTP host of the current request.
+     *
+     * @return string|null the scheme and HTTP host if available, otherwise null
+     */
+    public function getSchemeAndHttpHostFunction(): ?string
+    {
+        return $this->request?->getSchemeAndHttpHost();
     }
 
     public function getCanonicalUrlFunction(Page $page): ?string

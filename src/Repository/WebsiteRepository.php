@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Website;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,28 +22,39 @@ class WebsiteRepository extends ServiceEntityRepository
         parent::__construct($registry, Website::class);
     }
 
-    //    /**
-    //     * @return Website[] Returns an array of Website objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('w')
-    //            ->andWhere('w.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('w.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * @return Website[]
+     */
+    public function findByCriteria(string $criteria, string $order = 'ASC'): array
+    {
+        $criteria = trim($criteria);
 
-    //    public function findOneBySomeField($value): ?Website
-    //    {
-    //        return $this->createQueryBuilder('w')
-    //            ->andWhere('w.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        $query = $this->em()->createQuery('SELECT w FROM App\Entity\Website w WHERE w.name LIKE :criteria OR w.id LIKE :criteria ORDER BY w.id '.$order);
+        $query->setParameter('criteria', '%'.$criteria.'%');
+
+        /** @var Website[] $result */
+        $result = $query->getResult();
+
+        return $result;
+    }
+
+    /**
+     * @return Website[]
+     */
+    public function findAllOrderBy(string $order = 'ASC'): array
+    {
+        $query = $this->em()->createQuery('SELECT w FROM App\Entity\Website w ORDER BY w.id '.$order);
+
+        /** @var Website[] $result */
+        $result = $query->getResult();
+
+        return $result;
+    }
+
+    // base
+
+    private function em(): EntityManagerInterface
+    {
+        return $this->_em;
+    }
 }

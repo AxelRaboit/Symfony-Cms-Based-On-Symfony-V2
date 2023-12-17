@@ -57,6 +57,10 @@ Encore
     .addEntry('backend/admin/dashboard/advancedData/dataEnum/edit', './assets/backend/js/templates/backend/admin/dashboard/advancedData/dataEnum/edit.js')
     .addEntry('backend/admin/dashboard/advancedData/dataEnum/create', './assets/backend/js/templates/backend/admin/dashboard/advancedData/dataEnum/create.js')
 
+    .addEntry('backend/admin/dashboard/advancedData/website/list', './assets/backend/js/templates/backend/admin/dashboard/advancedData/website/list.js')
+    .addEntry('backend/admin/dashboard/advancedData/website/edit', './assets/backend/js/templates/backend/admin/dashboard/advancedData/website/edit.js')
+    .addEntry('backend/admin/dashboard/advancedData/website/create', './assets/backend/js/templates/backend/admin/dashboard/advancedData/website/create.js')
+
     .addEntry('backend/admin/dashboard/advancedData/userBackend/list', './assets/backend/js/templates/backend/admin/dashboard/advancedData/userBackend/list.js')
     .addEntry('backend/admin/dashboard/advancedData/userBackend/create', './assets/backend/js/templates/backend/admin/dashboard/advancedData/userBackend/create.js')
     .addEntry('backend/admin/dashboard/advancedData/userBackend/edit', './assets/backend/js/templates/backend/admin/dashboard/advancedData/userBackend/edit.js')
