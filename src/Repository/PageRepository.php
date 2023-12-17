@@ -333,6 +333,11 @@ class PageRepository extends ServiceEntityRepository
         return (int) $devKey;
     }
 
+    /**
+     * Finds all editorial published pages for the sitemap.
+     *
+     * @return array<array{page: Page, url: string, updatedAt: string}> an array containing the pages with their corresponding URLs and update dates
+     */
     public function findAllEditorialPublishedPagesForSiteMap(): array
     {
         $dql = '
@@ -349,7 +354,7 @@ class PageRepository extends ServiceEntityRepository
         foreach ($pages as $key => $page) {
             $slug = $page->getSlug();
             $pageType = $page->getPageType() ? $page->getPageType()->getUrlPrefix() : '';
-            $url = $pageType . '/' . $slug;
+            $url = $pageType.'/'.$slug;
 
             // Prevent and remove double slashes
             $url = preg_replace('#/+#', '/', $url);

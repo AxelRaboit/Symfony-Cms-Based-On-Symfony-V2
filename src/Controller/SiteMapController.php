@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-use App\Repository\PageRepository;
-use App\Repository\UserBackendRepository;
 use App\Service\Utils\SiteMapService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
