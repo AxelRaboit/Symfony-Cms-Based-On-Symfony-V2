@@ -10,7 +10,7 @@ use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use TypeError;
 
-class PageKernelTest extends KernelTestCase
+class PageTest extends KernelTestCase
 {
     private Page $page;
 
