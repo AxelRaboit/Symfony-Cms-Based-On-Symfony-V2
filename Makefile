@@ -62,6 +62,7 @@ front-production-build: ## Build front production
 quality:
 	make phpstan
 	make php-cs-fixer
+	make php-test
 
 phpstan:
 	vendor/bin/phpstan analyse
