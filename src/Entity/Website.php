@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\WebsiteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: WebsiteRepository::class)]
 class Website
@@ -17,23 +17,23 @@ class Website
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "Name should not be blank")]
+    #[Assert\NotBlank(message: 'Name should not be blank')]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "Domain should not be blank")]
+    #[Assert\NotBlank(message: 'Domain should not be blank')]
     private ?string $domain = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "Email should not be blank")]
+    #[Assert\NotBlank(message: 'Email should not be blank')]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "Hostname should not be blank")]
+    #[Assert\NotBlank(message: 'Hostname should not be blank')]
     private ?string $hostname = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: "Protocol should not be blank")]
+    #[Assert\NotBlank(message: 'Protocol should not be blank')]
     private ?string $protocol = null;
 
     #[ORM\OneToMany(mappedBy: 'website', targetEntity: Page::class)]

@@ -5,6 +5,7 @@ namespace App\Tests\Unit;
 use App\Entity\Page;
 use App\Entity\Website;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class WebsiteTest extends KernelTestCase
 {
@@ -26,11 +27,12 @@ class WebsiteTest extends KernelTestCase
     }
 
     /**
-     * Test the entityIsValid method.
-     * This method tests if the given entity is considered valid by performing validation using the Symfony Validator component.
+     * Test the entityIsValid method of the TestClass class.
+     * This method tests if the given entity is considered valid according to the Symfony Validator.
      *
      * @return void
-     * @throws \Exception
+     *
+     * @throws \Exception if the service 'validator' is not an instance of \Symfony\Component\Validator\Validator\ValidatorInterface
      */
     public function testEntityIsValid(): void
     {
@@ -39,13 +41,20 @@ class WebsiteTest extends KernelTestCase
 
         $website = $this->getValidEntity();
 
-        $errors = $container->get('validator')->validate($website);
+        $validator = $container->get('validator');
+
+        if (!$validator instanceof ValidatorInterface) {
+            throw new \Exception('Service validator must be instance of ValidatorInterface');
+        }
+
+        $errors = $validator->validate($website);
 
         $this->assertCount(0, $errors);
     }
 
     /**
-     * Test case when the entity is not valid.
+     * Test the testEntityIsNotValid method of the ClassName class.
+     * This method tests if the testEntityIsNotValid correctly validates an invalid entity object and returns the correct number of errors.
      *
      * @return void
      * @throws \Exception
@@ -62,7 +71,14 @@ class WebsiteTest extends KernelTestCase
         $website->setHostname('');
         $website->setProtocol('');
 
-        $errors = $container->get('validator')->validate($website);
+        $validator = $container->get('validator');
+
+        if (!$validator instanceof ValidatorInterface) {
+            throw new \Exception('Service validator must be instance of ValidatorInterface');
+        }
+
+        $errors = $validator->validate($website);
+
         $this->assertCount(5, $errors);
     }
 
