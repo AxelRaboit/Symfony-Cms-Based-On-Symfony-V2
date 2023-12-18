@@ -30,15 +30,9 @@ class PageKernelTest extends KernelTestCase
     {
         $this->expectException(TypeError::class);
 
-        self::bootKernel();
-        $container = static::$kernel->getContainer();
-
-
         $this->page->setState('invalid');
 
-        $error = $container->get('validator')->validate($this->page);
-
-        $this->assertCount(1, $error);
+        $this->assertHasErrors($this->page, 1);
     }
 
     public function testSetState(): void
@@ -59,14 +53,9 @@ class PageKernelTest extends KernelTestCase
     {
         $this->expectException(TypeError::class);
 
-        self::bootKernel();
-        $container = static::$kernel->getContainer();
-
         $this->page->setTitle(null);
 
-        $error = $container->get('validator')->validate($this->page);
-
-        $this->assertCount(1, $error);
+        $this->assertHasErrors($this->page, 1);
     }
 
     // Name property
@@ -81,14 +70,9 @@ class PageKernelTest extends KernelTestCase
     {
         $this->expectException(TypeError::class);
 
-        self::bootKernel();
-        $container = static::$kernel->getContainer();
-
         $this->page->setName(null);
 
-        $error = $container->get('validator')->validate($this->page);
-
-        $this->assertCount(1, $error);
+        $this->assertHasErrors($this->page, 1);
     }
 
     // Created And Updated At properties
@@ -128,14 +112,9 @@ class PageKernelTest extends KernelTestCase
     {
         $this->expectException(TypeError::class);
 
-        self::bootKernel();
-        $container = static::$kernel->getContainer();
-
         $this->page->setSlug(null);
 
-        $error = $container->get('validator')->validate($this->page);
-
-        $this->assertCount(1, $error);
+        $this->assertHasErrors($this->page, 1);
     }
 
     // Banner property
@@ -151,17 +130,12 @@ class PageKernelTest extends KernelTestCase
     {
         $this->expectException(TypeError::class);
 
-        self::bootKernel();
-        $container = static::$kernel->getContainer();
-
         // Wrong object type.
         $website = new Website();
 
         $this->page->setBanner($website);
 
-        $error = $container->get('validator')->validate($this->page);
-
-        $this->assertCount(1, $error);
+        $this->assertHasErrors($this->page, 1);
     }
 
     // Thumbnail property
@@ -177,17 +151,12 @@ class PageKernelTest extends KernelTestCase
     {
         $this->expectException(TypeError::class);
 
-        self::bootKernel();
-        $container = static::$kernel->getContainer();
-
         // Wrong object type.
         $website = new Website();
 
         $this->page->setThumbnail($website);
 
-        $error = $container->get('validator')->validate($this->page);
-
-        $this->assertCount(1, $error);
+        $this->assertHasErrors($this->page, 1);
     }
 
     // Gallery property
@@ -253,16 +222,23 @@ class PageKernelTest extends KernelTestCase
     {
         $this->expectException(TypeError::class);
 
-        self::bootKernel();
-        $container = static::$kernel->getContainer();
-
         // Wrong object type.
         $image = new Image();
 
         $this->page->setWebsite($image);
 
-        $error = $container->get('validator')->validate($this->page);
+        $this->assertHasErrors($this->page, 1);
+    }
 
-        $this->assertCount(1, $error);
+    // base
+
+    public function assertHasErrors(Page $page, int $number = 0): void
+    {
+        self::bootKernel();
+        $container = static::$kernel->getContainer();
+
+        $error = $container->get('validator')->validate($page);
+
+        $this->assertCount($number, $error);
     }
 }
