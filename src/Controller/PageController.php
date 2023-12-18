@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\RouterInterface;
 
 class PageController extends AbstractController
 {
@@ -40,11 +41,10 @@ class PageController extends AbstractController
             'uri' => '.+',
         ],
     )]
-    public function index(string $uri, Request $request): Response
+    public function index(string $uri, Request $request, RouterInterface $router): Response
     {
         /** @var Page|null $page */
         $page = $this->pageRepository->getPageByTypeAndSlug($uri);
-
         $routes = $this->routeService->getRoutes();
 
         if (null !== $page) {
@@ -89,6 +89,19 @@ class PageController extends AbstractController
         if ($route = $this->redirectOnRouteSiteMap($request, $routes)) {
             return $this->forward($route->getDefaults()['_controller']);
         }
+
+        $routes = $this->routeService->getRoutes();
+
+        /*
+                foreach ($routes as $route) {
+                    if ($route->getPath() === $uri) {
+                        dd($uri, $route->getPath());
+                        dd($route->getPath());
+                        return $this->redirectToRoute($uri);
+                    }
+                }
+
+                dd($route);*/
 
         throw new NotFoundHttpException('Page not found');
     }

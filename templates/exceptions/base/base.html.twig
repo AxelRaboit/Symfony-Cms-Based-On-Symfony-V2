@@ -8,7 +8,7 @@
 
         {# SEO #}
 
-        {% set website = websiteService.getWebsite() %}
+        {% set website = websiteService.getCurrentWebsite() %}
 
         {# Open Graph #}
         {% include 'frontend/base/elements/_open-graph.html.twig' with {'website': website } %}

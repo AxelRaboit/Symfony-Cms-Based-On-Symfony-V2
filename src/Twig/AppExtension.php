@@ -155,8 +155,7 @@ class AppExtension extends AbstractExtension
             throw new \Exception('Request is null');
         }
 
-        $hostname = $this->request->getHost();
-        $website = $this->websiteService->getCurrentWebsite($hostname);
+        $website = $this->websiteService->getCurrentWebsite();
 
         if ($website instanceof Website) {
             $url = $website->getDomain();
@@ -310,18 +309,19 @@ class AppExtension extends AbstractExtension
     }
 
     /**
+     * @return Website|array<Website>|null
+     *
      * @throws \Exception
      */
-    public function getWebsiteFunction(): Website
+    public function getWebsiteFunction(): Website|array|null
     {
-        if (null === $this->request) {
-            throw new \Exception('Request is null');
+        $website = $this->websiteService->getCurrentWebsite();
+
+        if (null === $website) {
+            throw new \Exception('Website is null');
         }
 
-        /** @var Website $currentWebsite */
-        $currentWebsite = $this->websiteService->getCurrentWebsite($this->request->getHost());
-
-        return $currentWebsite;
+        return $website;
     }
 
     public function isPagePublishedFunction(Page $page): bool

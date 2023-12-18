@@ -1,0 +1,52 @@
+<table>
+    <tr>
+        <td>Nouveau message de
+            {% if contact.firstname is not null or contact.lastname is not null %}
+                {% if contact.firstname is not null %}
+                    <b>{{ contact.firstname }}</b>
+                {% endif %}
+                {% if contact.lastname is not null %}
+                    <b>{{ contact.lastname }}</b>
+                {% endif %}
+            {% else %}
+                <b>{{ contact.email }}</b>
+            {% endif %}
+        </td>
+    </tr>
+    <tr></tr>
+    <tr>
+        <td>
+            <h2>Sujet:</h2>
+            <p>{{ contact.subject }}</p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <h2>Message:</h2>
+            <p>{{ contact.message }}</p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <h2>Informations sur le contact</h2>
+            <span>Email:</span>
+            {{ contact.email }}
+
+            <br>
+
+            <span>Tél:</span>
+            {{ contact.phone }}
+        </td>
+    </tr>
+    <tr></tr>
+    <tr>
+        <td>
+            <h2>Plus d'informations</h2>
+            <span>Ip client:</span>
+            {{ contact.clientIp }}
+            <br>
+            <span>Score recaptcha:</span>
+            {{ contact.score }}
+        </td>
+    </tr>
+</table>
