@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\WebsiteRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -16,25 +17,31 @@ class Website
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Name should not be blank")]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Domain should not be blank")]
     private ?string $domain = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Email should not be blank")]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Hostname should not be blank")]
     private ?string $hostname = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Protocol should not be blank")]
     private ?string $protocol = null;
 
     #[ORM\OneToMany(mappedBy: 'website', targetEntity: Page::class)]
     private Collection $pages;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $port = null;
+    #[Assert\Type(type: 'integer', message: 'The port number {{ value }} is not a valid {{ type }}.')]
+    private ?int $port = null;
 
     public function __construct()
     {
@@ -153,12 +160,12 @@ class Website
         ];
     }
 
-    public function getPort(): ?string
+    public function getPort(): ?int
     {
         return $this->port;
     }
 
-    public function setPort(?string $port): static
+    public function setPort(?int $port): static
     {
         $this->port = $port;
 

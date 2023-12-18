@@ -46,7 +46,7 @@ class AppExtension extends AbstractExtension
         $this->request = $requestStack->getCurrentRequest();
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('fileExists', [$this, 'fileExistsFunction']),
@@ -71,7 +71,7 @@ class AppExtension extends AbstractExtension
         ];
     }
 
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('htmlEntityDecodeAndTruncate', [$this, 'htmlEntityDecodeAndTruncateFilter']),

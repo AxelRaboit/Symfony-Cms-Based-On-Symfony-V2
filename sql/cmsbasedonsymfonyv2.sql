@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3306
--- Généré le : mar. 12 déc. 2023 à 22:42
+-- Généré le : lun. 18 déc. 2023 à 14:48
 -- Version du serveur : 8.0.35-0ubuntu0.22.04.1
 -- Version de PHP : 8.2.13
 
@@ -72,15 +72,16 @@ CREATE TABLE `data_enum` (
 INSERT INTO `data_enum` (`id`, `name`, `category`, `value`, `dev_key`, `is_system`) VALUES
 (1, 'DATA_PAGE_BACKEND_LOGIN_DEV_KEY', 'page', NULL, 10000, 1),
 (2, 'DATA_PAGE_BACKEND_REGISTER_DEV_KEY', 'page', NULL, 10001, 1),
-(3, 'DATA_RECAPTCHA_SECRET_DEV_KEY', 'google', NULL, 10002, 1),
-(4, 'DATA_RECAPTCHA_PUBLIC_DEV_KEY', 'google', NULL, 10003, 1),
+(3, 'DATA_RECAPTCHA_SECRET_DEV_KEY', 'google', '6Lf7GDUpAAAAAHhmjyIgpBGDYfOMJkyZI3i9S3v0', 10002, 1),
+(4, 'DATA_RECAPTCHA_PUBLIC_DEV_KEY', 'google', '6Lf7GDUpAAAAABu_UY8xBEFAhGRIb_CCk3IQk4_f', 10003, 1),
 (5, 'DATA_FRONTEND_MENU_DEV_KEY', 'menu', 'frontend', 10004, 1),
 (6, 'DATA_FRONTEND_FOOTER_DEV_KEY', 'footer', 'footer', 10005, 1),
 (7, 'DATA_APPLICATION_MENU_DEV_KEY', 'menu', 'application', 10006, 1),
 (8, 'DATA_ADMIN_MENU_DEV_KEY', 'menu', 'admin', 10007, 1),
 (9, 'DATA_PAGE_ERROR_404_DEV_KEY', 'page', '46', 10008, 1),
-(36, 'DATA_PAGE_HOMEPAGE_DEV_KEY', 'page', '33', 10009, 1),
-(39, 'DATA_TEST', 'test', 'test', 10010, 0);
+(36, 'DATA_PAGE_HOMEPAGE_DEV_KEY', 'page', '74', 10009, 1),
+(41, 'DATA_PAGE_CONTACT_DEV_KEY', 'page', '73', 10010, 1),
+(42, 'DATA_TEMPLATE_EMAIL_CONTACT_DEV_KEY', 'email', 'email/template/default-contact.html.twig', 10011, 1);
 
 -- --------------------------------------------------------
 
@@ -241,22 +242,24 @@ CREATE TABLE `page` (
   `meta_title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `weight` int NOT NULL,
   `display_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `state` int NOT NULL
+  `state` int NOT NULL,
+  `is_seo_no_follow` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `page`
 --
 
-INSERT INTO `page` (`id`, `parent_id`, `page_type_id`, `banner_id`, `thumbnail_id`, `website_id`, `name`, `title`, `template`, `content_primary`, `content_secondary`, `content_tertiary`, `content_quaternary`, `description`, `dev_code_route_name`, `cta_title`, `cta_text`, `cta_url`, `slug`, `created_at`, `updated_at`, `deleted_at`, `dev_key`, `meta_description`, `canonical_url`, `published_at`, `banner_title`, `visible_for_backend_actions`, `meta_title`, `weight`, `display_type`, `state`) VALUES
-(5, NULL, 1, NULL, NULL, 1, 'S\'enregistrer', 'S\'enregistrer', NULL, NULL, NULL, NULL, NULL, NULL, 'app_backend_register', NULL, NULL, NULL, 'backend/inscription', '2023-11-24 09:09:12', '2023-12-03 19:43:37', NULL, 49, 'S\'enregistrer', NULL, NULL, NULL, 0, NULL, 0, 'detail', 2),
-(6, NULL, 1, NULL, NULL, 1, 'Connexion', 'Connexion', NULL, NULL, NULL, NULL, NULL, NULL, 'app_backend_login', NULL, NULL, NULL, 'backend/connexion', '2023-11-24 13:03:05', '2023-12-03 19:43:31', NULL, 48, 'Connexion', NULL, NULL, NULL, 0, NULL, 0, 'detail', 2),
-(7, NULL, 1, NULL, NULL, 1, 'Déconnexion', 'Déconnexion', NULL, NULL, NULL, NULL, NULL, NULL, 'app_backend_logout', NULL, NULL, NULL, 'backend/deconnexion', '2023-11-24 14:04:05', '2023-12-03 19:43:24', NULL, 47, 'Déconnexion', NULL, NULL, NULL, 0, NULL, 0, 'detail', 2),
-(16, NULL, 1, NULL, NULL, 1, 'Accueil', 'Accueil', 'frontend/page/page-default.html.twig', 'Page d\'accueil', NULL, NULL, NULL, 'Description de la page d\'accueil', NULL, NULL, NULL, NULL, '/', '2023-11-30 18:36:30', '2023-11-30 18:41:06', NULL, 33, NULL, NULL, NULL, NULL, 0, NULL, 0, 'detail', 2),
-(18, NULL, 1, NULL, NULL, 1, 'Page 404', 'Page 404', 'exceptions/page-404-not-found.html.twig', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '404', '2023-12-01 12:25:28', '2023-12-03 19:43:09', NULL, 46, NULL, NULL, NULL, NULL, 0, NULL, 0, 'detail', 2),
-(21, NULL, 2, 1, NULL, 1, 'Test', 'Test', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'testtt', '2023-12-01 14:26:09', '2023-12-03 22:46:57', NULL, 61, NULL, NULL, NULL, NULL, 1, NULL, 0, 'detail', 2),
-(22, NULL, 2, NULL, NULL, 1, 'Test 2', 'Test 2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'test-2', '2023-12-03 22:48:11', '2023-12-03 22:52:23', NULL, 64, NULL, NULL, NULL, NULL, 0, NULL, 0, 'detail', 1),
-(23, NULL, 1, NULL, NULL, 1, 'Page de test', 'Page de test', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'test', '2023-12-04 23:05:51', '2023-12-12 21:50:22', NULL, 66, NULL, NULL, NULL, NULL, 0, NULL, 0, 'detail', 2);
+INSERT INTO `page` (`id`, `parent_id`, `page_type_id`, `banner_id`, `thumbnail_id`, `website_id`, `name`, `title`, `template`, `content_primary`, `content_secondary`, `content_tertiary`, `content_quaternary`, `description`, `dev_code_route_name`, `cta_title`, `cta_text`, `cta_url`, `slug`, `created_at`, `updated_at`, `deleted_at`, `dev_key`, `meta_description`, `canonical_url`, `published_at`, `banner_title`, `visible_for_backend_actions`, `meta_title`, `weight`, `display_type`, `state`, `is_seo_no_follow`) VALUES
+(5, NULL, 1, NULL, 69, 1, 'S\'enregistrer', 'S\'enregistrer', NULL, NULL, NULL, NULL, NULL, NULL, 'app_backend_register', NULL, NULL, NULL, 'backend/inscription', '2023-11-24 09:09:12', '2023-12-17 10:58:15', NULL, 68, 'S\'enregistrer', NULL, NULL, NULL, 0, NULL, 0, 'detail', 2, 0),
+(6, NULL, 1, NULL, NULL, 1, 'Connexion', 'Connexion', NULL, NULL, NULL, NULL, NULL, NULL, 'app_backend_login', NULL, NULL, NULL, 'backend/connexion', '2023-11-24 13:03:05', '2023-12-03 19:43:31', NULL, 48, 'Connexion', NULL, NULL, NULL, 0, NULL, 0, 'detail', 2, 0),
+(7, NULL, 1, NULL, NULL, 1, 'Déconnexion', 'Déconnexion', NULL, NULL, NULL, NULL, NULL, NULL, 'app_backend_logout', NULL, NULL, NULL, 'backend/deconnexion', '2023-11-24 14:04:05', '2023-12-03 19:43:24', NULL, 47, 'Déconnexion', NULL, NULL, NULL, 0, NULL, 0, 'detail', 2, 0),
+(16, NULL, 1, 2, NULL, 1, 'Accueil', 'Accueil', 'frontend/page/page-default.html.twig', 'Page d\'accueil', NULL, NULL, NULL, 'Description de la page d\'accueil', NULL, NULL, NULL, NULL, '/', '2023-11-30 18:36:30', '2023-12-18 12:33:50', NULL, 74, NULL, NULL, NULL, NULL, 0, NULL, 0, 'detail', 2, 0),
+(18, NULL, 1, NULL, NULL, 1, 'Page 404', 'Page 404', 'exceptions/page-404-not-found.html.twig', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '404', '2023-12-01 12:25:28', '2023-12-03 19:43:09', NULL, 46, NULL, NULL, NULL, NULL, 0, NULL, 0, 'detail', 2, 0),
+(21, NULL, 2, 1, NULL, 1, 'Test', 'Test', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'testtt', '2023-12-01 14:26:09', '2023-12-03 22:46:57', NULL, 61, NULL, NULL, NULL, NULL, 1, NULL, 0, 'detail', 2, 0),
+(22, NULL, 2, 2, NULL, 1, 'Test 2', 'Test 2', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'test-2', '2023-12-03 22:48:11', '2023-12-17 16:17:22', NULL, 72, NULL, NULL, NULL, NULL, 0, NULL, 0, 'detail', 1, 0),
+(23, NULL, 1, NULL, NULL, 1, 'Page de test', 'Page de test', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'test', '2023-12-04 23:05:51', '2023-12-17 13:48:18', NULL, 71, NULL, NULL, NULL, NULL, 0, NULL, 0, 'detail', 2, 1),
+(24, NULL, 1, NULL, NULL, 1, 'Contactez-nous', 'Contactez-nous', 'frontend/contact/page-contact.html.twig', NULL, NULL, NULL, NULL, NULL, 'app_contact', NULL, NULL, NULL, 'contactez-nous', '2023-12-17 17:16:23', '2023-12-17 17:16:23', NULL, 73, NULL, NULL, NULL, NULL, 0, NULL, 0, 'detail', 2, 0);
 
 -- --------------------------------------------------------
 
@@ -303,7 +306,7 @@ CREATE TABLE `page_type` (
 
 INSERT INTO `page_type` (`id`, `name`, `dev_key`, `created_at`, `updated_at`, `deleted_at`, `template`, `url_prefix`) VALUES
 (1, 'root', 1, '2023-11-23 08:45:38', '2023-11-23 08:45:38', '2023-11-23 08:45:38', NULL, '/'),
-(2, 'teste', 4, '2023-11-24 08:49:04', '2023-12-05 18:37:07', '2023-11-24 08:49:04', 'frontend/page/page-default.html.twig', '/teste');
+(2, 'testt', 6, '2023-11-24 08:49:04', '2023-12-17 14:34:11', '2023-11-24 08:49:04', 'frontend/page/page-default.html.twig', '/testt');
 
 -- --------------------------------------------------------
 
@@ -345,7 +348,7 @@ CREATE TABLE `user_backend` (
 --
 
 INSERT INTO `user_backend` (`id`, `email`, `roles`, `password`, `username`, `created_at`, `updated_at`, `deleted_at`, `last_login_at`) VALUES
-(59, 'axel.raboit@gmail.com', '[\"ROLE_BACKEND\"]', '$2y$13$gOaUpVosEstTVuWoHR6btOBZQcshcjlUsWYHxHR9SzoB/adCObIuC', 'AxelR', '2023-11-26 21:49:07', '2023-12-03 11:41:41', NULL, '2023-12-12 19:28:48'),
+(59, 'axel.raboit@gmail.com', '[\"ROLE_BACKEND\"]', '$2y$13$gOaUpVosEstTVuWoHR6btOBZQcshcjlUsWYHxHR9SzoB/adCObIuC', 'AxelR', '2023-11-26 21:49:07', '2023-12-03 11:41:41', NULL, '2023-12-18 13:43:21'),
 (60, 'axel1@gmail.com', '[\"ROLE_BACKEND\"]', '$2y$13$24lpZT2A8hyFDO9ENrplV.RSH8mibWrG6.Ds4B1UP25jsayDJJ9tO', 'Axel1', '2023-11-26 21:51:19', '2023-11-26 21:51:19', NULL, NULL),
 (67, 'remi@gmail.com', '[\"ROLE_BACKEND\"]', '$2y$13$SWAXTkamTReaU3oN8GTuc.Ud8Gzwr5v0zgdXamA7hThbPdbUHx3Lq', 'Remi', '2023-11-26 21:52:56', '2023-11-27 20:30:38', NULL, '2023-12-04 19:59:06'),
 (70, 'john@gmail.com', '[\"ROLE_BACKEND\"]', '$2y$13$XU7N5VKaw7UenQ2jw7d8T.xVgccgFhg8RyR0ed/r3/iYSeNxzbnQW', 'JohnD', '2023-11-26 21:53:41', '2023-11-26 22:05:46', NULL, NULL),
@@ -392,7 +395,7 @@ CREATE TABLE `website` (
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `hostname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `protocol` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `port` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `port` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -400,7 +403,7 @@ CREATE TABLE `website` (
 --
 
 INSERT INTO `website` (`id`, `name`, `domain`, `email`, `hostname`, `protocol`, `port`) VALUES
-(1, 'myWebsite', 'localhost', 'axel.raboit@gmail.com', 'localhost', 'http://', '8000');
+(1, 'myWebsite', 'localhost', 'axel.raboit@gmail.com', 'localhost', 'http://', 8000);
 
 --
 -- Index pour les tables déchargées
@@ -531,13 +534,13 @@ ALTER TABLE `backend_message`
 -- AUTO_INCREMENT pour la table `data_enum`
 --
 ALTER TABLE `data_enum`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT pour la table `image`
 --
 ALTER TABLE `image`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT pour la table `ip_whitelist`
@@ -561,13 +564,13 @@ ALTER TABLE `menu_item`
 -- AUTO_INCREMENT pour la table `messenger_messages`
 --
 ALTER TABLE `messenger_messages`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT pour la table `page`
 --
 ALTER TABLE `page`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT pour la table `page_gallery`
@@ -603,7 +606,7 @@ ALTER TABLE `user_backend_information`
 -- AUTO_INCREMENT pour la table `website`
 --
 ALTER TABLE `website`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Contraintes pour les tables déchargées

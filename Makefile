@@ -23,6 +23,7 @@ endif
 
 # VARIABLES
 SYMFONY_CONSOLE = $(BIN_PHP) bin/console
+PHPUNIT = $(BIN_PHP) bin/phpunit
 
 ##--------------------------------------------
 ## APPLICATION
@@ -67,6 +68,9 @@ phpstan:
 
 php-cs-fixer:
 	tools/php-cs-fixer/vendor/bin/php-cs-fixer fix src --verbose --rules=@Symfony
+
+php-test:
+	$(PHP_UNIT) bin/phpunit
 
 ##--------------------------------------------
 ## CACHE

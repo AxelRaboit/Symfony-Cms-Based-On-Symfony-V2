@@ -18,10 +18,11 @@ readonly class WebsiteService
      */
     public function getCurrentWebsite(): Website|null
     {
+        /** @var Website|null $website */
         $website = $this->websiteRepository->findOneBy(['name' => WebsiteEnum::WEBSITE_NAME_DEFAULT]);
 
-        if (!$website) {
-            throw new \Exception('Website not found');
+        if (null == $website) {
+            throw new \Exception('Website not foundsss');
         }
 
         return $website;
