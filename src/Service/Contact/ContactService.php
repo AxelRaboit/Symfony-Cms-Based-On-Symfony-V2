@@ -58,7 +58,7 @@ readonly class ContactService
      *
      * @throws \Exception|TransportExceptionInterface
      */
-    public function sendContactEmail(array $data): bool
+    public function sendContactEmail(array $data): void
     {
         $website = $this->websiteService->getCurrentWebsite();
         /** @var string $template */
@@ -80,7 +80,5 @@ readonly class ContactService
             );
 
         $this->mailer->send($email);
-
-        return true;
     }
 }
