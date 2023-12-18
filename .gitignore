@@ -1,6 +1,8 @@
 ###> Jet Brains ###
 /.idea
 
+/sqlsss
+
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
