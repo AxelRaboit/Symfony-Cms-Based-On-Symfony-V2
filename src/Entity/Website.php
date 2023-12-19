@@ -34,6 +34,7 @@ class Website
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'Protocol should not be blank')]
+    #[Assert\Choice(choices: ['http://', 'https://'], message: 'Choose a valid protocol (http:// or https://)')]
     private ?string $protocol = null;
 
     #[ORM\OneToMany(mappedBy: 'website', targetEntity: Page::class)]

@@ -8,6 +8,7 @@ use App\Entity\PageGallery;
 use App\Entity\Website;
 use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Validator\Validation;
 use TypeError;
 
 class WebsiteTest extends KernelTestCase
@@ -96,11 +97,35 @@ class WebsiteTest extends KernelTestCase
 
     public function testSetInvalidProtocol(): void
     {
+        // validator
+        $validator = Validation::createValidatorBuilder()
+            ->enableAnnotationMapping()
+            ->getValidator();
+
+
         $this->expectException(TypeError::class);
 
-        $this->website->setProtocol(null);
+        $invalidProtocol = "ftp://";
 
-        $this->assertHasErrors($this->website, 1);
+        // Set required fields
+        $this->website->setName('test');
+        $this->website->setDomain('domain.com');
+        $this->website->setEmail('test@test.com');
+        $this->website->setHostname('hostname');
+
+        // Set invalid protocol
+        $this->website->setProtocol($invalidProtocol);
+
+        $errors = $validator->validate($this->website);
+
+        foreach ($errors as $error) {
+            echo 'Property: ' . $error->getPropertyPath() . ': ' . $error->getMessage()."\n";
+        }
+
+        $this->assertCount(1, $errors);
+
+        $this->assertContains('protocol', $errors[0]->getPropertyPath());
+        $this->assertEquals('Choose a valid protocol (http:// or https://)', $errors[0]->getMessage());
     }
 
     public function testSetProtocol(): void
