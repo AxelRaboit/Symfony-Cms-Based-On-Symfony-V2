@@ -8,12 +8,12 @@ use App\Repository\PageTypeRepository;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
 
-class DashboardService
+readonly class DashboardService
 {
     public function __construct(
-        private readonly ChartBuilderInterface $chartBuilder,
-        private readonly PageRepository $pageRepository,
-        private readonly PageTypeRepository $pageTypeRepository
+        private ChartBuilderInterface $chartBuilder,
+        private PageRepository        $pageRepository,
+        private PageTypeRepository    $pageTypeRepository
     ) {
     }
 
